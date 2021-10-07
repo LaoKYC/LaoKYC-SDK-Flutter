@@ -26,7 +26,7 @@ Add the following code to your pubspec.yaml:
 
         dependencies:
 
-            laokyc_logbottom: ^0.1.6
+            laokyc_logbutton: ^0.1.6
 
 
 ## Usage
