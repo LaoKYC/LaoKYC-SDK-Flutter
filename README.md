@@ -56,13 +56,13 @@ Don't forget to config in android project
 
 - add the following code in build.gradle android project :
 
-defaultConfig {
-     .
-     .
- manifestPlaceholders = [
-    'appAuthRedirectScheme': 'Your Redirect Url'
-    ]
- }
+                defaultConfig {
+                            .
+                            .
+                            manifestPlaceholders = [
+                                'appAuthRedirectScheme': 'Your Redirect Url'
+                                                ]
+                                             }
 
  - add the following code in AndroidManifest.xml android project :
 in tag manifest
