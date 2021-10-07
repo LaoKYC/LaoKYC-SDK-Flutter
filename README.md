@@ -59,13 +59,12 @@ Don't forget to config in android project
      .
      .
          manifestPlaceholders = [
- 'appAuthRedirectScheme': 'Your Redirect Url'
- ]
- }
+            'appAuthRedirectScheme': 'Your Redirect Url'
+        ]
+    }
 
  - add the following code in AndroidManifest.xml android project :
 in tag manifest
-
 <queries>
     <intent>
         <action android:name="android.intent.action.VIEW" />
@@ -78,4 +77,6 @@ in tag manifest
         <data android:scheme="https" />
     </intent>
 </queries>
+
+
 
