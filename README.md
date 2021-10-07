@@ -36,7 +36,7 @@ Import the package
 Add your clienId, clientSecret, redirectUrl, route, lang and scope
 
 LaoKYCButton(
-    clienId = 'Your clientId',/n
+    clienId = 'Your clientId',
     clientSecret = 'Your clientSecret',
     redirectUrl = 'Your redirectUrl',
     route = Your page after client login success
