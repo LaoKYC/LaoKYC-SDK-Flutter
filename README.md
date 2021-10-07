@@ -44,6 +44,7 @@ Add your clienId, clientSecret, redirectUrl, route, lang and scope
             scope = 'This will be provide by LaoKYC',
     );
 
+
     P.S All of this parameter will be provide by LaoKYC Administration
 
     Email : partner@sbg.com
