@@ -65,18 +65,18 @@ Don't forget to config in android project
 
  - add the following code in AndroidManifest.xml android project :
 in tag manifest
-<queries>
-    <intent>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="https" />
-    </intent>
-    <intent>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.APP_BROWSER" />
-        <data android:scheme="https" />
-    </intent>
-</queries>
+                <queries>
+                        <intent>
+                           <action android:name="android.intent.action.VIEW" />
+                           <category android:name="android.intent.category.BROWSABLE" />
+                           <data android:scheme="https" />
+                        </intent>
+                     <intent>
+                        <action android:name="android.intent.action.VIEW" />
+                        <category android:name="android.intent.category.APP_BROWSER" />
+                        <data android:scheme="https" />
+                       </intent>
+                </queries>
 
 
 
