@@ -25,11 +25,7 @@ to registry with your application.
 Add the following code to your pubspec.yaml:
 
         dependencies:
-<<<<<<< HEAD
-            laokyc_logbottom: ^0.1.5
-=======
             laokyc_logbottom: ^0.1.6
->>>>>>> Dev-Do
 
 ## Usage
 
