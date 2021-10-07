@@ -25,7 +25,9 @@ to registry with your application.
 Add the following code to your pubspec.yaml:
 
         dependencies:
+
             laokyc_logbottom: ^0.1.6
+
 
 ## Usage
 
@@ -35,42 +37,48 @@ Import the package
 
 Add your clienId, clientSecret, redirectUrl, route, lang and scope
 
-LaoKYCButton(
-    clienId = 'Your clientId',
-    clientSecret = 'Your clientSecret',
-    redirectUrl = 'Your redirectUrl',
-    route = Your page after client login success
-    lang = 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English)
-    scope = 'This will be provide by LaoKYC',
-);
+    LaoKYCButton(
+        clienId = 'Your clientId',
+        clientSecret = 'Your clientSecret',
+        redirectUrl = 'Your redirectUrl',
+        route = Your page after client login success
+        lang = 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English)
+        scope = 'This will be provide by LaoKYC',
+    );
 
-P.S All of this parameter will be provide by LaoKYC
+   P.S All of this parameter will be provide by LaoKYC Administration
+   ``` 
+   Email : partner@sbg.com
+   Mobile : +8562058988895
+   ```
 
 
 ## Additional information
 
 Don't forget to config in android project
 
-- add the following code in build.gradle android project : 
- defaultConfig {
- .
- .
- manifestPlaceholders = [
- 'appAuthRedirectScheme': 'Your Redirect Url'
- ]
- }
+- add the following code in build.gradle android project :
+     ``` 
+       defaultConfig {
+        .
+        .
+         manifestPlaceholders = ['appAuthRedirectScheme': 'Your redirectUrl']
+       }
+     ```
 
  - add the following code in AndroidManifest.xml android project :
 in tag manifest
-<queries>
- <intent>
- <action android:name="android.intent.action.VIEW" />
- <category android:name="android.intent.category.BROWSABLE" />
- <data android:scheme="https" />
- </intent>
- <intent>
- <action android:name="android.intent.action.VIEW" />
- <category android:name="android.intent.category.APP_BROWSER" />
- <data android:scheme="https" />
- </intent>
-</queries>
+    ```
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.APP_BROWSER" />
+            <data android:scheme="https" />
+        </intent>
+    </queries>
+    ```
