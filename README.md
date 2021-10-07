@@ -55,6 +55,8 @@ Add your clienId, clientSecret, redirectUrl, route, lang and scope
 Don't forget to config in android project
 
 - add the following code in build.gradle android project : 
+
+
     defaultConfig {
      .
      .
@@ -63,8 +65,14 @@ Don't forget to config in android project
         ]
     }
 
+    
+
  - add the following code in AndroidManifest.xml android project :
 in tag manifest
+
+
+
+
 <queries>
     <intent>
         <action android:name="android.intent.action.VIEW" />
@@ -77,6 +85,5 @@ in tag manifest
         <data android:scheme="https" />
     </intent>
 </queries>
-
 
 
