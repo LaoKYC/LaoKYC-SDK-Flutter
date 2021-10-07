@@ -37,19 +37,13 @@ Add your clienId, clientSecret, redirectUrl, route, lang and scope
 
 LaoKYCButton(
     clienId = 'Your clientId',
-
     clientSecret = 'Your clientSecret',
-
     redirectUrl = 'Your redirectUrl',
-
+    redirectUrl = 'Your redirectUrl',
     route = Your page after client login success,
-
     lang = 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English)
-
     scope = 'This will be provide by LaoKYC',
-
     );
-    
     
     P.S All of this parameter will be provide by LaoKYC Administration
 
