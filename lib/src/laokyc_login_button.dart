@@ -246,6 +246,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               ],
             ),
             onPressed: () {
+              print('hi');
               showDialog(
                   context: context,
                   builder: (context) {
