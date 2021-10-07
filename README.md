@@ -36,7 +36,7 @@ Import the package
     import ' package:laokyc_logbottom/laokyc_logbottom.dart '
 
 Add your clienId, clientSecret, redirectUrl, route, lang and scope
-    ```
+    
     LaoKYCButton(
         clienId = 'Your clientId',
         clientSecret = 'Your clientSecret',
@@ -45,9 +45,10 @@ Add your clienId, clientSecret, redirectUrl, route, lang and scope
         lang = 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English)
         scope = 'This will be provide by LaoKYC',
     );
-    ```
+    
 
-   P.S All of this parameter will be provide by LaoKYC Administration
+
+P.S All of this parameter will be provide by LaoKYC Administration
    ``` 
    Email : partner@sbg.com
    Mobile : +8562058988895
