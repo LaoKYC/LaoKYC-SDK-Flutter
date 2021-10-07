@@ -25,13 +25,13 @@ to registry with your application.
 Add the following code to your pubspec.yaml:
 
         dependencies:
-            laokyc_button: ^0.1.8
+            laokyc_button: ^0.1.9
 
 ## Usage
 
 Import the package
 
-    import ' package:laokyc_logbottom/laokyc_logbottom.dart '
+    import ' package:laokyc_button/laokyc_login_button.dart '
 
 Add your clienId, clientSecret, redirectUrl, route, lang and scope
 
