@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-## 0.1.5
-=======
-## 0.1.6
->>>>>>> Dev-Do
+## 0.1.8
 
 * TODO: Describe initial release.
