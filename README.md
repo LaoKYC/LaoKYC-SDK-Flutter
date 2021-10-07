@@ -55,25 +55,27 @@ Add your clienId, clientSecret, redirectUrl, route, lang and scope
 Don't forget to config in android project
 
 - add the following code in build.gradle android project : 
- defaultConfig {
- .
- .
- manifestPlaceholders = [
+    defaultConfig {
+     .
+     .
+         manifestPlaceholders = [
  'appAuthRedirectScheme': 'Your Redirect Url'
  ]
  }
 
  - add the following code in AndroidManifest.xml android project :
 in tag manifest
+
 <queries>
- <intent>
- <action android:name="android.intent.action.VIEW" />
- <category android:name="android.intent.category.BROWSABLE" />
- <data android:scheme="https" />
- </intent>
- <intent>
- <action android:name="android.intent.action.VIEW" />
- <category android:name="android.intent.category.APP_BROWSER" />
- <data android:scheme="https" />
- </intent>
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" />
+    </intent>
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.APP_BROWSER" />
+        <data android:scheme="https" />
+    </intent>
 </queries>
+
