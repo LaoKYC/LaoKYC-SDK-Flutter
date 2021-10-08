@@ -15,7 +15,7 @@ and the Flutter guide for
 
 ## Features
 
-LaoKYC_Button Login is a Flutter package to help your client connect to your application via LaoKYC, 
+LaoKYC Login Button is a Flutter package to help your client connect to your application via LaoKYC, 
 this package developed by LaoKYC.
 
 This Package will help you to provide an optional login for your client, who lack of an ability
