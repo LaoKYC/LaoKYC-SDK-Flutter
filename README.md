@@ -25,10 +25,10 @@ to registry with your application.
 Add the following code to your pubspec.yaml:
 
         dependencies:
-            laokyc_button: ^0.2.0
+            laokyc_button: ^0.2.5
             
 <p align="center">
-  <img src="/assets/ScreenShotDemo.png">
+  <img src="https://github.com/LaoKYC/LaoKYC-SDK-Flutter/raw/main/assets/ScreenShotDemo.png">
 </p>
 
 
@@ -116,9 +116,7 @@ in tag manifest
                         )));
                   }
                 }
-                
-               
-                
+           
     - Add the following code to your DashboardPage.dart :   
              
                 String? AccessToken;
