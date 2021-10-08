@@ -84,5 +84,51 @@ in tag manifest
                         <data android:scheme="https" />
                        </intent>
                 </queries>
+ - Finally , You'll get data reult in page after client login success
+    
+    - Add the following code to your pubspec.yaml:
+ 
+                dependencies:
+                    shared_preferences: ^2.0.6
+                    
+    - Add the following code to your LoginPage.dart :
+                
+                class LoginPage extends StatelessWidget {
+                  @override
+                  Widget build(BuildContext context) {
+                    return Scaffold(
+                        appBar: AppBar(
+                          title: Text('LaoKYC Login'),
+                        ),
+                        body: Center(
+                          child: LaoKYCButton(
+                          clientId: 'Your clientId',
+                          clientSecret: 'Your clientSecret',
+                          redirectUrl: 'Your redirectUrl',
+                          scope: 'This will be provide by LaoKYC',
+                          route: Your page after client login success,
+                          lang: 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English),
+                        )));
+                  }
+                }
+                
+               
+                
+    - Add the following code to your DashboardPage.dart :   
+             
+                String? AccessToken;
+    
+                getPref() async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    setState(() {
+                        AccessToken = prefs.getString('access_token');
+                    });
+                }
+                
+                @override
+                  void initState() {
+                    super.initState();
+                    getPref();
+                }
 
 
