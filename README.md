@@ -25,7 +25,7 @@ to registry with your application.
 Add the following code to your pubspec.yaml:
 
         dependencies:
-            laokyc_button: ^0.1.9
+            laokyc_button: ^0.2.0
 
 ## Usage
 

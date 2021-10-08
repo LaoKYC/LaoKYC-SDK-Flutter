@@ -212,140 +212,133 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: Card(
-        elevation: 15,
-        shape: RoundedRectangleBorder(
+      child: Container(
+        margin: EdgeInsets.only(left: 45, right: 45),
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
+          color: Color(0xFF70CBBD),
         ),
-        child: Container(
-          margin: EdgeInsets.only(left: 45, right: 45),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            color: Color(0xFF70CBBD),
-          ),
-          child: TextButton(
-            child: Row(
-              children: [
-                Image.network(
-                  'https://i.ibb.co/3pkZ3WP/playstore-icon.png',
-                  width: 40,
-                  height: 40,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, right: 20, top: 10, bottom: 10),
-                  child: Text(
-                    btnText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Color(0xFFffffff),
-                    ),
+        child: TextButton(
+          child: Row(
+            children: [
+              Image.network(
+                'https://i.ibb.co/3pkZ3WP/playstore-icon.png',
+                width: 40,
+                height: 40,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                child: Text(
+                  btnText,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 17,
+                    color: Color(0xFFffffff),
                   ),
                 ),
-              ],
-            ),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return Dialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: Container(
-                        height: 350,
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 14.0,
-                                    backgroundColor: Colors.red,
-                                    child:
-                                        Icon(Icons.close, color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Center(
-                              child: Image.network(
-                                'https://i.ibb.co/mB2MHzH/logo-lao-kyc-gateway-250.jpg',
-                                width: 110,
-                                height: 120,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Center(
-                              child: Text(
-                                'Authentication with LaoKYC',
-                                style: TextStyle(
-                                    fontFamily: 'Phetsarath',
-                                    fontSize: 15,
-                                    color: Colors.grey[600]),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextField(
-                              maxLength: 10,
-                              textAlign: TextAlign.center,
-                              controller: tfDialogLoginPhoneNumber,
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly
-                              ],
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  hintText: 'ປ້ອນເບີໂທລະສັບ (20xxxxxxxx)',
-                                  contentPadding: EdgeInsets.all(5.0),
-                                  counterText: "",
-                                  hintStyle: TextStyle(color: Colors.grey)),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Container(
-                              width: double.infinity,
-                              child: MaterialButton(
-                                  padding: EdgeInsets.only(top: 13, bottom: 13),
-                                  onPressed: () {
-                                    _requestOTP(
-                                            "https://gateway.sbg.la/api/login",
-                                            tfDialogLoginPhoneNumber.text)
-                                        .whenComplete(() => custom_route.Route
-                                            .home); // Send Phonenumber (TextField 2077710008) ==> After success custom_route.Route.home
-                                  },
-                                  color: Color(0xFF70CBBD),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40)),
-                                  child: Text(
-                                    'ຂໍລະຫັດຜ່ານ OTP',
-                                    style: TextStyle(
-                                      color: Color(0xFFffffff),
-                                    ),
-                                  )),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  });
-            },
+              ),
+            ],
           ),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Container(
+                      height: 350,
+                      padding: EdgeInsets.only(left: 20, right: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: CircleAvatar(
+                                  radius: 14.0,
+                                  backgroundColor: Colors.red,
+                                  child: Icon(Icons.close, color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Center(
+                            child: Image.network(
+                              'https://i.ibb.co/mB2MHzH/logo-lao-kyc-gateway-250.jpg',
+                              width: 110,
+                              height: 120,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Center(
+                            child: Text(
+                              'Authentication with LaoKYC',
+                              style: TextStyle(
+                                  fontFamily: 'Phetsarath',
+                                  fontSize: 15,
+                                  color: Colors.grey[600]),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextField(
+                            maxLength: 10,
+                            textAlign: TextAlign.center,
+                            controller: tfDialogLoginPhoneNumber,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                hintText: 'ປ້ອນເບີໂທລະສັບ (20xxxxxxxx)',
+                                contentPadding: EdgeInsets.all(5.0),
+                                counterText: "",
+                                hintStyle: TextStyle(color: Colors.grey)),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            child: MaterialButton(
+                                padding: EdgeInsets.only(top: 13, bottom: 13),
+                                onPressed: () {
+                                  _requestOTP(
+                                          "https://gateway.sbg.la/api/login",
+                                          tfDialogLoginPhoneNumber.text)
+                                      .whenComplete(() => custom_route.Route
+                                          .home); // Send Phonenumber (TextField 2077710008) ==> After success custom_route.Route.home
+                                },
+                                color: Color(0xFF70CBBD),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(40)),
+                                child: Text(
+                                  'ຂໍລະຫັດຜ່ານ OTP',
+                                  style: TextStyle(
+                                    color: Color(0xFFffffff),
+                                  ),
+                                )),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          },
         ),
       ),
     );
