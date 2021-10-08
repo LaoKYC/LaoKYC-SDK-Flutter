@@ -84,5 +84,33 @@ in tag manifest
                         <data android:scheme="https" />
                        </intent>
                 </queries>
+ - Finally , You'll get data reult in page after client login success
+    Add the following code to your pubspec.yaml:
+ 
+         dependencies:
+             shared_preferences: ^2.0.6
+                
+    Add the following code to your DashboardPage.dart:   
+             
+                String? AccessToken;
+                String? firstName;
+                String? familyName;
+                String? phonenumber;
+    
+                getPref() async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    setState(() {
+                        AccessToken = prefs.getString('access_token');
+                        firstName = prefs.getString('name');
+                        familyName = prefs.getString('family_name');
+                        phonenumber = prefs.getString("preferred_username");
+                    });
+                }
+                
+                @override
+                  void initState() {
+                    super.initState();
+                    getPref();
+                }
 
 
