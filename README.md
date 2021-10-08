@@ -28,7 +28,7 @@ Add the following code to your pubspec.yaml:
             laokyc_button: ^0.2.0
             
 
-![Alt text](/assets/ScreenShotDemo.png?raw=true?style=centerme "Screen Shot LaoKYC Login Button")
+![Alt text](/assets/ScreenShotDemo.png?style=centerme "Screen Shot LaoKYC Login Button")
 
 
 ## Usage
