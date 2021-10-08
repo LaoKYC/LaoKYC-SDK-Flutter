@@ -88,8 +88,31 @@ in tag manifest
     
     - Add the following code to your pubspec.yaml:
  
-         dependencies:
-             shared_preferences: ^2.0.6
+                dependencies:
+                    shared_preferences: ^2.0.6
+                    
+    - Add the following code to your LoginPage.dart :
+                
+                class LoginPage extends StatelessWidget {
+                  @override
+                  Widget build(BuildContext context) {
+                    return Scaffold(
+                        appBar: AppBar(
+                          title: Text('LaoKYC Login'),
+                        ),
+                        body: Center(
+                          child: LaoKYCButton(
+                          clientId: 'Your clientId',
+                          clientSecret: 'Your clientSecret',
+                          redirectUrl: 'Your redirectUrl',
+                          scope: 'This will be provide by LaoKYC',
+                          route: Your page after client login success,
+                          lang: 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English),
+                        )));
+                  }
+                }
+                
+               
                 
     - Add the following code to your DashboardPage.dart :   
              
