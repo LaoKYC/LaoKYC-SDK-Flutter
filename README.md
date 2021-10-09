@@ -38,7 +38,7 @@ Import the package
 
     import ' package:laokyc_button/laokyc_login_button.dart '
 
-Add your clienId, clientSecret, redirectUrl, route, lang and scope
+- add your clienId, clientSecret, redirectUrl, route, lang and scope
 
     
         LaoKYCButton(
