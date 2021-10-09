@@ -15,17 +15,17 @@ and the Flutter guide for
 
 ## Features
 
-LaoKYC Login Button is a Flutter package to help your client connect to your application via LaoKYC, 
+**LaoKYC Login Button** is a Flutter package to help your client connect to your application via LaoKYC, 
 this package developed by LaoKYC.
 
 This Package will help you to provide an optional login for your client, who lack of an ability
 to registry with your application.
 
 ## Installation
-Add the following code to your pubspec.yaml:
+Add the following code to your **pubspec.yaml** :
 
         dependencies:
-            laokyc_button: ^0.2.5
+            laokyc_button: ^0.2.6
             
 <p align="center">
   <img src="https://github.com/LaoKYC/LaoKYC-SDK-Flutter/raw/main/assets/ScreenShotDemo.png">
@@ -38,7 +38,7 @@ Import the package
 
     import ' package:laokyc_button/laokyc_login_button.dart '
 
-Add your clienId, clientSecret, redirectUrl, route, lang and scope
+- add your clienId, clientSecret, redirectUrl, route, lang and scope
 
     
         LaoKYCButton(
@@ -52,7 +52,7 @@ Add your clienId, clientSecret, redirectUrl, route, lang and scope
     
 
 
-P.S All of this parameter will be provide by LaoKYC Administration
+P.S All of this parameter will be provide by **LaoKYC**
    ``` 
    Email : partner@sbg.com
    Mobile : +8562058988895
@@ -64,7 +64,7 @@ P.S All of this parameter will be provide by LaoKYC Administration
 
 Don't forget to config in android project
 
-- add the following code in build.gradle android project :
+- add the following code in **build.gradle** android project :
 
                 defaultConfig {
                         .
@@ -74,7 +74,7 @@ Don't forget to config in android project
                                 ]
                         }
 
- - add the following code in AndroidManifest.xml android project :
+ - add the following code in **AndroidManifest.xml** android project :
 in tag manifest
 
                 <queries>
@@ -91,12 +91,12 @@ in tag manifest
                 </queries>
  - Finally , You'll get data reult in page after client login success
     
-    - Add the following code to your pubspec.yaml:
+    - Add the following code to your **pubspec.yaml** :
  
                 dependencies:
                     shared_preferences: ^2.0.6
                     
-    - Add the following code to your LoginPage.dart :
+    - Add the following code to your **LoginPage.dart** :
                 
                 class LoginPage extends StatelessWidget {
                   @override
@@ -117,7 +117,7 @@ in tag manifest
                   }
                 }
            
-    - Add the following code to your DashboardPage.dart :   
+    - Add the following code to your **DashboardPage.dart** :   
              
                 String? AccessToken;
     
