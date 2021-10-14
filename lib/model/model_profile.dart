@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final modelProfile = modelProfileFromJson(jsonString);
-
 import 'dart:convert';
 
 ModelProfile modelProfileFromJson(String str) =>
@@ -11,29 +7,29 @@ String modelProfileToJson(ModelProfile data) => json.encode(data.toJson());
 
 class ModelProfile {
   ModelProfile({
+    required this.profile,
     required this.code,
     required this.message,
     required this.isSuccess,
-    required this.profile,
   });
 
+  Profile profile;
   String code;
   String message;
   bool isSuccess;
-  Profile profile;
 
   factory ModelProfile.fromJson(Map<String, dynamic> json) => ModelProfile(
+        profile: Profile.fromJson(json["profile"]),
         code: json["code"],
         message: json["message"],
         isSuccess: json["isSuccess"],
-        profile: Profile.fromJson(json["profile"]),
       );
 
   Map<String, dynamic> toJson() => {
+        "profile": profile.toJson(),
         "code": code,
         "message": message,
         "isSuccess": isSuccess,
-        "profile": profile.toJson(),
       };
 }
 
@@ -45,6 +41,9 @@ class Profile {
     required this.gender,
     required this.birthday,
     required this.thumbnail,
+    required this.address,
+    required this.district,
+    required this.province,
   });
 
   String id;
@@ -53,6 +52,9 @@ class Profile {
   int gender;
   String birthday;
   Thumbnail thumbnail;
+  String address;
+  String district;
+  String province;
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         id: json["id"],
@@ -61,6 +63,9 @@ class Profile {
         gender: json["gender"],
         birthday: json["birthday"],
         thumbnail: Thumbnail.fromJson(json["thumbnail"]),
+        address: json["address"],
+        district: json["district"],
+        province: json["province"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,6 +75,9 @@ class Profile {
         "gender": gender,
         "birthday": birthday,
         "thumbnail": thumbnail.toJson(),
+        "address": address,
+        "district": district,
+        "province": province,
       };
 }
 
