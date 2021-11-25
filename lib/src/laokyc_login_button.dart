@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/constant/route.dart' as custom_route;
+import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
 import 'dialogreqotp.dart';
@@ -69,54 +71,42 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   get http => null;
 
-  Future<void> _requestOTP(String urlPath, String phonenumber) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext ctx) {
-        _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-          Navigator.pop(ctx);
-        });
-        return DialogReqOTP(
-          text: 'ກຳລັງສົ່ງ OTP ໄປຫາ\nເບີຂອງທ່ານ',
-        );
-      },
-    ).then((value) {
-      if (_timer.isActive) {
-        _timer.cancel();
-        _signInWithAutoCodeExchange(phonenumber, 'Android');
-      }
-    });
-
+  Future<void> _requestOTP(
+      String urlPath, String phonenumber, BuildContext context) async {
     // Clear cache Image circle
     imageCache!.clear();
 
     try {
-      deviceId = (await PlatformDeviceId.getDeviceId)!;
-    } on PlatformException {
-      deviceId = 'Failed to get deviceId.';
-    }
+      try {
+        deviceId = (await PlatformDeviceId.getDeviceId)!;
+      } on PlatformException {
+        deviceId = 'Failed to get deviceId.';
+      }
 
-    Map<String, dynamic> _body = {
-      'phone': phonenumber,
-      'Device': deviceId,
-    };
+      Map<String, dynamic> _body = {
+        'phone': phonenumber,
+        'Device': deviceId,
+      };
 
-    String jsonBody = json.encode(_body);
-    final encoding = Encoding.getByName('utf-8');
+      String jsonBody = json.encode(_body);
+      final encoding = Encoding.getByName('utf-8');
 
-    var response = await http.post(
-      Uri.parse(urlPath),
-      headers: {
-        "content-type": "application/json",
-      },
-      body: jsonBody,
-      encoding: encoding,
-    );
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
+      var response = await http.post(
+        Uri.parse(urlPath),
+        headers: {
+          "content-type": "application/json",
+        },
+        body: jsonBody,
+        encoding: encoding,
+      );
+      print('Login response ==> ${response.body}');
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+        _signInWithAutoCodeExchange(phonenumber, 'Android');
+      }
+    } on SocketException catch (e) {
+      print('Request otp err ==> ${e.message}');
+      _requestOTP(urlPath, phonenumber, context);
     }
   }
 
@@ -317,9 +307,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                             child: MaterialButton(
                                 padding: EdgeInsets.only(top: 13, bottom: 13),
                                 onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => DialogLoading(
+                                          title: 'ກຳລັງສົ່ງ OTP ໄປຫາ\nເບີຂອງທ່ານ'));
                                   _requestOTP(
                                           "https://gateway.sbg.la/api/login",
-                                          tfDialogLoginPhoneNumber.text)
+                                          tfDialogLoginPhoneNumber.text, context)
                                       .whenComplete(() => custom_route.Route
                                           .home); // Send Phonenumber (TextField 2077710008) ==> After success custom_route.Route.home
                                 },
