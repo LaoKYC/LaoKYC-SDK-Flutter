@@ -36,7 +36,6 @@ class LaoKYCButton extends StatefulWidget {
 class _LaoKYCButtonState extends State<LaoKYCButton> {
   //late Buttslog data;
   late String btnText;
-  late Timer _timer;
   late String deviceId;
   final tfDialogLoginPhoneNumber = TextEditingController();
   final FlutterAppAuth _appAuth = FlutterAppAuth();
@@ -50,16 +49,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   late String _preferred_username;
   late String _phone;
   late String _sub;
-  final TextEditingController _authorizationCodeTextController =
-      TextEditingController();
+
   final TextEditingController _accessTokenTextController =
       TextEditingController();
 
   final TextEditingController _accessTokenExpirationTextController =
-      TextEditingController();
-
-  final TextEditingController _idTokenTextController = TextEditingController();
-  final TextEditingController _refreshTokenTextController =
       TextEditingController();
 
   final AuthorizationServiceConfiguration _serviceConfiguration =
@@ -164,18 +158,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
       } on Exception catch (_) {
-        print('Error Profile !!!');
       }
       PreferenceInfo().saveUserInfo(
           _first_name, _family_name, _preferred_username, _accessToken);
-
-      //StoreDetailUser()
-      // .sharePrefName(_first_name, _family_name, _preferred_username);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => widget.route),
       );
-      // _storeToken(response.accessToken);
     });
   }
 
@@ -311,9 +300,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                           title: 'ກຳລັງສົ່ງ OTP ໄປຫາ\nເບີຂອງທ່ານ'));
                                   _requestOTP(
                                           "https://gateway.sbg.la/api/login",
-                                          tfDialogLoginPhoneNumber.text, context)
-                                      .whenComplete(() => custom_route.Route
-                                          .home); // Send Phonenumber (TextField 2077710008) ==> After success custom_route.Route.home
+                                          tfDialogLoginPhoneNumber.text, context);// Send Phonenumber (TextField 2077710008) ==> After success custom_route.Route.home
                                 },
                                 color: Color(0xFF70CBBD),
                                 shape: RoundedRectangleBorder(
