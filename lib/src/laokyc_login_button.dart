@@ -10,8 +10,6 @@ import 'package:laokyc_button/constant/route.dart' as custom_route;
 import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
-import 'dialogreqotp.dart';
-
 class LaoKYCButton extends StatefulWidget {
   late String clientId;
   late String redirectUrl;
