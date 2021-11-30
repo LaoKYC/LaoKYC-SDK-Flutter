@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DialogReqOTP extends StatelessWidget {
   final text;
-  DialogReqOTP({required this.text});
+  DialogReqOTP({this.text});
 
   @override
   Widget build(BuildContext context) {

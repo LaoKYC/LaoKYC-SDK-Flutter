@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DialogLoading extends StatelessWidget {
-  late String title;
-  DialogLoading({required this.title});
+  String title;
+  DialogLoading({this.title});
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

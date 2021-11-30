@@ -10,7 +10,7 @@ class Route {
 
   static Map<String, WidgetBuilder> getAll() => _route;
   static final Map<String, WidgetBuilder> _route = {
-   /* '/home': (context) => HomePage(),
+    /* '/home': (context) => HomePage(),
     '/login': (context) => LoginPage(),
     '/dashboard': (context) => DashboardPage(),
     '/app': (context) => App(),*/

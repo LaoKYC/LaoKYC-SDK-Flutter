@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 class PreferenceInfo {
-  late SharedPreferences _preferences;
+  SharedPreferences _preferences;
 
   static const first_name = 'name';
 
@@ -23,17 +23,17 @@ class PreferenceInfo {
     _preferences.setString(access_Token, accessToken);
   }
 
-  Future<List<String>?> getUserInfo() async {
+  Future<List<String>> getUserInfo() async {
     List<String> arrUserInfo = [];
     SharedPreferences _preferences = await SharedPreferences.getInstance();
-    String? firstName = _preferences.getString(first_name);
-    String? familyName = _preferences.getString(family_name);
-    String? preferredUsername = _preferences.getString(preferred_username);
-    String? accessToken = _preferences.getString(access_Token);
-    arrUserInfo.add(firstName!);
-    arrUserInfo.add(familyName!);
-    arrUserInfo.add(preferredUsername!);
-    arrUserInfo.add(accessToken!);
+    String firstName = _preferences.getString(first_name);
+    String familyName = _preferences.getString(family_name);
+    String preferredUsername = _preferences.getString(preferred_username);
+    String accessToken = _preferences.getString(access_Token);
+    arrUserInfo.add(firstName);
+    arrUserInfo.add(familyName);
+    arrUserInfo.add(preferredUsername);
+    arrUserInfo.add(accessToken);
     return arrUserInfo;
   }
 }

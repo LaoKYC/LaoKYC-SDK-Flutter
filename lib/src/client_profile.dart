@@ -28,6 +28,8 @@ class GetProfile {
 }*/
 
 import 'dart:convert';
+import 'package:laokyc_button/model/model_profile.dart';
+import 'package:laokyc_button/model/model_profile_fail.dart';
 import 'package:http/http.dart' as http;
 import 'package:laokyc_button/model/model_profile.dart';
 import 'package:laokyc_button/model/model_profile_fail.dart';

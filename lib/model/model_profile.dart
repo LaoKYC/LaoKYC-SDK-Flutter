@@ -7,10 +7,10 @@ String modelProfileToJson(ModelProfile data) => json.encode(data.toJson());
 
 class ModelProfile {
   ModelProfile({
-    required this.profile,
-    required this.code,
-    required this.message,
-    required this.isSuccess,
+    this.profile,
+    this.code,
+    this.message,
+    this.isSuccess,
   });
 
   Profile profile;
@@ -35,15 +35,15 @@ class ModelProfile {
 
 class Profile {
   Profile({
-    required this.id,
-    required this.name,
-    required this.surname,
-    required this.gender,
-    required this.birthday,
-    required this.thumbnail,
-    required this.address,
-    required this.district,
-    required this.province,
+    this.id,
+    this.name,
+    this.surname,
+    this.gender,
+    this.birthday,
+    this.thumbnail,
+    this.address,
+    this.district,
+    this.province,
   });
 
   String id;
@@ -83,8 +83,8 @@ class Profile {
 
 class Thumbnail {
   Thumbnail({
-    required this.filename,
-    required this.bucket,
+    this.filename,
+    this.bucket,
   });
 
   String filename;
