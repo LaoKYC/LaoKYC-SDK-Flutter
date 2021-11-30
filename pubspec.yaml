@@ -1,6 +1,10 @@
 name: laokyc_button
 description: A new Flutter package project.
+<<<<<<< HEAD
 version: 0.2.10
+=======
+version: 0.2.8
+>>>>>>> 721e69d7c32e5c0504b01c9900f629795c4a1eac
 homepage: https://github.com/LaoKYC/LaoKYC-SDK-Flutter.git
 
 

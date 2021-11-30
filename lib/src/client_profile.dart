@@ -1,4 +1,4 @@
-/*import 'dart:convert';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:laokyc_button/model/model_profile.dart';
 
@@ -25,6 +25,7 @@ class GetProfile {
     }
     return _result;
   }
+<<<<<<< HEAD
 }*/
 
 import 'dart:convert';
@@ -54,4 +55,6 @@ class GetProfile {
     }
     return result;
   }
+=======
+>>>>>>> 721e69d7c32e5c0504b01c9900f629795c4a1eac
 }
