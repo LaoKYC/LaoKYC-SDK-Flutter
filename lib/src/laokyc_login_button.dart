@@ -228,8 +228,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
-            child: Image.network(
-              'https://i.ibb.co/3pkZ3WP/playstore-icon.png',
+            child: Image(
+              image: AssetImage('assets/logo.png'),
               width: 30,
               height: 30,
             ),
@@ -278,8 +278,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         ],
                       ),
                       Center(
-                        child: Image.network(
-                          'https://i.ibb.co/mB2MHzH/logo-lao-kyc-gateway-250.jpg',
+                        child: Image(
+                          image: AssetImage('assets/LaoKYCgateway.png'),
                           width: 110,
                           height: 120,
                         ),
@@ -294,7 +294,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                               fontFamily: 'Phetsarath',
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey[600]),
+                              color: Colors.grey[800]),
                         ),
                       ),
                       SizedBox(
@@ -342,7 +342,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                     tfDialogLoginPhoneNumber.text, context);
                               }
                             },
-                            color: Color(0xFF70CBBD),
+                            color: Colors.teal,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(

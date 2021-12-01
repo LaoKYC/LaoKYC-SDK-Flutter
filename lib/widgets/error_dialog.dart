@@ -12,7 +12,7 @@ void errorDialog(BuildContext context) {
                 ),
                 SizedBox(
                   height: 70,
-                  child: Image(image: AssetImage('asset/remove.png')),
+                  child: Image(image: AssetImage('assets/remove.png')),
                 ),
                 SizedBox(
                   height: 20,
@@ -26,11 +26,9 @@ void errorDialog(BuildContext context) {
                   height: 20,
                 ),
                 Text(
-                  ("\tກະລຸນາປ້ອນໝາຍເລກໂທລະສັບຂອງທ່ານ\nຂຶ້ນຕົ້ນດ້ວຍ(20xxxxxxxx) ຫຼື (30xxxxxxx)"),
+                  ("ກະລຸນາປ້ອນໝາຍເລກໂທລະສັບຂອງທ່ານ\nຂຶ້ນຕົ້ນດ້ວຍ(20xxxxxxxx) ຫຼື (30xxxxxxx)"),
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                   height: 20,
@@ -41,7 +39,7 @@ void errorDialog(BuildContext context) {
                   child: ElevatedButton(
                     child: Text('ຕົກລົງ'),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.red,
+                      primary: Colors.red[900],
                     ),
                     onPressed: () {
                       Navigator.pop(context);
