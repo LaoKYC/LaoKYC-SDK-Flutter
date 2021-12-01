@@ -42,7 +42,6 @@ class LaoKYCButton extends StatefulWidget {
 
 class _LaoKYCButtonState extends State<LaoKYCButton> {
   //late Buttslog data;
-<<<<<<< HEAD
   String btnText;
   Timer _timer;
   String deviceId;
@@ -60,23 +59,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   String _sub;
   final TextEditingController _authorizationCodeTextController =
       TextEditingController();
-=======
-  late String btnText;
-  late String deviceId;
-  final tfDialogLoginPhoneNumber = TextEditingController();
-  final FlutterAppAuth _appAuth = FlutterAppAuth();
-  late final String _clientId;
-  late final String _redirectUrl;
-  late final List<String> _scope = <String>[];
-  late String _idToken;
-  late String _accessToken;
-  late String _first_name;
-  late String _family_name;
-  late String _preferred_username;
-  late String _phone;
-  late String _sub;
-
->>>>>>> 721e69d7c32e5c0504b01c9900f629795c4a1eac
   final TextEditingController _accessTokenTextController =
       TextEditingController();
 
@@ -85,8 +67,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   final AuthorizationServiceConfiguration _serviceConfiguration =
       AuthorizationServiceConfiguration(
-          'https://login.oneid.sbg.la/connect/authorize',
-          'https://login.oneid.sbg.la/connect/token');
+          authorizationEndpoint: 'https://login.oneid.sbg.la/connect/authorize',
+          tokenEndpoint: 'https://login.oneid.sbg.la/connect/token');
 
   get http => null;
 
@@ -202,8 +184,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _preferred_username = decodedToken["preferred_username"]; // 205xxxxxxx
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
-      } on Exception catch (_) {
-      }
+      } on Exception catch (_) {}
       PreferenceInfo().saveUserInfo(
           _first_name, _family_name, _preferred_username, _accessToken);
       Navigator.push(
@@ -294,55 +275,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                               child: Icon(Icons.close, color: Colors.white),
                             ),
                           ),
-<<<<<<< HEAD
-=======
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                            maxLength: 10,
-                            textAlign: TextAlign.center,
-                            controller: tfDialogLoginPhoneNumber,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                hintText: 'ປ້ອນເບີໂທລະສັບ (20xxxxxxxx)',
-                                contentPadding: EdgeInsets.all(5.0),
-                                counterText: "",
-                                hintStyle: TextStyle(color: Colors.grey)),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: MaterialButton(
-                                padding: EdgeInsets.only(top: 13, bottom: 13),
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => DialogLoading(
-                                          title: 'ກຳລັງສົ່ງ OTP ໄປຫາ\nເບີຂອງທ່ານ'));
-                                  _requestOTP(
-                                          "https://gateway.sbg.la/api/login",
-                                          tfDialogLoginPhoneNumber.text, context);// Send Phonenumber (TextField 2077710008) ==> After success custom_route.Route.home
-                                },
-                                color: Color(0xFF70CBBD),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)),
-                                child: Text(
-                                  'ຂໍລະຫັດຜ່ານ OTP',
-                                  style: TextStyle(
-                                    color: Color(0xFFffffff),
-                                  ),
-                                )),
-                          )
->>>>>>> 721e69d7c32e5c0504b01c9900f629795c4a1eac
                         ],
                       ),
                       Center(
