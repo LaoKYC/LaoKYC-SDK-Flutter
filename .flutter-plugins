@@ -1,5 +1,4 @@
 # This is a generated file; do not edit or check into version control.
-
 device_info=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/device_info-2.0.2/
 flutter_appauth=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/flutter_appauth-2.1.0+1/
 path_provider_linux=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.0/
@@ -19,4 +18,3 @@ shared_preferences_windows=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/sh
 webview_flutter=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/webview_flutter-2.3.1/
 webview_flutter_android=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/webview_flutter_android-2.3.1/
 webview_flutter_wkwebview=/Users/tumtrick/.pub-cache/hosted/pub.dartlang.org/webview_flutter_wkwebview-2.2.0/
-
