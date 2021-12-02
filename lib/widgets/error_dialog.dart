@@ -12,7 +12,9 @@ void errorDialog(BuildContext context) {
                 ),
                 SizedBox(
                   height: 70,
-                  child: Image(image: AssetImage('lib/assets/remove.png')),
+                  child: Image(
+                      image: AssetImage('assets/remove.png',
+                          package: 'laokyc_button')),
                 ),
                 SizedBox(
                   height: 20,
