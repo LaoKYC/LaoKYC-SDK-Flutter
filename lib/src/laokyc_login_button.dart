@@ -229,7 +229,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Image(
-              image: AssetImage('assets/logo.png'),
+              image: AssetImage('lib/assets/logo.png'),
               width: 30,
               height: 30,
             ),
@@ -279,7 +279,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       ),
                       Center(
                         child: Image(
-                          image: AssetImage('assets/LaoKYCgateway.png'),
+                          image: AssetImage('lib/assets/LaoKYCgateway.png'),
                           width: 110,
                           height: 120,
                         ),
