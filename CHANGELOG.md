@@ -1,4 +1,4 @@
-## 0.3.1
+## 0.3.2
 * TODO: fix bug and update UI.
 
 
