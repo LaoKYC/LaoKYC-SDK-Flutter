@@ -22,7 +22,10 @@ void errorDialog(BuildContext context) {
                 Text(
                   'ແຈ້ງເຕືອນ',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      fontFamily: 'Phetsarath'),
                 ),
                 SizedBox(
                   height: 20,
@@ -30,7 +33,10 @@ void errorDialog(BuildContext context) {
                 Text(
                   ("ກະລຸນາປ້ອນໝາຍເລກໂທລະສັບຂອງທ່ານ\nຂຶ້ນຕົ້ນດ້ວຍ(20xxxxxxxx) ຫຼື (30xxxxxxx)"),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Phetsarath'),
                 ),
                 SizedBox(
                   height: 20,
@@ -39,7 +45,10 @@ void errorDialog(BuildContext context) {
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    child: Text('ຕົກລົງ'),
+                    child: Text(
+                      'ຕົກລົງ',
+                      style: TextStyle(fontFamily: 'Phetsarath'),
+                    ),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red[900],
                     ),

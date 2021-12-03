@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:laokyc_button/model/model_profile.dart';
 
 class GetProfile {
-  ModelProfile _result;
+  late ModelProfile _result;
   Future<ModelProfile> getProfile(String accessToken) async {
     var url = 'https://api.laokyc.la/api/v1/UserProfile/getprofile';
 

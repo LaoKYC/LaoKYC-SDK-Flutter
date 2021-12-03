@@ -8,9 +8,9 @@ String modelProfileFailToJson(ModelProfileFail data) =>
 
 class ModelProfileFail {
   ModelProfileFail({
-    this.code,
-    this.message,
-    this.isSuccess,
+    required this.code,
+    required this.message,
+    required this.isSuccess,
   });
 
   String code;

@@ -11,9 +11,6 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:laokyc_button/constant/route.dart' as custom_route;
 import 'package:dio/dio.dart';
-import 'package:laokyc_button/utils/CheckValid.dart';
-import 'package:laokyc_button/utils/prefUserInfo.dart';
-import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 
@@ -26,12 +23,12 @@ class LaoKYCButton extends StatefulWidget {
   String lang;
 
   LaoKYCButton({
-    this.clientId,
-    this.clientSecret,
-    this.redirectUrl,
-    this.scope,
+    required this.clientId,
+    required this.clientSecret,
+    required this.redirectUrl,
+    required this.scope,
     this.route,
-    this.lang,
+    required this.lang,
   });
 
   //: this.scope = scope ?? [];
@@ -42,21 +39,29 @@ class LaoKYCButton extends StatefulWidget {
 
 class _LaoKYCButtonState extends State<LaoKYCButton> {
   //late Buttslog data;
-  String btnText;
-  Timer _timer;
-  String deviceId;
+  late String errorTexthead;
+  late String errorText;
+  late String errorbtn;
+  late String autText;
+  late String DialogLoadingText;
+  late String numberphoneText;
+  late String loginbtn;
+  late String autbtn;
+  late String fontText;
+  late Timer _timer;
+  late String deviceId;
   final tfDialogLoginPhoneNumber = TextEditingController();
   final FlutterAppAuth _appAuth = FlutterAppAuth();
-  String _clientId;
-  String _redirectUrl;
+  late String _clientId;
+  late String _redirectUrl;
   final List<String> _scope = <String>[];
-  String _idToken;
-  String _accessToken;
-  String _first_name;
-  String _family_name;
-  String _preferred_username;
-  String _phone;
-  String _sub;
+  late String _idToken;
+  late String _accessToken;
+  late String _first_name;
+  late String _family_name;
+  late String _preferred_username;
+  late String _phone;
+  late String _sub;
   final TextEditingController _authorizationCodeTextController =
       TextEditingController();
   final TextEditingController _accessTokenTextController =
@@ -75,12 +80,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   Future<void> _requestOTP(
       String urlPath, String phonenumber, BuildContext context) async {
     // Clear cache Image circle
-    imageCache.clear();
+    imageCache!.clear();
     final Dio dio = Dio();
 
     try {
       try {
-        deviceId = (await PlatformDeviceId.getDeviceId);
+        deviceId = (await PlatformDeviceId.getDeviceId)!;
       } on PlatformException {
         deviceId = 'Failed to get deviceId.';
       }
@@ -135,7 +140,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     try {
       _setBusyState();
 
-      final AuthorizationTokenResponse result =
+      final AuthorizationTokenResponse? result =
           await _appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           _clientId = widget.clientId.toString(),
@@ -170,13 +175,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   void _processAuthTokenResponse(AuthorizationTokenResponse response) {
     setState(() async {
       try {
-        _accessToken = (_accessTokenTextController.text = response.accessToken);
-        _idToken = response.idToken; // <======
+        _accessToken =
+            (_accessTokenTextController.text = response.accessToken!);
+        _idToken = response.idToken!; // <======
         //_idTokenTextController.text = response.idToken!;
         // _refreshToken =
         //    (_refreshTokenTextController.text = response.refreshToken!);
         _accessTokenExpirationTextController.text =
-            response.accessTokenExpirationDateTime.toIso8601String();
+            response.accessTokenExpirationDateTime!.toIso8601String();
         Map<String, dynamic> decodedToken =
             JwtDecoder.decode(_idToken); // <======= id Token JWT
         _first_name = decodedToken["name"];
@@ -186,7 +192,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _sub = decodedToken["sub"];
       } on Exception catch (_) {}
       PreferenceInfo().saveUserInfo(
-          _first_name, _family_name, _preferred_username, _accessToken);
+          _first_name, _family_name, _preferred_username, _accessToken, _sub);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => widget.route),
@@ -196,9 +202,27 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   void checkLang() {
     if (widget.lang.toUpperCase() == "LA") {
-      btnText = "ລ໋ອກອິນ LaoKYC";
+      loginbtn = "ລ໋ອກອິນ LaoKYC";
+      fontText = "Phetsarath";
+      autText = "ຢືນຢັນຕົວຕົນຜ່ານ LaoKYC";
+      numberphoneText = "ປ້ອນເບີໂທລະສັບ (20xxxxxxxx)";
+      DialogLoadingText = "ກຳລັງສົ່ງ OTP ໄປຫາ\nເບີຂອງທ່ານ";
+      autbtn = "ຂໍລະຫັດຜ່ານ OTP";
+      errorTexthead = "ເເຈ້ງເຕືອນ";
+      errorText =
+          "ກະລຸນາປ້ອນໝາຍເລກໂທລະສັບຂອງທ່ານ\nຂຶ້ນຕົ້ນດ້ວຍ(20xxxxxxxx) ຫຼື (30xxxxxxx)";
+      errorbtn = "ຕົກລົງ";
     } else if (widget.lang.toUpperCase() == 'EN') {
-      btnText = "Login with LaoKYC";
+      loginbtn = "Login with LaoKYC";
+      fontText = "Phetsarath";
+      autText = "Authentication with LaoKYC";
+      numberphoneText = "Enter phone number (20xxxxxxxx)";
+      DialogLoadingText = "Sending OTP to\nyour number";
+      autbtn = "Request OTP";
+      errorTexthead = "Warning!";
+      errorText =
+          "Please enter your phone number\nstarting with (20xxxxxxxx) or (30xxxxxxx)";
+      errorbtn = "OK";
     }
   }
 
@@ -236,10 +260,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           ),
           Expanded(
             child: Text(
-              btnText,
+              loginbtn,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 17,
+                fontFamily: fontText,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFffffff),
               ),
@@ -290,10 +315,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       ),
                       Center(
                         child: Text(
-                          'Authentication with LaoKYC',
+                          autText,
                           style: TextStyle(
-                              fontFamily: 'Phetsarath',
-                              fontSize: 20,
+                              fontFamily: fontText,
+                              fontSize: 15,
                               fontWeight: FontWeight.w600,
                               color: Colors.grey[800]),
                         ),
@@ -313,10 +338,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            hintText: 'ປ້ອນເບີໂທລະສັບ (20xxxxxxxx)',
+                            hintText: numberphoneText,
                             contentPadding: EdgeInsets.all(10),
                             counterText: "",
-                            hintStyle: TextStyle(color: Colors.grey)),
+                            hintStyle: TextStyle(
+                                color: Colors.grey, fontFamily: fontText)),
                       ),
                       SizedBox(
                         height: 12,
@@ -337,8 +363,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                 showDialog(
                                     context: context,
                                     builder: (context) => DialogLoading(
-                                        title:
-                                            'ກຳລັງສົ່ງ OTP ໄປຫາ\nເບີຂອງທ່ານ'));
+                                          title: DialogLoadingText,
+                                        ));
                                 _requestOTP("https://gateway.sbg.la/api/login",
                                     tfDialogLoginPhoneNumber.text, context);
                               }
@@ -347,9 +373,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              'ຂໍລະຫັດຜ່ານ OTP',
+                              autbtn,
                               style: TextStyle(
                                 color: Color(0xFFffffff),
+                                fontFamily: fontText,
                               ),
                             )),
                       )
