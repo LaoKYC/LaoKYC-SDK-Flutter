@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-void errorDialog(BuildContext context) {
+void errorDialog(BuildContext context, String errorTexthead, String errorText,
+    String errorbtn, String fontText) {
   showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -20,23 +21,23 @@ void errorDialog(BuildContext context) {
                   height: 20,
                 ),
                 Text(
-                  'ແຈ້ງເຕືອນ',
+                  errorTexthead,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30,
-                      fontFamily: 'Phetsarath'),
+                      fontFamily: fontText),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Text(
-                  ("ກະລຸນາປ້ອນໝາຍເລກໂທລະສັບຂອງທ່ານ\nຂຶ້ນຕົ້ນດ້ວຍ(20xxxxxxxx) ຫຼື (30xxxxxxx)"),
+                  (errorText),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
-                      fontFamily: 'Phetsarath'),
+                      fontFamily: fontText),
                 ),
                 SizedBox(
                   height: 20,
@@ -46,8 +47,8 @@ void errorDialog(BuildContext context) {
                   width: double.infinity,
                   child: ElevatedButton(
                     child: Text(
-                      'ຕົກລົງ',
-                      style: TextStyle(fontFamily: 'Phetsarath'),
+                      errorbtn,
+                      style: TextStyle(fontFamily: fontText),
                     ),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red[900],

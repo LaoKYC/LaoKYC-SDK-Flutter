@@ -115,7 +115,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         ),
         data: jsonBody,
       );
-
       // var response = await http.post(
       //   Uri.parse(urlPath),
       //   headers: {
@@ -191,7 +190,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
       } on Exception catch (_) {}
-      PreferenceInfo().saveUserInfo(
+      await PreferenceInfo().saveUserInfo(
           _first_name, _family_name, _preferred_username, _accessToken, _sub);
       Navigator.push(
         context,
@@ -355,10 +354,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                               if (CheckValid().checkValidPhonenumber(
                                       tfDialogLoginPhoneNumber.text) ==
                                   false) {
-                                errorDialog(context);
+                                errorDialog(context, errorTexthead, errorText,
+                                    errorbtn, fontText);
                               } else if (tfDialogLoginPhoneNumber
                                   .text.isEmpty) {
-                                errorDialog(context);
+                                errorDialog(context, errorTexthead, errorText,
+                                    errorbtn, fontText);
                               } else {
                                 showDialog(
                                     context: context,
