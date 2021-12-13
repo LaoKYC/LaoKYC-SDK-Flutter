@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:laokyc_button/utils/CheckValid.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
@@ -21,15 +22,16 @@ class LaoKYCButton extends StatefulWidget {
   List<String> scope;
   var route;
   String lang;
+  Future<Void> valid;
 
-  LaoKYCButton({
-    required this.clientId,
-    required this.clientSecret,
-    required this.redirectUrl,
-    required this.scope,
-    this.route,
-    required this.lang,
-  });
+  LaoKYCButton(
+      {required this.clientId,
+      required this.clientSecret,
+      required this.redirectUrl,
+      required this.scope,
+      required this.route,
+      required this.lang,
+      required this.valid});
 
   //: this.scope = scope ?? [];
 
@@ -350,7 +352,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         width: double.infinity,
                         child: MaterialButton(
                             padding: EdgeInsets.only(top: 13, bottom: 13),
-                            onPressed: () {
+                            onPressed: () async {
+                              await widget.valid == null
+                                  ? print('No valid')
+                                  : await widget.valid;
                               if (CheckValid().checkValidPhonenumber(
                                       tfDialogLoginPhoneNumber.text) ==
                                   false) {
