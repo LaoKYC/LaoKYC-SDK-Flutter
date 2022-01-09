@@ -14,6 +14,8 @@ class PreferenceInfo {
 
   static const owner_id = 'owner_id';
 
+  static const main_domain = 'main_domain';
+
   Future<void> init() async {}
 
   Future<void> saveUserInfo(String firstName, String familyName,
@@ -24,6 +26,10 @@ class PreferenceInfo {
     _preferences.setString(preferred_username, phonenumber);
     _preferences.setString(access_Token, accessToken);
     _preferences.setString(owner_id, ownerID);
+  }
+
+  Future<void> setDomain(String domain)async{
+    _preferences.setString(main_domain, domain);
   }
 
   Future<List<String>> getUserInfo() async {
@@ -38,5 +44,13 @@ class PreferenceInfo {
     arrUserInfo.add(preferredUsername!);
     arrUserInfo.add(accessToken!);
     return arrUserInfo;
+  }
+
+  Future<String?> getOwnerID() async {
+    return _preferences.getString(owner_id);
+  }
+
+  Future<String?> getDomain() async {
+    return _preferences.getString(main_domain);
   }
 }

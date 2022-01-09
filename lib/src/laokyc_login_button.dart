@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'package:laokyc_button/services/g-office-list-domain.dart';
 import 'package:laokyc_button/utils/CheckValid.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
@@ -22,7 +23,8 @@ class LaoKYCButton extends StatefulWidget {
   List<String> scope;
   var route;
   String lang;
-  Future<Void> valid;
+  String? fromApp;
+  String? gDomain;
 
   LaoKYCButton(
       {required this.clientId,
@@ -31,7 +33,8 @@ class LaoKYCButton extends StatefulWidget {
       required this.scope,
       required this.route,
       required this.lang,
-      required this.valid});
+      this.fromApp,
+      this.gDomain});
 
   //: this.scope = scope ?? [];
 
@@ -353,26 +356,49 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         child: MaterialButton(
                             padding: EdgeInsets.only(top: 13, bottom: 13),
                             onPressed: () async {
-                              await widget.valid == null
-                                  ? print('No valid')
-                                  : await widget.valid;
-                              if (CheckValid().checkValidPhonenumber(
-                                      tfDialogLoginPhoneNumber.text) ==
-                                  false) {
-                                errorDialog(context, errorTexthead, errorText,
-                                    errorbtn, fontText);
-                              } else if (tfDialogLoginPhoneNumber
-                                  .text.isEmpty) {
-                                errorDialog(context, errorTexthead, errorText,
-                                    errorbtn, fontText);
+                              if (widget.fromApp == 'G-OFFICE') {
+                                String domain = await listDomain(
+                                    context, widget.gDomain.toString());
+                                if (domain.isNotEmpty) {
+                                  await PreferenceInfo().setDomain(domain);
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => DialogLoading(
+                                            title: DialogLoadingText,
+                                          ));
+                                  _requestOTP(
+                                      "https://gateway.sbg.la/api/login",
+                                      tfDialogLoginPhoneNumber.text,
+                                      context);
+                                } else {
+                                  errorDialog(
+                                      context,
+                                      'ແຈ້ງເຕືອນ',
+                                      'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+                                      'ປິດ',
+                                      fontText);
+                                }
                               } else {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => DialogLoading(
-                                          title: DialogLoadingText,
-                                        ));
-                                _requestOTP("https://gateway.sbg.la/api/login",
-                                    tfDialogLoginPhoneNumber.text, context);
+                                if (CheckValid().checkValidPhonenumber(
+                                        tfDialogLoginPhoneNumber.text) ==
+                                    false) {
+                                  errorDialog(context, errorTexthead, errorText,
+                                      errorbtn, fontText);
+                                } else if (tfDialogLoginPhoneNumber
+                                    .text.isEmpty) {
+                                  errorDialog(context, errorTexthead, errorText,
+                                      errorbtn, fontText);
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => DialogLoading(
+                                            title: DialogLoadingText,
+                                          ));
+                                  _requestOTP(
+                                      "https://gateway.sbg.la/api/login",
+                                      tfDialogLoginPhoneNumber.text,
+                                      context);
+                                }
                               }
                             },
                             color: Colors.teal,
