@@ -1,5 +1,5 @@
-## 0.3.11
-* TODO: add G-Office app
+## 0.3.14
+* TODO: Check validate domain for G-OFFICE App
 
 
 
