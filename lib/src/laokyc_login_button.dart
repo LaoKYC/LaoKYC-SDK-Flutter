@@ -276,8 +276,31 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           ),
         ],
       ),
-      onPressed: () {
-        showDialog(
+      onPressed: () async{
+        if (widget.fromApp == 'G-OFFICE') {
+          String domain = await listDomain(
+              context, widget.gDomain.toString());
+          if (domain.isNotEmpty) {
+            await PreferenceInfo().setDomain(domain);
+            buildDialogPhoneNumber(context);
+          } else {
+            errorDialog(
+                context,
+                'ແຈ້ງເຕືອນ',
+                'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+                'ປິດ',
+                fontText);
+          }
+        }
+        else{
+          buildDialogPhoneNumber(context);
+        }
+      },
+    );
+  }
+
+  Future<dynamic> buildDialogPhoneNumber(BuildContext context) {
+    return showDialog(
             context: context,
             builder: (context) {
               return Dialog(
@@ -355,51 +378,28 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         width: double.infinity,
                         child: MaterialButton(
                             padding: EdgeInsets.only(top: 13, bottom: 13),
-                            onPressed: () async {
-                              if (widget.fromApp == 'G-OFFICE') {
-                                String domain = await listDomain(
-                                    context, widget.gDomain.toString());
-                                if (domain.isNotEmpty) {
-                                  await PreferenceInfo().setDomain(domain);
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => DialogLoading(
-                                            title: DialogLoadingText,
-                                          ));
-                                  _requestOTP(
-                                      "https://gateway.sbg.la/api/login",
-                                      tfDialogLoginPhoneNumber.text,
-                                      context);
-                                } else {
-                                  errorDialog(
-                                      context,
-                                      'ແຈ້ງເຕືອນ',
-                                      'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
-                                      'ປິດ',
-                                      fontText);
-                                }
+                            onPressed: ()  {
+                              if (CheckValid().checkValidPhonenumber(
+                                  tfDialogLoginPhoneNumber.text) ==
+                                  false) {
+                                errorDialog(context, errorTexthead, errorText,
+                                    errorbtn, fontText);
+                              } else if (tfDialogLoginPhoneNumber
+                                  .text.isEmpty) {
+                                errorDialog(context, errorTexthead, errorText,
+                                    errorbtn, fontText);
                               } else {
-                                if (CheckValid().checkValidPhonenumber(
-                                        tfDialogLoginPhoneNumber.text) ==
-                                    false) {
-                                  errorDialog(context, errorTexthead, errorText,
-                                      errorbtn, fontText);
-                                } else if (tfDialogLoginPhoneNumber
-                                    .text.isEmpty) {
-                                  errorDialog(context, errorTexthead, errorText,
-                                      errorbtn, fontText);
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => DialogLoading(
-                                            title: DialogLoadingText,
-                                          ));
-                                  _requestOTP(
-                                      "https://gateway.sbg.la/api/login",
-                                      tfDialogLoginPhoneNumber.text,
-                                      context);
-                                }
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => DialogLoading(
+                                      title: DialogLoadingText,
+                                    ));
+                                _requestOTP(
+                                    "https://gateway.sbg.la/api/login",
+                                    tfDialogLoginPhoneNumber.text,
+                                    context);
                               }
+
                             },
                             color: Colors.teal,
                             shape: RoundedRectangleBorder(
@@ -417,7 +417,5 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 ),
               );
             });
-      },
-    );
   }
 }
