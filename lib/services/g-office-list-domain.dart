@@ -5,8 +5,8 @@ import 'dart:convert';
 import 'package:laokyc_button/model/list_domain_model.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
 
-Future<String> listDomain(BuildContext context, String domain) async {
-  String myDomain = '';
+Future<ListDomainModel> listDomain(BuildContext context) async {
+  ListDomainModel dataFromAPI = ListDomainModel();
   String url = APIPath.listDomain;
   showDialog(
       context: context,
@@ -17,13 +17,7 @@ Future<String> listDomain(BuildContext context, String domain) async {
     var response = await http.get(Uri.parse(url));
     Navigator.pop(context);
     if (response.statusCode == 200) {
-      ListDomainModel data = ListDomainModel.fromJson(json.decode(response.body));
-      for(var e in data.content!){
-        List<String> splitText = e.domain!.split('.');
-        if(domain == splitText[0]){
-          myDomain = e.domain.toString();
-        }
-      }
+      dataFromAPI = ListDomainModel.fromJson(json.decode(response.body));
     } else {
       throw ('fail');
     }
@@ -31,5 +25,5 @@ Future<String> listDomain(BuildContext context, String domain) async {
     Navigator.pop(context);
     throw (e);
   }
-  return myDomain;
+  return dataFromAPI;
 }
