@@ -277,16 +277,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           ),
         ],
       ),
-      onPressed: () async{
+      onPressed: () async {
         if (widget.fromApp == 'G-OFFICE') {
-          if(widget.gDomain!.isEmpty){
+          if (widget.gDomain!.isEmpty) {
             errorDialog(
                 context,
                 'ແຈ້ງເຕືອນ',
                 'ກະລຸນາປ້ອນໂດເມນ\nກະຊວງ ຫຼື ບໍລິສັດທີ່ທ່ານສັງກັດ',
                 'ປິດ',
                 fontText);
-          } else{
+          } else {
             ListDomainModel getDomain = await listDomain(context);
             for (var i = 0; i < getDomain.content!.length; i++) {
               List<String> splitText = getDomain.content![i].domain!.split('.');
@@ -321,12 +321,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: Container(
-              height: 350,
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+            child: Center(
+              child: ListView(
+                shrinkWrap: true,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

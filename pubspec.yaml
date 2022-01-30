@@ -1,6 +1,6 @@
 name: laokyc_button
 description: A new Flutter package project.
-version: 0.3.14
+version: 0.3.16
 homepage: https://github.com/LaoKYC/LaoKYC-SDK-Flutter.git
 
 
@@ -49,9 +49,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/LaoKYCgateway.png
-    - assets/logo.png
-    - assets/remove.png
+    - assets/
 
   # assets:
   #   - images/a_dot_burr.jpeg
