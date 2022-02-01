@@ -280,12 +280,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       onPressed: () async{
         if (widget.fromApp == 'G-OFFICE') {
           if(widget.gDomain!.isEmpty){
-            errorDialog(
+            dialogError(
                 context,
-                'ແຈ້ງເຕືອນ',
+                errorTexthead,
                 'ກະລຸນາປ້ອນໂດເມນ\nກະຊວງ ຫຼື ບໍລິສັດທີ່ທ່ານສັງກັດ',
-                'ປິດ',
-                fontText);
+                'ປິດ'
+                );
           } else{
             ListDomainModel getDomain = await listDomain(context);
             for (var i = 0; i < getDomain.content!.length; i++) {
@@ -296,12 +296,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 i = getDomain.content!.length;
               } else {
                 if (i == getDomain.content!.length - 1) {
-                  errorDialog(
+                  dialogError(
                       context,
-                      'ແຈ້ງເຕືອນ',
+                      errorTexthead,
                       'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
                       'ປິດ',
-                      fontText);
+                      );
                 }
               }
             }
@@ -394,11 +394,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                           if (CheckValid().checkValidPhonenumber(
                                   tfDialogLoginPhoneNumber.text) ==
                               false) {
-                            errorDialog(context, errorTexthead, errorText,
-                                errorbtn, fontText);
+                            dialogError(context, errorTexthead, errorText,
+                                errorbtn);
                           } else if (tfDialogLoginPhoneNumber.text.isEmpty) {
-                            errorDialog(context, errorTexthead, errorText,
-                                errorbtn, fontText);
+                            dialogError(context, errorTexthead, errorText,
+                                errorbtn);
                           } else {
                             showDialog(
                                 context: context,

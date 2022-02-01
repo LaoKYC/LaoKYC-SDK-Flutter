@@ -1,64 +1,53 @@
 import 'package:flutter/material.dart';
 
-void errorDialog(BuildContext context, String errorTexthead, String errorText,
-    String errorbtn, String fontText) {
+void dialogError(BuildContext context, String title, String content, String btnText) {
   showDialog(
       context: context,
-      builder: (context) => Dialog(
+      builder: (_) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             child: ListView(
               shrinkWrap: true,
               children: [
-                SizedBox(
-                  height: 20,
+                Image.asset(
+                  icAlert,
+                  package: 'laokyc_button',
+                  width: 50,
+                  height: 50,
                 ),
-                SizedBox(
-                  height: 70,
-                  child: Image(
-                      image: AssetImage('assets/remove.png',
-                          package: 'laokyc_button')),
-                ),
-                SizedBox(
-                  height: 20,
+                const SizedBox(
+                  height: 25,
                 ),
                 Text(
-                  errorTexthead,
+                  title,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      fontFamily: fontText),
+                  style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                 ),
-                SizedBox(
-                  height: 20,
+                const SizedBox(
+                  height: 25,
                 ),
                 Text(
-                  (errorText),
+                  content,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: fontText),
+                ),
+                const SizedBox(
+                  height: 15,
                 ),
                 SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    child: Text(
-                      errorbtn,
-                      style: TextStyle(fontFamily: fontText),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red[900],
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.blueGrey
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child:  Text(btnText)),
+                )
               ],
             ),
-          ));
+          ),
+        );
+      });
 }
