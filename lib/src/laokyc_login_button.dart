@@ -277,16 +277,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           ),
         ],
       ),
-      onPressed: () async{
+      onPressed: () async {
         if (widget.fromApp == 'G-OFFICE') {
-          if(widget.gDomain!.isEmpty){
-            dialogError(
+          if (widget.gDomain!.isEmpty) {
+            errorDialog(
                 context,
-                errorTexthead,
+                'ແຈ້ງເຕືອນ',
                 'ກະລຸນາປ້ອນໂດເມນ\nກະຊວງ ຫຼື ບໍລິສັດທີ່ທ່ານສັງກັດ',
-                'ປິດ'
-                );
-          } else{
+                'ປິດ',
+                fontText);
+          } else {
             ListDomainModel getDomain = await listDomain(context);
             for (var i = 0; i < getDomain.content!.length; i++) {
               List<String> splitText = getDomain.content![i].domain!.split('.');
@@ -296,12 +296,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 i = getDomain.content!.length;
               } else {
                 if (i == getDomain.content!.length - 1) {
-                  dialogError(
+                  errorDialog(
                       context,
-                      errorTexthead,
+                      'ແຈ້ງເຕືອນ',
                       'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
                       'ປິດ',
-                      );
+                      fontText);
                 }
               }
             }
@@ -318,109 +318,110 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         context: context,
         builder: (context) {
           return Dialog(
+
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: Container(
-              height: 350,
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: CircleAvatar(
-                          radius: 14.0,
-                          backgroundColor: Colors.red,
-                          child: Icon(Icons.close, color: Colors.white),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: Image(
-                      image: AssetImage('assets/LaoKYCgateway.png',
-                          package: 'laokyc_button'),
-                      width: 110,
-                      height: 120,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Center(
-                    child: Text(
-                      autText,
-                      style: TextStyle(
-                          fontFamily: fontText,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey[800]),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    maxLength: 10,
-                    textAlign: TextAlign.center,
-                    controller: tfDialogLoginPhoneNumber,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        hintText: numberphoneText,
-                        contentPadding: EdgeInsets.all(10),
-                        counterText: "",
-                        hintStyle: TextStyle(
-                            color: Colors.grey, fontFamily: fontText)),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    child: MaterialButton(
-                        padding: EdgeInsets.only(top: 13, bottom: 13),
-                        onPressed: () {
-                          if (CheckValid().checkValidPhonenumber(
-                                  tfDialogLoginPhoneNumber.text) ==
-                              false) {
-                            dialogError(context, errorTexthead, errorText,
-                                errorbtn);
-                          } else if (tfDialogLoginPhoneNumber.text.isEmpty) {
-                            dialogError(context, errorTexthead, errorText,
-                                errorbtn);
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (context) => DialogLoading(
-                                      title: DialogLoadingText,
-                                    ));
-                            _requestOTP("https://gateway.sbg.la/api/login",
-                                tfDialogLoginPhoneNumber.text, context);
-                          }
-                        },
-                        color: Colors.teal,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          autbtn,
-                          style: TextStyle(
-                            color: Color(0xFFffffff),
-                            fontFamily: fontText,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15),
+              child: Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: CircleAvatar(
+                            radius: 14.0,
+                            backgroundColor: Colors.red,
+                            child: Icon(Icons.close, color: Colors.white),
                           ),
-                        )),
-                  )
-                ],
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: Image(
+                        image: AssetImage('assets/LaoKYCgateway.png',
+                            package: 'laokyc_button'),
+                        width: 110,
+                        height: 120,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Center(
+                      child: Text(
+                        autText,
+                        style: TextStyle(
+                            fontFamily: fontText,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[800]),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      maxLength: 10,
+                      textAlign: TextAlign.center,
+                      controller: tfDialogLoginPhoneNumber,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          hintText: numberphoneText,
+                          contentPadding: EdgeInsets.all(10),
+                          counterText: "",
+                          hintStyle: TextStyle(
+                              color: Colors.grey, fontFamily: fontText)),
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      child: MaterialButton(
+                          padding: EdgeInsets.only(top: 13, bottom: 13),
+                          onPressed: () {
+                            if (CheckValid().checkValidPhonenumber(
+                                    tfDialogLoginPhoneNumber.text) ==
+                                false) {
+                              errorDialog(context, errorTexthead, errorText,
+                                  errorbtn, fontText);
+                            } else if (tfDialogLoginPhoneNumber.text.isEmpty) {
+                              errorDialog(context, errorTexthead, errorText,
+                                  errorbtn, fontText);
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => DialogLoading(
+                                        title: DialogLoadingText,
+                                      ));
+                              _requestOTP("https://gateway.sbg.la/api/login",
+                                  tfDialogLoginPhoneNumber.text, context);
+                            }
+                          },
+                          color: Colors.teal,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Text(
+                            autbtn,
+                            style: TextStyle(
+                              color: Color(0xFFffffff),
+                              fontFamily: fontText,
+                            ),
+                          )),
+                    )
+                  ],
+                ),
               ),
             ),
           );

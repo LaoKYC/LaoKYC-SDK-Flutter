@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-void dialogError(BuildContext context, String title, String content, String btnText) {
+void errorDialog(BuildContext context, String errorTexthead, String errorText,
+    String errorbtn, String fontText) {
   showDialog(
       context: context,
       builder: (_) {
@@ -11,7 +12,7 @@ void dialogError(BuildContext context, String title, String content, String btnT
               shrinkWrap: true,
               children: [
                 Image.asset(
-                  icAlert,
+                  'assets/warning-sign.png',
                   package: 'laokyc_button',
                   width: 50,
                   height: 50,
@@ -20,7 +21,7 @@ void dialogError(BuildContext context, String title, String content, String btnT
                   height: 25,
                 ),
                 Text(
-                  title,
+                  errorTexthead,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                 ),
@@ -28,7 +29,7 @@ void dialogError(BuildContext context, String title, String content, String btnT
                   height: 25,
                 ),
                 Text(
-                  content,
+                  errorText,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -43,7 +44,7 @@ void dialogError(BuildContext context, String title, String content, String btnT
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child:  Text(btnText)),
+                      child:  Text(errorbtn)),
                 )
               ],
             ),
