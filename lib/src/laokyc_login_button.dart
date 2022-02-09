@@ -318,7 +318,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         context: context,
         builder: (context) {
           return Dialog(
-
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
@@ -405,8 +404,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                   builder: (context) => DialogLoading(
                                         title: DialogLoadingText,
                                       ));
-                              _requestOTP("https://gateway.sbg.la/api/login",
-                                  tfDialogLoginPhoneNumber.text, context);
+                              if (widget.fromApp == 'G-OFFICE') {
+                                _signInWithAutoCodeExchange(
+                                    tfDialogLoginPhoneNumber.text, 'Android');
+                              } else {
+                                _requestOTP("https://gateway.sbg.la/api/login",
+                                    tfDialogLoginPhoneNumber.text, context);
+                              }
                             }
                           },
                           color: Colors.teal,
