@@ -1,5 +1,5 @@
-## 0.3.19
-* TODO: fix dialog
+## 0.3.20
+* TODO: height dialog
 
 
 

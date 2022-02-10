@@ -332,7 +332,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Container(
-                height: 330,
+                height: 350,
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: SingleChildScrollView(
                   child: Column(
