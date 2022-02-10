@@ -136,7 +136,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       }
     } on SocketException catch (e) {
       print('Request otp err ==> ${e.message}');
-      _requestOTP(urlPath, phonenumber, context);
+      // _requestOTP(urlPath, phonenumber, context);
     }
   }
 
@@ -158,6 +158,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           preferEphemeralSession: preferEphemeralSession,
         ),
       );
+
+      showDialog(
+          context: context,
+          builder: (context) => DialogLoading(
+                title: DialogLoadingText,
+              ));
 
       if (result != null) {
         _processAuthTokenResponse(result);
@@ -198,10 +204,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       } on Exception catch (_) {}
       await PreferenceInfo().saveUserInfo(
           _first_name, _family_name, _preferred_username, _accessToken, _sub);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => widget.route),
-      );
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => widget.route),
+          (route) => false);
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => widget.route),
+      // );
     });
   }
 
@@ -318,117 +328,123 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         context: context,
         builder: (context) {
           return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Center(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: CircleAvatar(
-                            radius: 14.0,
-                            backgroundColor: Colors.red,
-                            child: Icon(Icons.close, color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Center(
-                      child: Image(
-                        image: AssetImage('assets/LaoKYCgateway.png',
-                            package: 'laokyc_button'),
-                        width: 110,
-                        height: 120,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text(
-                        autText,
-                        style: TextStyle(
-                            fontFamily: fontText,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey[800]),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextField(
-                      maxLength: 10,
-                      textAlign: TextAlign.center,
-                      controller: tfDialogLoginPhoneNumber,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          hintText: numberphoneText,
-                          contentPadding: EdgeInsets.all(10),
-                          counterText: "",
-                          hintStyle: TextStyle(
-                              color: Colors.grey, fontFamily: fontText)),
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: MaterialButton(
-                          padding: EdgeInsets.only(top: 13, bottom: 13),
-                          onPressed: () {
-                            if (CheckValid().checkValidPhonenumber(
-                                    tfDialogLoginPhoneNumber.text) ==
-                                false) {
-                              errorDialog(context, errorTexthead, errorText,
-                                  errorbtn, fontText);
-                            } else if (tfDialogLoginPhoneNumber.text.isEmpty) {
-                              errorDialog(context, errorTexthead, errorText,
-                                  errorbtn, fontText);
-                            } else {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => DialogLoading(
-                                        title: DialogLoadingText,
-                                      ));
-                              if (widget.fromApp == 'G-OFFICE') {
-                                _signInWithAutoCodeExchange(
-                                    tfDialogLoginPhoneNumber.text, 'Android');
-                              } else {
-                                _requestOTP("https://gateway.sbg.la/api/login",
-                                    tfDialogLoginPhoneNumber.text, context);
-                              }
-                            }
-                          },
-                          color: Colors.teal,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            autbtn,
-                            style: TextStyle(
-                              color: Color(0xFFffffff),
-                              fontFamily: fontText,
-                            ),
-                          )),
-                    )
-                  ],
-                ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
-            ),
-          );
+              child: Container(
+                height: 330,
+                padding: EdgeInsets.only(left: 20, right: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: CircleAvatar(
+                              radius: 14.0,
+                              backgroundColor: Colors.red,
+                              child: Icon(Icons.close, color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Center(
+                        child: Image(
+                          image: AssetImage('assets/LaoKYCgateway.png',
+                              package: 'laokyc_button'),
+                          width: 110,
+                          height: 120,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: Text(
+                          autText,
+                          style: TextStyle(
+                              fontFamily: fontText,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[800]),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextField(
+                        maxLength: 10,
+                        textAlign: TextAlign.center,
+                        controller: tfDialogLoginPhoneNumber,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            hintText: numberphoneText,
+                            contentPadding: EdgeInsets.all(10),
+                            counterText: "",
+                            hintStyle: TextStyle(
+                                color: Colors.grey, fontFamily: fontText)),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        child: MaterialButton(
+                            padding: EdgeInsets.only(top: 13, bottom: 13),
+                            onPressed: () {
+                              if (CheckValid().checkValidPhonenumber(
+                                      tfDialogLoginPhoneNumber.text) ==
+                                  false) {
+                                errorDialog(context, errorTexthead, errorText,
+                                    errorbtn, fontText);
+                              } else if (tfDialogLoginPhoneNumber
+                                  .text.isEmpty) {
+                                errorDialog(context, errorTexthead, errorText,
+                                    errorbtn, fontText);
+                              } else {
+                                if (widget.fromApp == 'G-OFFICE') {
+                                  _signInWithAutoCodeExchange(
+                                      tfDialogLoginPhoneNumber.text, 'Android');
+                                } else {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => DialogLoading(
+                                            title: DialogLoadingText,
+                                          ));
+                                  _requestOTP(
+                                      "https://gateway.sbg.la/api/login",
+                                      tfDialogLoginPhoneNumber.text,
+                                      context);
+                                }
+                              }
+                            },
+                            color: Colors.teal,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              autbtn,
+                              style: TextStyle(
+                                color: Color(0xFFffffff),
+                                fontFamily: fontText,
+                              ),
+                            )),
+                      )
+                    ],
+                  ),
+                ),
+              ));
         });
   }
 }

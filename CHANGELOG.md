@@ -1,5 +1,5 @@
-## 0.3.18
-* TODO: G-OFFICE DONT REQUEST OTP FROM SERVER
+## 0.3.19
+* TODO: fix dialog
 
 
 
