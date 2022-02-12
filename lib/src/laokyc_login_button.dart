@@ -159,12 +159,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         ),
       );
 
-      showDialog(
-          context: context,
-          builder: (context) => DialogLoading(
-                title: DialogLoadingText,
-              ));
-
       if (result != null) {
         _processAuthTokenResponse(result);
         //await _testApi(result);
@@ -184,6 +178,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   }
 
   void _processAuthTokenResponse(AuthorizationTokenResponse response) {
+    showDialog(
+        context: context,
+        builder: (context) => DialogLoading(
+              title: DialogLoadingText,
+            ));
     setState(() async {
       try {
         _accessToken =
@@ -332,13 +331,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Container(
-                height: 350,
+                height: 360,
                 padding: EdgeInsets.only(left: 20, right: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      SizedBox(
+                        height: 15,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

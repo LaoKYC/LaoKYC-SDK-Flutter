@@ -1,5 +1,5 @@
-## 0.3.20
-* TODO: height dialog
+## 0.3.22
+* TODO: dialog loading when back to app
 
 
 
