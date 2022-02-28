@@ -1,5 +1,5 @@
-## 0.3.22
-* TODO: dialog loading when back to app
+## 0.4.3
+* TODO: Responsive UI
 
 
 

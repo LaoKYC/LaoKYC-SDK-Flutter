@@ -12,21 +12,20 @@ class DialogLoading extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Container(
-          height: 180,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(
-                height: size.height * 0.05,
-              ),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
+        child: ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(
+              height: size.height * 0.05,
+            ),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: size.width/25.71),
+            )
+          ],
         ),
       ),
     );

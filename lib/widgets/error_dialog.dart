@@ -2,38 +2,41 @@ import 'package:flutter/material.dart';
 
 void errorDialog(BuildContext context, String errorTexthead, String errorText,
     String errorbtn, String fontText) {
+  Size size = MediaQuery.of(context).size;
   showDialog(
       context: context,
       builder: (_) {
         return Dialog(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            padding:  EdgeInsets.symmetric(horizontal: size.width/24, vertical: size.height/49.33),
             child: ListView(
               shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
               children: [
                 Image.asset(
                   'assets/warning-sign.png',
                   package: 'laokyc_button',
-                  width: 50,
-                  height: 50,
+                  width: size.width/7.2,
+                  height: size.width/7.2,
                 ),
-                const SizedBox(
-                  height: 25,
+                 SizedBox(
+                  height: size.height/29.6,
                 ),
                 Text(
                   errorTexthead,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+                  style:  TextStyle(fontWeight: FontWeight.w500, fontSize: size.width/18),
                 ),
-                const SizedBox(
-                  height: 25,
+                 SizedBox(
+                  height: size.height/29.6,
                 ),
                 Text(
                   errorText,
                   textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: size.width/25.71),
                 ),
-                const SizedBox(
-                  height: 15,
+                 SizedBox(
+                  height: size.height/49.33,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -44,7 +47,7 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child:  Text(errorbtn)),
+                      child:  Text(errorbtn,style: TextStyle(fontSize: size.width/25.71),)),
                 )
               ],
             ),
