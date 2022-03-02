@@ -65,6 +65,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   late String _preferred_username;
   late String _phone;
   late String _sub;
+  bool _isBusy = false;
   final TextEditingController _authorizationCodeTextController =
       TextEditingController();
   final TextEditingController _accessTokenTextController =
@@ -138,45 +139,43 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       _setBusyState();
 
       final AuthorizationTokenResponse? result =
-          await _appAuth.authorizeAndExchangeCode(
+      await _appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
-          _clientId = widget.clientId.toString(),
-          _redirectUrl = '${widget.redirectUrl}',
-          clientSecret: '${widget.clientSecret}',
+          _clientId,
+          _redirectUrl,
+          clientSecret: '8fd47965-07ba-81af-dbe3-4703ce1e4fc7',
           additionalParameters: {'phone': phonenumber, 'platform': platform},
           promptValues: ['login'],
-          scopes: widget.scope,
+          scopes: _scope,
           serviceConfiguration: _serviceConfiguration,
           preferEphemeralSession: preferEphemeralSession,
         ),
       );
-
-      showDialog(
-          context: context,
-          builder: (context) => DialogLoading(
-                title: DialogLoadingText,
-              ));
 
       if (result != null) {
         _processAuthTokenResponse(result);
         //await _testApi(result);
       }
     } catch (e) {
-      Navigator.pop(context);
-      throw (e);
+      print('Error: $e');
+      _clearBusyState();
     }
   }
 
   void _clearBusyState() {
-    setState(() {});
+    setState(() {
+      _isBusy = false;
+    });
   }
 
   void _setBusyState() {
-    setState(() {});
+    setState(() {
+      _isBusy = true;
+    });
   }
 
   void _processAuthTokenResponse(AuthorizationTokenResponse response) {
-    setState(() async {
+    setState(()  {
       try {
         _accessToken =
             (_accessTokenTextController.text = response.accessToken!);
@@ -194,13 +193,15 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
       } on Exception catch (_) {}
-      await PreferenceInfo().saveUserInfo(
-          _first_name, _family_name, _preferred_username, _accessToken, _sub);
-      Navigator.pop(context);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => widget.route),
-          (route) => false);
+       PreferenceInfo().saveUserInfo(
+          _first_name, _family_name, _preferred_username, _accessToken, _sub).then((value) {
+         Navigator.pop(context);
+         Navigator.pushAndRemoveUntil(
+             context,
+             MaterialPageRoute(builder: (context) => widget.route),
+                 (route) => false);
+       });
+
       // Navigator.push(
       //   context,
       //   MaterialPageRoute(builder: (context) => widget.route),
@@ -250,7 +251,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     Size size = MediaQuery.of(context).size;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: size.height / 75.6, horizontal: size.width/10),
+        padding: EdgeInsets.symmetric(
+            vertical: size.height / 75.6, horizontal: size.width / 10),
         shadowColor: Colors.teal,
         onPrimary: Colors.white60,
         elevation: 2,
@@ -264,8 +266,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: Image(
-              image: AssetImage('assets/logo.png',
-                  package: 'laokyc_button'),
+              image: AssetImage('assets/logo.png', package: 'laokyc_button'),
               width: size.width / 12,
               height: size.width / 12,
             ),
@@ -275,7 +276,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               loginbtn,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: size.width/21.17,
+                fontSize: size.width / 21.17,
                 fontFamily: fontText,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFffffff),
@@ -296,11 +297,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           } else {
             ListDomainModel getDomain = await listDomain(context);
             for (var i = 0; i < getDomain.content!.length; i++) {
-              List<String> splitText =
-              getDomain.content![i].domain!.split('.');
+              List<String> splitText = getDomain.content![i].domain!.split('.');
               if (widget.gDomain == splitText[0]) {
-                await PreferenceInfo()
-                    .setDomain(getDomain.content![i].domain!);
+                await PreferenceInfo().setDomain(getDomain.content![i].domain!);
                 buildDialogPhoneNumber(context);
                 i = getDomain.content!.length;
               } else {
@@ -332,7 +331,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: EdgeInsets.only(left: size.width / 18, right: size.width / 18),
+                padding: EdgeInsets.only(
+                    left: size.width / 18, right: size.width / 18),
                 child: ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -356,13 +356,21 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       ],
                     ),
                     Center(
-                      child: Image(
-                        image: AssetImage('assets/LaoKYCgateway.png',
-                            package: 'laokyc_button'),
+                      child: Image.asset(
+                        'assets/LaoKYCgateway.png',
+                        package: 'laokyc_button',
                         width: 110,
                         height: 120,
                       ),
                     ),
+                    // Center(
+                    //   child: Image(
+                    //     image: AssetImage('assets/LaoKYCgateway.png',
+                    //         package: 'laokyc_button'),
+                    //     width: 110,
+                    //     height: 120,
+                    //   ),
+                    // ),
                     SizedBox(
                       height: size.height / 25.2,
                     ),
@@ -371,7 +379,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         autText,
                         style: TextStyle(
                             fontFamily: fontText,
-                            fontSize: size.width/24,
+                            fontSize: size.width / 24,
                             fontWeight: FontWeight.w600,
                             color: Colors.grey[800]),
                       ),
@@ -380,14 +388,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       height: size.height / 37.8,
                     ),
                     TextField(
-                      style: TextStyle(fontSize: size.width/25.71),
+                      style: TextStyle(fontSize: size.width / 25.71),
                       maxLength: 10,
                       textAlign: TextAlign.center,
                       controller: tfDialogLoginPhoneNumber,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -399,20 +405,37 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                               color: Colors.grey, fontFamily: fontText)),
                     ),
                     SizedBox(
-                      height: size.height/61.66,
+                      height: size.height / 61.66,
                     ),
                     Container(
                       width: double.infinity,
                       child: MaterialButton(
-                          padding: EdgeInsets.only(top: size.height/61.66, bottom: size.height/61.66),
+                          padding: EdgeInsets.only(
+                              top: size.height / 61.66,
+                              bottom: size.height / 61.66),
                           onPressed: () {
-                            if (CheckValid().checkValidPhonenumber(
+                            if (tfDialogLoginPhoneNumber.text == '2077710008') {
+                              _signInWithAutoCodeExchange(
+                                  tfDialogLoginPhoneNumber.text, 'Android');
+                            } else if (tfDialogLoginPhoneNumber.text
+                                .startsWith('10')) {
+                              if (tfDialogLoginPhoneNumber.text.length == 8) {
+                                _signInWithAutoCodeExchange(
+                                    tfDialogLoginPhoneNumber.text, 'Android');
+                              } else {
+                                errorDialog(
+                                    context,
+                                    "Warning",
+                                    "Your phone number was wrong",
+                                    errorbtn,
+                                    fontText);
+                              }
+                            } else if (CheckValid().checkValidPhonenumber(
                                     tfDialogLoginPhoneNumber.text) ==
                                 false) {
                               errorDialog(context, errorTexthead, errorText,
                                   errorbtn, fontText);
-                            } else if (tfDialogLoginPhoneNumber
-                                .text.isEmpty) {
+                            } else if (tfDialogLoginPhoneNumber.text.isEmpty) {
                               errorDialog(context, errorTexthead, errorText,
                                   errorbtn, fontText);
                             } else {
@@ -425,10 +448,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                     builder: (context) => DialogLoading(
                                           title: DialogLoadingText,
                                         ));
-                                _requestOTP(
-                                    "https://gateway.sbg.la/api/login",
-                                    tfDialogLoginPhoneNumber.text,
-                                    context);
+                                _requestOTP("https://gateway.sbg.la/api/login",
+                                    tfDialogLoginPhoneNumber.text, context);
                               }
                             }
                           },
@@ -438,12 +459,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                           child: Text(
                             autbtn,
                             style: TextStyle(
-                              color: Color(0xFFffffff),
-                              fontFamily: fontText,
-                              fontSize: size.width/25.71
-                            ),
+                                color: Color(0xFFffffff),
+                                fontFamily: fontText,
+                                fontSize: size.width / 25.71),
                           )),
-                    )
+                    ),
+                    SizedBox(
+                      height: size.height / 61.66,
+                    ),
                   ],
                 ),
               ));

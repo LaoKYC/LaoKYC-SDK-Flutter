@@ -16,15 +16,21 @@ class DialogLoading extends StatelessWidget {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           children: [
-            CircularProgressIndicator(),
+            SizedBox(
+              height: size.height * 0.05,
+            ),
+            Center(child: CircularProgressIndicator()),
             SizedBox(
               height: size.height * 0.05,
             ),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: size.width/25.71),
-            )
+              style: TextStyle(fontSize: size.width / 25.71),
+            ),
+            SizedBox(
+              height: size.height * 0.05,
+            ),
           ],
         ),
       ),
