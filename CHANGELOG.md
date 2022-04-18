@@ -1,5 +1,5 @@
-## 0.4.7
-* TODO: Change API
+## 0.4.9
+* TODO: add dialog loading
 
 
 

@@ -141,17 +141,19 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       final AuthorizationTokenResponse? result =
       await _appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
-          _clientId,
-          _redirectUrl,
-          clientSecret: '8fd47965-07ba-81af-dbe3-4703ce1e4fc7',
+          widget.clientId,
+          widget.redirectUrl,
+          clientSecret: widget.clientSecret,
           additionalParameters: {'phone': phonenumber, 'platform': platform},
           promptValues: ['login'],
-          scopes: _scope,
+          scopes: widget.scope,
           serviceConfiguration: _serviceConfiguration,
           preferEphemeralSession: preferEphemeralSession,
         ),
       );
-
+      showDialog(context: context, builder: (_){
+        return DialogLoading(title: 'ກຳລັງໂຫຼດ');
+      });
       if (result != null) {
         _processAuthTokenResponse(result);
         //await _testApi(result);
