@@ -297,21 +297,23 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 'ປິດ',
                 fontText);
           } else {
-            ListDomainModel getDomain = await listDomain(context);
-            for (var i = 0; i < getDomain.content!.length; i++) {
-              List<String> splitText = getDomain.content![i].domain!.split('.');
-              if (widget.gDomain == splitText[0]) {
-                await PreferenceInfo().setDomain(getDomain.content![i].domain!);
-                buildDialogPhoneNumber(context);
-                i = getDomain.content!.length;
-              } else {
-                if (i == getDomain.content!.length - 1) {
-                  errorDialog(
-                      context,
-                      'ແຈ້ງເຕືອນ',
-                      'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
-                      'ປິດ',
-                      fontText);
+            ListDomainModel? getDomain = await listDomain(context);
+            if(getDomain != null){
+              for (var i = 0; i < getDomain.content!.length; i++) {
+                List<String> splitText = getDomain.content![i].domain!.split('.');
+                if (widget.gDomain == splitText[0]) {
+                  await PreferenceInfo().setDomain(getDomain.content![i].domain!);
+                  buildDialogPhoneNumber(context);
+                  i = getDomain.content!.length;
+                } else {
+                  if (i == getDomain.content!.length - 1) {
+                    errorDialog(
+                        context,
+                        'ແຈ້ງເຕືອນ',
+                        'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+                        'ປິດ',
+                        fontText);
+                  }
                 }
               }
             }
