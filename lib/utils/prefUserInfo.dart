@@ -55,4 +55,9 @@ class PreferenceInfo {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(main_domain);
   }
+
+  Future<String?> getPhoneNumber() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(preferred_username);
+  }
 }

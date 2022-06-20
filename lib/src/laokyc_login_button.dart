@@ -139,7 +139,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       _setBusyState();
 
       final AuthorizationTokenResponse? result =
-      await _appAuth.authorizeAndExchangeCode(
+          await _appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           widget.clientId,
           widget.redirectUrl,
@@ -151,9 +151,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           preferEphemeralSession: preferEphemeralSession,
         ),
       );
-      showDialog(context: context, builder: (_){
-        return DialogLoading(title: 'ກຳລັງໂຫຼດ');
-      });
+      showDialog(
+          context: context,
+          builder: (_) {
+            return DialogLoading(title: 'ກຳລັງໂຫຼດ');
+          });
       if (result != null) {
         _processAuthTokenResponse(result);
         //await _testApi(result);
@@ -177,7 +179,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   }
 
   void _processAuthTokenResponse(AuthorizationTokenResponse response) {
-    setState(()  {
+    setState(() {
       try {
         _accessToken =
             (_accessTokenTextController.text = response.accessToken!);
@@ -195,14 +197,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
       } on Exception catch (_) {}
-       PreferenceInfo().saveUserInfo(
-          _first_name, _family_name, _preferred_username, _accessToken, _sub).then((value) {
-         Navigator.pop(context);
-         Navigator.pushAndRemoveUntil(
-             context,
-             MaterialPageRoute(builder: (context) => widget.route),
-                 (route) => false);
-       });
+      PreferenceInfo()
+          .saveUserInfo(_first_name, _family_name, _preferred_username,
+              _accessToken, _sub)
+          .then((value) {
+        Navigator.pop(context);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => widget.route),
+            (route) => false);
+      });
 
       // Navigator.push(
       //   context,
@@ -245,6 +249,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     super.initState();
     setState(() {
       checkLang();
+      PreferenceInfo().getPhoneNumber().then((value) {
+        if (value != null) {
+          setState(() {
+            tfDialogLoginPhoneNumber.text = value;
+          });
+        }
+      });
     });
   }
 
@@ -298,11 +309,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 fontText);
           } else {
             ListDomainModel? getDomain = await listDomain(context);
-            if(getDomain != null){
+            if (getDomain != null) {
               for (var i = 0; i < getDomain.content!.length; i++) {
-                List<String> splitText = getDomain.content![i].domain!.split('.');
+                List<String> splitText =
+                    getDomain.content![i].domain!.split('.');
                 if (widget.gDomain == splitText[0]) {
-                  await PreferenceInfo().setDomain(getDomain.content![i].domain!);
+                  await PreferenceInfo()
+                      .setDomain(getDomain.content![i].domain!);
                   buildDialogPhoneNumber(context);
                   i = getDomain.content!.length;
                 } else {
