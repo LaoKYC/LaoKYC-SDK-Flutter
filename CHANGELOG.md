@@ -1,5 +1,5 @@
-## 0.6.3
-* TODO: dialog loading
+## 0.6.4
+* TODO: add phone number in dialog login
 
 
 
