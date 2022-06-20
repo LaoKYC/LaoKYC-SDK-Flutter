@@ -6,6 +6,7 @@ class DialogLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double screenWidth = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async => false,
       child: Dialog(
@@ -26,7 +27,9 @@ class DialogLoading extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: size.width / 25.71),
+              style: TextStyle(
+                  fontSize:
+                      screenWidth < 600 ? size.width / 25.71 : size.width / 36),
             ),
             SizedBox(
               height: size.height * 0.05,

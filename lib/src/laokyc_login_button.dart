@@ -23,6 +23,7 @@ class LaoKYCButton extends StatefulWidget {
   String lang;
   String? fromApp;
   String? gDomain;
+  // String? displayType; // Display Type : MOBILE / TABLET
 
   LaoKYCButton(
       {required this.clientId,
@@ -65,6 +66,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   late String _preferred_username;
   late String _phone;
   late String _sub;
+  late String _DisplayType;
   bool _isBusy = false;
   final TextEditingController _authorizationCodeTextController =
       TextEditingController();
@@ -108,8 +110,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       String jsonBody = json.encode(user);
       final encoding = Encoding.getByName('utf-8');
 
-      print('Json body ===> $jsonBody');
-
       var response = await dio.post(
         urlPath,
         options: Options(
@@ -119,7 +119,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         ),
         data: jsonBody,
       );
-      print('Login response ==> ${response.data}');
       if (response.statusCode == 200) {
         Navigator.pop(context);
         _signInWithAutoCodeExchange(phonenumber, 'Android');
@@ -139,7 +138,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       _setBusyState();
 
       final AuthorizationTokenResponse? result =
-      await _appAuth.authorizeAndExchangeCode(
+          await _appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
           widget.clientId,
           widget.redirectUrl,
@@ -151,9 +150,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           preferEphemeralSession: preferEphemeralSession,
         ),
       );
-      showDialog(context: context, builder: (_){
-        return DialogLoading(title: 'ກຳລັງໂຫຼດ');
-      });
+      showDialog(
+          context: context,
+          builder: (_) {
+            return DialogLoading(title: 'ກຳລັງໂຫຼດ');
+          });
       if (result != null) {
         _processAuthTokenResponse(result);
         //await _testApi(result);
@@ -177,7 +178,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   }
 
   void _processAuthTokenResponse(AuthorizationTokenResponse response) {
-    setState(()  {
+    setState(() {
       try {
         _accessToken =
             (_accessTokenTextController.text = response.accessToken!);
@@ -195,14 +196,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
       } on Exception catch (_) {}
-       PreferenceInfo().saveUserInfo(
-          _first_name, _family_name, _preferred_username, _accessToken, _sub).then((value) {
-         Navigator.pop(context);
-         Navigator.pushAndRemoveUntil(
-             context,
-             MaterialPageRoute(builder: (context) => widget.route),
-                 (route) => false);
-       });
+      PreferenceInfo()
+          .saveUserInfo(_first_name, _family_name, _preferred_username,
+              _accessToken, _sub)
+          .then((value) {
+        Navigator.pop(context);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => widget.route),
+            (route) => false);
+      });
 
       // Navigator.push(
       //   context,
@@ -239,6 +242,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     }
   }
 
+  String getDeviceType() {
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+    return data.size.shortestSide < 600 ? 'phone' : 'tablet';
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -246,15 +254,25 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     setState(() {
       checkLang();
     });
+    PreferenceInfo().getPhoneNumber().then((value) {
+      if (value != null) {
+        setState(() {
+          tfDialogLoginPhoneNumber.text = value;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double screenWidth = MediaQuery.of(context).size.width;
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(
-            vertical: size.height / 75.6, horizontal: size.width / 10),
+            vertical: size.height / 68, horizontal: size.width / 10),
         shadowColor: Colors.teal,
         onPrimary: Colors.white60,
         elevation: 2,
@@ -269,8 +287,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
             borderRadius: BorderRadius.circular(5),
             child: Image(
               image: AssetImage('assets/logo.png', package: 'laokyc_button'),
-              width: size.width / 12,
-              height: size.width / 12,
+              width: isLandscape == false ? size.width / 10 : size.width / 20,
+              height: isLandscape == false ? size.width / 16 : size.width / 25,
             ),
           ),
           Expanded(
@@ -278,7 +296,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               loginbtn,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: size.width / 21.17,
+                fontSize: isLandscape == false
+                    ? screenWidth < 600
+                        ? size.width / 21.17
+                        : size.width / 38
+                    : screenWidth < 600
+                        ? size.width / 21.17
+                        : size.width / 40,
                 fontFamily: fontText,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFffffff),
@@ -297,22 +321,29 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 'ປິດ',
                 fontText);
           } else {
-            ListDomainModel? getDomain = await listDomain(context);
-            if(getDomain != null){
-              for (var i = 0; i < getDomain.content!.length; i++) {
-                List<String> splitText = getDomain.content![i].domain!.split('.');
-                if (widget.gDomain == splitText[0]) {
-                  await PreferenceInfo().setDomain(getDomain.content![i].domain!);
-                  buildDialogPhoneNumber(context);
-                  i = getDomain.content!.length;
-                } else {
-                  if (i == getDomain.content!.length - 1) {
-                    errorDialog(
-                        context,
-                        'ແຈ້ງເຕືອນ',
-                        'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
-                        'ປິດ',
-                        fontText);
+            if (widget.gDomain == 'sbg') {
+              await PreferenceInfo().setDomain('sbg.eoffice.la');
+              buildDialogPhoneNumber(context);
+            } else {
+              ListDomainModel? getDomain = await listDomain(context);
+              if (getDomain != null) {
+                for (var i = 0; i < getDomain.content!.length; i++) {
+                  List<String> splitText =
+                      getDomain.content![i].domain!.split('.');
+                  if (widget.gDomain == splitText[0]) {
+                    await PreferenceInfo()
+                        .setDomain(getDomain.content![i].domain!);
+                    buildDialogPhoneNumber(context);
+                    i = getDomain.content!.length;
+                  } else {
+                    if (i == getDomain.content!.length - 1) {
+                      errorDialog(
+                          context,
+                          'ແຈ້ງເຕືອນ',
+                          'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+                          'ປິດ',
+                          fontText);
+                    }
                   }
                 }
               }
@@ -327,6 +358,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   Future<dynamic> buildDialogPhoneNumber(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double screenWidth = MediaQuery.of(context).size.width;
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return showDialog(
         context: context,
         builder: (context) {
@@ -342,7 +376,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     SizedBox(
-                      height: size.height / 50.4,
+                      height: screenWidth < 600
+                          ? size.height / 50.4
+                          : size.height / 65,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -351,10 +387,19 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: CircleAvatar(
-                            radius: 14,
-                            backgroundColor: Colors.red,
-                            child: Icon(Icons.close, color: Colors.white),
+                          child: Container(
+                            padding: EdgeInsets.all(7),
+                            decoration: BoxDecoration(
+                                color: Colors.red, shape: BoxShape.circle),
+                            child: Icon(Icons.close,
+                                color: Colors.white,
+                                size: isLandscape == false
+                                    ? screenWidth < 600
+                                        ? 20
+                                        : 30
+                                    : screenWidth < 600
+                                        ? 20
+                                        : 40),
                           ),
                         ),
                       ],
@@ -363,8 +408,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       child: Image.asset(
                         'assets/LaoKYCgateway.png',
                         package: 'laokyc_button',
-                        width: 110,
-                        height: 120,
+                        width: screenWidth < 600 ? 110 : 120,
+                        height: screenWidth < 600 ? 120 : 130,
                       ),
                     ),
                     // Center(
@@ -383,7 +428,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         autText,
                         style: TextStyle(
                             fontFamily: fontText,
-                            fontSize: size.width / 24,
+                            fontSize: screenWidth < 600
+                                ? size.width / 24
+                                : size.width / 36,
                             fontWeight: FontWeight.w600,
                             color: Colors.grey[800]),
                       ),
@@ -392,7 +439,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       height: size.height / 37.8,
                     ),
                     TextField(
-                      style: TextStyle(fontSize: size.width / 25.71),
+                      style: TextStyle(
+                          fontSize: isLandscape == false
+                              ? screenWidth < 600
+                                  ? size.width / 25.71
+                                  : size.width / 39
+                              : screenWidth < 600
+                                  ? size.width / 25.71
+                                  : size.width / 39),
                       maxLength: 10,
                       textAlign: TextAlign.center,
                       controller: tfDialogLoginPhoneNumber,
@@ -465,11 +519,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                             style: TextStyle(
                                 color: Color(0xFFffffff),
                                 fontFamily: fontText,
-                                fontSize: size.width / 25.71),
+                                fontSize: screenWidth < 600
+                                    ? size.width / 25.71
+                                    : size.width / 39),
                           )),
                     ),
                     SizedBox(
-                      height: size.height / 61.66,
+                      height: size.height / 55.66,
                     ),
                   ],
                 ),
