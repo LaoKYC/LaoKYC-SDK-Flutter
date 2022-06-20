@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
 class PreferenceInfo {
-
   static const first_name = 'name';
 
   static const family_name = 'family_name';
@@ -27,7 +26,7 @@ class PreferenceInfo {
     preferences.setString(owner_id, ownerID);
   }
 
-  Future<void> setDomain(String domain)async{
+  Future<void> setDomain(String domain) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(main_domain, domain);
   }
@@ -56,7 +55,7 @@ class PreferenceInfo {
     return preferences.getString(main_domain);
   }
 
-  Future<String?> getPhoneNumber() async{
+  Future<String?> getPhoneNumber() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(preferred_username);
   }
