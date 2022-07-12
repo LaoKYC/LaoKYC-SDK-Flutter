@@ -1,5 +1,5 @@
-## 0.6.4
-* TODO: add phone number in dialog login
+## 0.6.5
+* TODO: Confirm OTP
 
 
 

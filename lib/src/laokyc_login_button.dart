@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:laokyc_button/model/list_domain_model.dart';
 import 'package:laokyc_button/services/g-office-list-domain.dart';
+import 'package:laokyc_button/src/confirm_otp.dart';
 import 'package:laokyc_button/utils/CheckValid.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
+import 'package:laokyc_button/utils/req_otp.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -200,7 +202,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           .saveUserInfo(_first_name, _family_name, _preferred_username,
               _accessToken, _sub)
           .then((value) {
-        Navigator.pop(context);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => widget.route),
@@ -471,7 +472,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                           padding: EdgeInsets.only(
                               top: size.height / 61.66,
                               bottom: size.height / 61.66),
-                          onPressed: () {
+                          onPressed: () async {
                             if (tfDialogLoginPhoneNumber.text == '2077710008') {
                               _signInWithAutoCodeExchange(
                                   tfDialogLoginPhoneNumber.text, 'Android');
@@ -498,8 +499,18 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                   errorbtn, fontText);
                             } else {
                               if (widget.fromApp == 'G-OFFICE') {
-                                _signInWithAutoCodeExchange(
-                                    tfDialogLoginPhoneNumber.text, 'Android');
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (_) {
+                                  return ConfirmOTP(
+                                      secret: widget.clientSecret,
+                                      clientID: widget.clientId,
+                                      scope: widget.scope,
+                                      phoneNumber:
+                                          tfDialogLoginPhoneNumber.text,
+                                      route: widget.route);
+                                }));
+                                // _signInWithAutoCodeExchange(
+                                //     tfDialogLoginPhoneNumber.text, 'Android');
                               } else {
                                 showDialog(
                                     context: context,
