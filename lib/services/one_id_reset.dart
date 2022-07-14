@@ -8,7 +8,7 @@ import '../widgets/error_dialog.dart';
 
 Future<OneIDResetOTP?> oneIDReset(
     BuildContext context, String phoneNumber, String accessToken) async {
-  String url = APIPath.ONE_ID_RESET;
+  String url = APIPath.ONE_ID_RESET+phoneNumber;
   try {
     var response = await http.get(Uri.parse(url), headers: {
       'accept': 'text/plain',
@@ -43,7 +43,7 @@ Future<OneIDResetOTP?> oneIDReset(
 
 Future<OneIDResetOTP?> oneIDResetExceptionOne(
     BuildContext context, String phoneNumber, String accessToken) async {
-  String url = APIPath.ONE_ID_RESET;
+  String url = APIPath.ONE_ID_RESET+phoneNumber;
   try {
     var response = await http.get(Uri.parse(url), headers: {
       'accept': 'text/plain',
@@ -78,7 +78,7 @@ Future<OneIDResetOTP?> oneIDResetExceptionOne(
 
 Future<OneIDResetOTP?> oneIDResetExceptionTwo(
     BuildContext context, String phoneNumber, String accessToken) async {
-  String url = APIPath.ONE_ID_RESET;
+  String url = APIPath.ONE_ID_RESET+phoneNumber;
   try {
     var response = await http.get(Uri.parse(url), headers: {
       'accept': 'text/plain',

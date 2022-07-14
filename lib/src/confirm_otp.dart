@@ -53,7 +53,7 @@ class ConfirmOTP extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                'ກະລຸນາໃສ່ລະຫັດທີ່ທ່ານໄດ້ຮັບຈາກ SMS',
+                'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
                 style: TextStyle(fontSize: 15, color: Colors.blueGrey),
               ),
               SizedBox(
