@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:laokyc_button/utils/confirm_otp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/prefUserInfo.dart';
 import '../utils/req_otp.dart';
 import '../widgets/error_dialog.dart';
@@ -56,29 +57,30 @@ class ConfirmOTP extends StatelessWidget {
                 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
                 style: TextStyle(fontSize: 15, color: Colors.blueGrey),
               ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () async {
-                      if ((!phoneNumber.startsWith('10') &&
-                              phoneNumber.length != 8) ||
-                          phoneNumber != '2077710008') {
-                        await requestOTPLogin(context, phoneNumber, clientID,
-                            secret, scope, route, true);
-                      }
-                    },
-                    child: Text(
-                      'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
-                      style: TextStyle(
-                          decoration: TextDecoration.underline, color: Colors.blue),
-                    ),
-                  ),
-                ],
-              ),
+              // SizedBox(
+              //   height: 15,
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     GestureDetector(
+              //       onTap: () async {
+              //         if ((!phoneNumber.startsWith('10') &&
+              //                 phoneNumber.length != 8) ||
+              //             phoneNumber != '2077710008') {
+              //           await requestOTPLogin(context, phoneNumber, clientID,
+              //               secret, scope, route, true);
+              //         }
+              //       },
+              //       child: Text(
+              //         'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
+              //         style: TextStyle(
+              //             decoration: TextDecoration.underline,
+              //             color: Colors.blue),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 20,
               ),
@@ -121,6 +123,18 @@ class ConfirmOTP extends StatelessWidget {
                             'You enter wrong number', 'Close', 'Phetsarath');
                       }
                     } else {
+                      SharedPreferences pref =
+                          await SharedPreferences.getInstance();
+                      String? phoneNumberPref =
+                          await PreferenceInfo().getPhoneNumber();
+                      String? domainPref = await PreferenceInfo().getDomain();
+                      await pref.clear();
+                      if (phoneNumberPref != null) {
+                        await PreferenceInfo().setPhoneNumber(phoneNumberPref);
+                      }
+                      if (domainPref != null) {
+                        await PreferenceInfo().setDomain(domainPref);
+                      }
                       await confirmOTPToken(context, clientID, secret, scope,
                           phoneNumber, otp.text, route);
                     }
@@ -130,6 +144,34 @@ class ConfirmOTP extends StatelessWidget {
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orangeAccent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                      ),
+                      onPressed: () async {
+                        if ((!phoneNumber.startsWith('10') &&
+                                phoneNumber.length != 8) ||
+                            phoneNumber != '2077710008') {
+                          await requestOTPLogin(context, phoneNumber, clientID,
+                              secret, scope, route, true);
+                        }
+                      },
+                      child: Text(
+                        'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue),
+                      ))
+                ],
               )
             ],
           ),

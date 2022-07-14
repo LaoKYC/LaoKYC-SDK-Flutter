@@ -35,6 +35,11 @@ class PreferenceInfo {
     preferences.setString(owner_id, value);
   }
 
+  Future<void> setPhoneNumber(String value) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(preferred_username, value);
+  }
+
   Future<List<String>> getUserInfo() async {
     List<String> arrUserInfo = [];
     SharedPreferences preferences = await SharedPreferences.getInstance();
