@@ -7,7 +7,6 @@ import 'package:laokyc_button/utils/CheckValid.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/utils/req_otp.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
@@ -25,6 +24,7 @@ class LaoKYCButton extends StatefulWidget {
   String lang;
   String? fromApp;
   String? gDomain;
+  String? gOfficeScopes;
   // String? displayType; // Display Type : MOBILE / TABLET
 
   LaoKYCButton(
@@ -35,7 +35,7 @@ class LaoKYCButton extends StatefulWidget {
       required this.route,
       required this.lang,
       this.fromApp,
-      this.gDomain});
+      this.gDomain,this.gOfficeScopes});
 
   //: this.scope = scope ?? [];
 
@@ -197,16 +197,18 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         _preferred_username = decodedToken["preferred_username"]; // 205xxxxxxx
         _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
+        PreferenceInfo().setOwnerID(_sub);
+        PreferenceInfo()
+            .saveUserInfo(_first_name, _family_name, _preferred_username,
+            _accessToken)
+            .then((value) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => widget.route),
+                  (route) => false);
+        });
       } on Exception catch (_) {}
-      PreferenceInfo()
-          .saveUserInfo(_first_name, _family_name, _preferred_username,
-              _accessToken, _sub)
-          .then((value) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => widget.route),
-            (route) => false);
-      });
+
 
       // Navigator.push(
       //   context,
@@ -504,7 +506,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                   return ConfirmOTP(
                                       secret: widget.clientSecret,
                                       clientID: widget.clientId,
-                                      scope: widget.scope,
+                                      scope: widget.gOfficeScopes!,
                                       phoneNumber:
                                           tfDialogLoginPhoneNumber.text,
                                       route: widget.route);

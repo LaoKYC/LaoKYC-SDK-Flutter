@@ -10,7 +10,7 @@ class ConfirmOTP extends StatelessWidget {
   String phoneNumber;
   String clientID;
   String secret;
-  List<String> scope;
+  String scope;
   var route;
 
   ConfirmOTP(
@@ -57,22 +57,30 @@ class ConfirmOTP extends StatelessWidget {
                 style: TextStyle(fontSize: 15, color: Colors.blueGrey),
               ),
               SizedBox(
-                height: 20,
+                height: 15,
               ),
-              GestureDetector(
-                onTap: () async {
-                  if ((!phoneNumber.startsWith('10') &&
-                          phoneNumber.length != 8) ||
-                      phoneNumber != '2077710008') {
-                    await requestOTPLogin(context, phoneNumber, clientID,
-                        secret, scope, route, true);
-                  }
-                },
-                child: Text(
-                  'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
-                  style: TextStyle(
-                      decoration: TextDecoration.underline, color: Colors.blue),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () async {
+                      if ((!phoneNumber.startsWith('10') &&
+                              phoneNumber.length != 8) ||
+                          phoneNumber != '2077710008') {
+                        await requestOTPLogin(context, phoneNumber, clientID,
+                            secret, scope, route, true);
+                      }
+                    },
+                    child: Text(
+                      'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline, color: Colors.blue),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
               ),
               GOfficeNumberTextField(
                 obscureText: true,
@@ -101,7 +109,7 @@ class ConfirmOTP extends StatelessWidget {
                         String accessToken = '';
                         await PreferenceInfo()
                             .saveUserInfo(firstName, familyName,
-                                preferredUserName, accessToken, sub)
+                                preferredUserName, accessToken)
                             .then((value) {
                           Navigator.pushAndRemoveUntil(
                               context,

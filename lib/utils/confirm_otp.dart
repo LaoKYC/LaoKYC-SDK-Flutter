@@ -13,7 +13,7 @@ Future<void> confirmOTPToken(
     BuildContext context,
     String clientID,
     String secret,
-    List<String> scope,
+    String scope,
     String username,
     String password,
     var route) async {
@@ -37,12 +37,12 @@ Future<void> confirmOTPToken(
     Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
     String firstName = decodedToken["name"];
     String familyName = decodedToken["family_name"];
-    String preferredUserName = decodedToken["preferred_username"]; // 205xxxxxxx
-    String phone = decodedToken["phone"]; // +856205xxxxxx
-    String sub = decodedToken["sub"];
+    String preferredUserName = decodedToken["preferred_username"];
+    String ownerID = decodedToken["sub"];
+    await PreferenceInfo().setOwnerID(ownerID);
     await PreferenceInfo()
         .saveUserInfo(
-            firstName, familyName, preferredUserName, accessToken, sub)
+            firstName, familyName, preferredUserName, accessToken)
         .then((value) {
       Navigator.pushAndRemoveUntil(context,
           MaterialPageRoute(builder: (context) => route), (route) => false);

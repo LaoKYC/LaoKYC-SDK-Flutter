@@ -13,7 +13,7 @@ Future<void> requestOTPLogin(
     String phoneNumber,
     String clientID,
     String secret,
-    List<String> scope,
+    String scope,
     var route,
     bool isFromConfirm) async {
   showDialog(

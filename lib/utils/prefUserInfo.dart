@@ -17,18 +17,22 @@ class PreferenceInfo {
   Future<void> init() async {}
 
   Future<void> saveUserInfo(String firstName, String familyName,
-      String phonenumber, String accessToken, String ownerID) async {
+      String phonenumber, String accessToken) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(first_name, firstName);
     preferences.setString(family_name, familyName);
     preferences.setString(preferred_username, phonenumber);
     preferences.setString(access_Token, accessToken);
-    preferences.setString(owner_id, ownerID);
   }
 
   Future<void> setDomain(String domain) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(main_domain, domain);
+  }
+
+  Future<void> setOwnerID(String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(owner_id, value);
   }
 
   Future<List<String>> getUserInfo() async {
