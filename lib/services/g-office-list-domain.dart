@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:laokyc_button/constant/api_path.dart';
 import 'dart:convert';
 import 'package:laokyc_button/model/list_domain_model.dart';
+import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
 
@@ -16,6 +17,7 @@ Future<ListDomainModel?> listDomain(BuildContext context) async {
   try {
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
+      await PreferenceInfo().setListDomainData(response.body);
       Navigator.pop(context);
       return ListDomainModel.fromJson(json.decode(response.body));
     } else {
@@ -38,6 +40,7 @@ Future<ListDomainModel?> listDomainExceptionOne(BuildContext context) async {
   try {
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
+      await PreferenceInfo().setListDomainData(response.body);
       Navigator.pop(context);
       return ListDomainModel.fromJson(json.decode(response.body));
     } else {
@@ -61,6 +64,7 @@ Future<ListDomainModel?> listDomainExceptionTow(BuildContext context) async {
     var response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
+      await PreferenceInfo().setListDomainData(response.body);
       Navigator.pop(context);
       return ListDomainModel.fromJson(json.decode(response.body));
     } else {

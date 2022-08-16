@@ -476,13 +476,31 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                               bottom: size.height / 61.66),
                           onPressed: () async {
                             if (tfDialogLoginPhoneNumber.text == '2077710008') {
-                              _signInWithAutoCodeExchange(
-                                  tfDialogLoginPhoneNumber.text, 'Android');
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (_) {
+                                    return ConfirmOTP(
+                                      secret: widget.clientSecret,
+                                      clientID: widget.clientId,
+                                      scope: widget.gOfficeScopes!,
+                                      phoneNumber:
+                                      tfDialogLoginPhoneNumber.text,
+                                      route: widget.route,
+                                      fromApp: widget.fromApp,);
+                                  }));
                             } else if (tfDialogLoginPhoneNumber.text
                                 .startsWith('10')) {
                               if (tfDialogLoginPhoneNumber.text.length == 8) {
-                                _signInWithAutoCodeExchange(
-                                    tfDialogLoginPhoneNumber.text, 'Android');
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (_) {
+                                      return ConfirmOTP(
+                                        secret: widget.clientSecret,
+                                        clientID: widget.clientId,
+                                        scope: widget.gOfficeScopes!,
+                                        phoneNumber:
+                                        tfDialogLoginPhoneNumber.text,
+                                        route: widget.route,
+                                        fromApp: widget.fromApp,);
+                                    }));
                               } else {
                                 errorDialog(
                                     context,
@@ -509,7 +527,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                       scope: widget.gOfficeScopes!,
                                       phoneNumber:
                                           tfDialogLoginPhoneNumber.text,
-                                      route: widget.route);
+                                      route: widget.route,
+                                  fromApp: widget.fromApp,);
                                 }));
                                 // _signInWithAutoCodeExchange(
                                 //     tfDialogLoginPhoneNumber.text, 'Android');

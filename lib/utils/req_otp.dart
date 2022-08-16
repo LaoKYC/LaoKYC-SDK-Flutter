@@ -15,7 +15,7 @@ Future<void> requestOTPLogin(
     String secret,
     String scope,
     var route,
-    bool isFromConfirm) async {
+    bool isFromConfirm, String? fromApp) async {
   showDialog(
       context: context,
       builder: (_) {
@@ -47,6 +47,7 @@ Future<void> requestOTPLogin(
             scope: scope,
             phoneNumber: phoneNumber,
             route: route,
+            fromApp: fromApp,
           );
         }));
       }

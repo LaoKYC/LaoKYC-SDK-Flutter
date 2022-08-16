@@ -13,13 +13,15 @@ class ConfirmOTP extends StatelessWidget {
   String secret;
   String scope;
   var route;
+  String? fromApp;
 
   ConfirmOTP(
       {required this.secret,
       required this.clientID,
       required this.scope,
       required this.phoneNumber,
-      required this.route});
+      required this.route,
+      required this.fromApp});
 
   TextEditingController otp = TextEditingController();
 
@@ -123,17 +125,47 @@ class ConfirmOTP extends StatelessWidget {
                             'You enter wrong number', 'Close', 'Phetsarath');
                       }
                     } else {
-                      SharedPreferences pref =
-                          await SharedPreferences.getInstance();
-                      String? phoneNumberPref =
-                          await PreferenceInfo().getPhoneNumber();
-                      String? domainPref = await PreferenceInfo().getDomain();
-                      await pref.clear();
-                      if (phoneNumberPref != null) {
-                        await PreferenceInfo().setPhoneNumber(phoneNumberPref);
-                      }
-                      if (domainPref != null) {
-                        await PreferenceInfo().setDomain(domainPref);
+                      if (fromApp == 'G-OFFICE') {
+                        const String owner_id = 'owner_id';
+                        const first_name = 'name';
+                        const family_name = 'family_name';
+                        const String isAllowBiometrics = 'isAllowBiometrics';
+                        const String showDialogBioLogin = 'showDialogBioLogin';
+                        SharedPreferences pref =
+                            await SharedPreferences.getInstance();
+                        String? phoneNumberPref =
+                            await PreferenceInfo().getPhoneNumber();
+                        String? domainPref = await PreferenceInfo().getDomain();
+                        String? ownerID = await pref.getString(owner_id);
+                        String? firstName = await pref.getString(first_name);
+                        String? familyName = await pref.getString(family_name);
+                        bool? isAllowBio =
+                            await pref.getBool(isAllowBiometrics);
+                        bool? showDialogBio =
+                            await pref.getBool(showDialogBioLogin);
+                        await pref.clear();
+                        if (phoneNumberPref != null) {
+                          await PreferenceInfo()
+                              .setPhoneNumber(phoneNumberPref);
+                        }
+                        if (domainPref != null) {
+                          await PreferenceInfo().setDomain(domainPref);
+                        }
+                        if (ownerID != null) {
+                          await pref.setString(owner_id, ownerID);
+                        }
+                        if (firstName != null) {
+                          await pref.setString(first_name, firstName);
+                        }
+                        if (familyName != null) {
+                          await pref.setString(family_name, familyName);
+                        }
+                        if (isAllowBio != null) {
+                          await pref.setBool(isAllowBiometrics, isAllowBio);
+                        }
+                        if (showDialogBio != null) {
+                          await pref.setBool(showDialogBioLogin, showDialogBio);
+                        }
                       }
                       await confirmOTPToken(context, clientID, secret, scope,
                           phoneNumber, otp.text, route);
@@ -162,14 +194,12 @@ class ConfirmOTP extends StatelessWidget {
                                 phoneNumber.length != 8) ||
                             phoneNumber != '2077710008') {
                           await requestOTPLogin(context, phoneNumber, clientID,
-                              secret, scope, route, true);
+                              secret, scope, route, true, fromApp);
                         }
                       },
                       child: Text(
                         'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue),
+                        style: TextStyle(color: Colors.white),
                       ))
                 ],
               )

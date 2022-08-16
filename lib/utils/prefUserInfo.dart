@@ -14,6 +14,8 @@ class PreferenceInfo {
 
   static const main_domain = 'main_domain';
 
+  static const list_domain_data = 'list_domain_data';
+
   Future<void> init() async {}
 
   Future<void> saveUserInfo(String firstName, String familyName,
@@ -35,9 +37,14 @@ class PreferenceInfo {
     preferences.setString(owner_id, value);
   }
 
-  Future<void> setPhoneNumber(String value) async{
+  Future<void> setPhoneNumber(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(preferred_username, value);
+  }
+
+  Future<void> setListDomainData(String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(list_domain_data, value);
   }
 
   Future<List<String>> getUserInfo() async {
@@ -67,5 +74,10 @@ class PreferenceInfo {
   Future<String?> getPhoneNumber() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(preferred_username);
+  }
+
+  Future<String?> getListDomainData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(list_domain_data);
   }
 }
