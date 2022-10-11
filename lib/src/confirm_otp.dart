@@ -151,15 +151,15 @@ class ConfirmOTP extends StatelessWidget {
                         if (domainPref != null) {
                           await PreferenceInfo().setDomain(domainPref);
                         }
-                        if (ownerID != null) {
-                          await pref.setString(owner_id, ownerID);
-                        }
-                        if (firstName != null) {
-                          await pref.setString(first_name, firstName);
-                        }
-                        if (familyName != null) {
-                          await pref.setString(family_name, familyName);
-                        }
+                        // if (ownerID != null) {
+                        //   await pref.setString(owner_id, ownerID);
+                        // }
+                        // if (firstName != null) {
+                        //   await pref.setString(first_name, firstName);
+                        // }
+                        // if (familyName != null) {
+                        //   await pref.setString(family_name, familyName);
+                        // }
                         if (isAllowBio != null) {
                           await pref.setBool(isAllowBiometrics, isAllowBio);
                         }
