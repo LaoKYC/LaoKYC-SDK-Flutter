@@ -16,7 +16,19 @@ class PreferenceInfo {
 
   static const list_domain_data = 'list_domain_data';
 
+  static const connectTokenResponse = 'connectTokenResponse';
+
   Future<void> init() async {}
+
+  Future<void> setConnectTokenResponse(String response) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(connectTokenResponse, response);
+  }
+
+  Future<String?> getConnectTokenResponse() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(connectTokenResponse);
+  }
 
   Future<void> saveUserInfo(String firstName, String familyName,
       String phonenumber, String accessToken) async {
