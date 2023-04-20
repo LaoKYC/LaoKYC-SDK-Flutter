@@ -246,7 +246,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   }
 
   String getDeviceType() {
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     return data.size.shortestSide < 600 ? 'phone' : 'tablet';
   }
 
@@ -254,9 +254,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setState(() {
-      checkLang();
-    });
+    // setState(() {
+    //   checkLang();
+    // });
     PreferenceInfo().getPhoneNumber().then((value) {
       if (value != null) {
         setState(() {
@@ -272,12 +272,12 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+    checkLang();
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(
+        foregroundColor: Colors.white60, padding: EdgeInsets.symmetric(
             vertical: size.height / 68, horizontal: size.width / 10),
         shadowColor: Colors.teal,
-        onPrimary: Colors.white60,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
