@@ -234,6 +234,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     return data.size.shortestSide < 600 ? 'phone' : 'tablet';
   }
 
+  Future setLocale() async {
+    await PreferenceInfo().setLocaleLanguage(widget.locale!.languageCode);
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -248,7 +252,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         });
       }
     });
-    PreferenceInfo().setLocaleLanguage(widget.locale!.languageCode);
+    setLocale();
   }
 
   @override
