@@ -7,7 +7,7 @@ import '../utils/req_otp.dart';
 import '../widgets/error_dialog.dart';
 import '../widgets/goffice_number_textfield.dart';
 
-class ConfirmOTP extends StatelessWidget {
+class ConfirmOTP extends StatefulWidget {
   String phoneNumber;
   String clientID;
   String secret;
@@ -23,7 +23,23 @@ class ConfirmOTP extends StatelessWidget {
       required this.route,
       required this.fromApp});
 
+  @override
+  State<ConfirmOTP> createState() => _ConfirmOTPState();
+}
+
+class _ConfirmOTPState extends State<ConfirmOTP> {
   TextEditingController otp = TextEditingController();
+  String? locale;
+  Future getLocale() async {
+    locale = await PreferenceInfo().getLocaleLanguage();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLocale();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,13 +114,11 @@ class ConfirmOTP extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF1CCAB7),
-                      padding: EdgeInsets.symmetric(vertical: 8)),
+                  style:
+                      ElevatedButton.styleFrom(primary: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
                   onPressed: () async {
-                    if ((phoneNumber.startsWith('10') &&
-                            phoneNumber.length == 8) ||
-                        phoneNumber == '2077710008') {
+                    if ((widget.phoneNumber.startsWith('10') && widget.phoneNumber.length == 8) ||
+                        widget.phoneNumber == '2077710008') {
                       if (otp.text == '123456') {
                         String firstName = 'ອະໂນລົດ';
                         String familyName = 'ພັນວົງສາ';
@@ -112,41 +126,32 @@ class ConfirmOTP extends StatelessWidget {
                         String sub = '';
                         String accessToken = '';
                         await PreferenceInfo()
-                            .saveUserInfo(firstName, familyName,
-                                preferredUserName, accessToken)
+                            .saveUserInfo(firstName, familyName, preferredUserName, accessToken)
                             .then((value) {
                           Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(builder: (context) => route),
-                              (route) => false);
+                              context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
                         });
                       } else {
-                        errorDialog(context, 'Warning',
-                            'You enter wrong number', 'Close', 'Phetsarath');
+                        errorDialog(context, 'Warning', 'You enter wrong number', 'Close', 'Phetsarath');
                       }
                     } else {
-                      if (fromApp == 'G-OFFICE') {
+                      if (widget.fromApp == 'G-OFFICE') {
                         const String owner_id = 'owner_id';
                         const first_name = 'name';
                         const family_name = 'family_name';
                         const String isAllowBiometrics = 'isAllowBiometrics';
                         const String showDialogBioLogin = 'showDialogBioLogin';
-                        SharedPreferences pref =
-                            await SharedPreferences.getInstance();
-                        String? phoneNumberPref =
-                            await PreferenceInfo().getPhoneNumber();
+                        SharedPreferences pref = await SharedPreferences.getInstance();
+                        String? phoneNumberPref = await PreferenceInfo().getPhoneNumber();
                         String? domainPref = await PreferenceInfo().getDomain();
                         String? ownerID = await pref.getString(owner_id);
                         String? firstName = await pref.getString(first_name);
                         String? familyName = await pref.getString(family_name);
-                        bool? isAllowBio =
-                            await pref.getBool(isAllowBiometrics);
-                        bool? showDialogBio =
-                            await pref.getBool(showDialogBioLogin);
+                        bool? isAllowBio = await pref.getBool(isAllowBiometrics);
+                        bool? showDialogBio = await pref.getBool(showDialogBioLogin);
                         await pref.clear();
                         if (phoneNumberPref != null) {
-                          await PreferenceInfo()
-                              .setPhoneNumber(phoneNumberPref);
+                          await PreferenceInfo().setPhoneNumber(phoneNumberPref);
                         }
                         if (domainPref != null) {
                           await PreferenceInfo().setDomain(domainPref);
@@ -167,12 +172,12 @@ class ConfirmOTP extends StatelessWidget {
                           await pref.setBool(showDialogBioLogin, showDialogBio);
                         }
                       }
-                      await confirmOTPToken(context, clientID, secret, scope,
-                          phoneNumber, otp.text, route);
+                      await confirmOTPToken(context, widget.clientID, widget.secret, widget.scope, widget.phoneNumber,
+                          otp.text, widget.route);
                     }
                   },
                   child: Text(
-                    'ຖັດໄປ',
+                    locale == 'en' ? 'Next' : 'ຖັດໄປ',
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
@@ -186,15 +191,13 @@ class ConfirmOTP extends StatelessWidget {
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Colors.orangeAccent,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       ),
                       onPressed: () async {
-                        if ((!phoneNumber.startsWith('10') &&
-                                phoneNumber.length != 8) ||
-                            phoneNumber != '2077710008') {
-                          await requestOTPLogin(context, phoneNumber, clientID,
-                              secret, scope, route, true, fromApp);
+                        if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
+                            widget.phoneNumber != '2077710008') {
+                          await requestOTPLogin(context, widget.phoneNumber, widget.clientID, widget.secret,
+                              widget.scope, widget.route, true, widget.fromApp);
                         }
                       },
                       child: Text(

@@ -18,6 +18,8 @@ class PreferenceInfo {
 
   static const connectTokenResponse = 'connectTokenResponse';
 
+  static const localeLanguage = 'localeLanguage';
+
   Future<void> init() async {}
 
   Future<void> setConnectTokenResponse(String response) async {
@@ -92,4 +94,15 @@ class PreferenceInfo {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(list_domain_data);
   }
+
+  Future<void> setLocaleLanguage(String langCode) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(localeLanguage, langCode);
+  }
+
+  Future<String?> getLocaleLanguage() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(localeLanguage);
+  }
+
 }
