@@ -152,7 +152,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       showDialog(
           context: context,
           builder: (_) {
-            return DialogLoading(title: widget.locale == 'en' ? 'Loading' : 'ກຳລັງໂຫຼດ');
+            return DialogLoading(title: widget.locale == const Locale('en') ? 'Loading' : 'ກຳລັງໂຫຼດ');
           });
       if (result != null) {
         _processAuthTokenResponse(result);
@@ -308,10 +308,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
             errorDialog(
                 context,
                 errorTexthead,
-                widget.locale == 'en'
+                widget.locale == const Locale('en')
                     ? 'Please enter the domain\nministry or your organization'
                     : 'ກະລຸນາປ້ອນໂດເມນ\nກະຊວງ ຫຼື ບໍລິສັດທີ່ທ່ານສັງກັດ',
-                widget.locale == 'en' ? 'Close' : 'ປິດ',
+                widget.locale == const Locale('en') ? 'Close' : 'ປິດ',
                 fontText);
           } else {
             if (widget.gDomain == 'sbg') {
@@ -331,10 +331,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                       errorDialog(
                           context,
                           errorTexthead,
-                          widget.locale == 'en'
+                          widget.locale == const Locale('en')
                               ? 'Could not find the domain\nfor example: mtc, mofa...'
                               : 'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
-                          widget.locale == 'en' ? 'Close' : 'ປິດ',
+                          widget.locale == const Locale('en') ? 'Close' : 'ປິດ',
                           fontText);
                     }
                   }
@@ -482,7 +482,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                 errorDialog(
                                     context,
                                     errorTexthead,
-                                    widget.locale == 'en'
+                                    widget.locale == const Locale('en')
                                         ? 'Your phone number was wrong'
                                         : "ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ",
                                     errorbtn,
