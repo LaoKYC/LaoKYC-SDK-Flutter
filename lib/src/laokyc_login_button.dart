@@ -252,7 +252,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         });
       }
     });
-    setLocale();
   }
 
   @override
@@ -261,6 +260,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     checkLang();
+    setLocale();
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white60,
@@ -318,7 +318,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               await PreferenceInfo().setDomain('sbg.eoffice.la');
               buildDialogPhoneNumber(context);
             } else {
-              ListDomainModel? getDomain = await listDomain(context);
+              ListDomainModel? getDomain = await listDomain(context, widget.locale!, 0);
               if (getDomain != null) {
                 for (var i = 0; i < getDomain.content!.length; i++) {
                   List<String> splitText = getDomain.content![i].domain!.split('.');

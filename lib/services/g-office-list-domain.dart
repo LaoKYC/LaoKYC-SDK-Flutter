@@ -7,12 +7,16 @@ import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
 
-Future<ListDomainModel?> listDomain(BuildContext context) async {
+Future<ListDomainModel?> listDomain(BuildContext context, Locale locale, int n) async {
+  int retry = n + 1;
+  if(retry > 3){
+    return null;
+  }
   String url = APIPath.listDomain;
   showDialog(
       context: context,
       builder: (_) {
-        return DialogLoading(title: 'ກຳລັງກວດສອບໂດເມນ');
+        return DialogLoading(title: locale == const Locale('en') ? 'Checking domain' : 'ກຳລັງກວດສອບໂດເມນ');
       });
   try {
     var response = await http.get(Uri.parse(url));
@@ -24,61 +28,13 @@ Future<ListDomainModel?> listDomain(BuildContext context) async {
       Navigator.pop(context);
       errorDialog(
           context,
-          'ຂໍອະໄພ',
+          locale == const Locale('en') ? 'Sorry' : 'ຂໍອະໄພ',
           'List domain: ${response.statusCode} ${response.body}',
-          'ປິດ',
+          locale == const Locale('en') ? 'Close' : 'ປິດ',
           'Phetsarath');
       return null;
     }
   } catch (e) {
-    return await listDomainExceptionOne(context);
-  }
-}
-
-Future<ListDomainModel?> listDomainExceptionOne(BuildContext context) async {
-  String url = APIPath.listDomain;
-  try {
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      await PreferenceInfo().setListDomainData(response.body);
-      Navigator.pop(context);
-      return ListDomainModel.fromJson(json.decode(response.body));
-    } else {
-      Navigator.pop(context);
-      errorDialog(
-          context,
-          'ຂໍອະໄພ',
-          'List domain: ${response.statusCode} ${response.body}',
-          'ປິດ',
-          'Phetsarath');
-      return null;
-    }
-  } catch (e) {
-    return await listDomainExceptionTow(context);
-  }
-}
-
-Future<ListDomainModel?> listDomainExceptionTow(BuildContext context) async {
-  String url = APIPath.listDomain;
-  try {
-    var response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      await PreferenceInfo().setListDomainData(response.body);
-      Navigator.pop(context);
-      return ListDomainModel.fromJson(json.decode(response.body));
-    } else {
-      Navigator.pop(context);
-      errorDialog(
-          context,
-          'ຂໍອະໄພ',
-          'List domain: ${response.statusCode} ${response.body}',
-          'ປິດ',
-          'Phetsarath');
-      return null;
-    }
-  } catch (e) {
-    Navigator.pop(context);
-    throw (e);
+    return await listDomain(context, locale, retry);
   }
 }

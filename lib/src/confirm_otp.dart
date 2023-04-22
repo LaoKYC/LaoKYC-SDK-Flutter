@@ -35,6 +35,19 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PreferenceInfo().getLocaleLanguage().then((value) {
+      if (value != null) {
+        setState(() {
+          locale = value;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     getLocale();
     return Scaffold(
