@@ -10,6 +10,7 @@ import '../widgets/dialog_loading.dart';
 
 Future<void> requestOTPLogin(
     BuildContext context,
+    String locale,
     String phoneNumber,
     String clientID,
     String secret,
@@ -19,7 +20,7 @@ Future<void> requestOTPLogin(
   showDialog(
       context: context,
       builder: (_) {
-        return DialogLoading(title: 'ກຳລັງໂຫຼດ');
+        return DialogLoading(title: locale == 'en' ? 'Loading' : 'ກຳລັງໂຫຼດ');
       });
   String grantTypeCredentials = ConstData.grantTypeCredentials;
   String payload = jsonEncode({
@@ -31,7 +32,7 @@ Future<void> requestOTPLogin(
     "password": ''
   });
   ConnectRefreshTokenModel? connectTokenData =
-      await connectTokenLogin(payload, context);
+      await connectTokenLogin(payload, context, locale, 0);
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
     OneIDResetOTP? oneIDResetOTP =

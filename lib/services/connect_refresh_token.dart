@@ -7,7 +7,11 @@ import '../model/bad_request_model.dart';
 import '../model/connect_refresh_token_model.dart';
 
 Future<ConnectRefreshTokenModel?> connectTokenLogin(
-    String payload, BuildContext context) async {
+    String payload, BuildContext context, String locale, int n) async {
+  int retry = n + 1;
+  if(retry > 3){
+    return null;
+  }
   String url = APIPath.CONNECT_TOKEN_LOGIN;
   try {
     var response = await http.post(Uri.parse(url), body: payload, headers: {
@@ -23,14 +27,14 @@ Future<ConnectRefreshTokenModel?> connectTokenLogin(
       BadRequestModel data = badRequestModelFromJson(response.body);
       if (data.code == 'REQUEST_TOKEN_ERROR' &&
           data.message == 'invalid_grant') {
-        errorDialog(context, 'ແຈ້ງເຕືອນ', 'ຂໍອະໄພ ກະລຸນາປ້ອນ OTP ໃຫ້ຖືກຕ້ອງ',
-            'ປິດ', 'Phetsarath');
+        errorDialog(context, locale == 'en' ? 'Warning' : 'ແຈ້ງເຕືອນ', locale == 'en' ? 'Sorry, Please Enter correct OTP' : 'ຂໍອະໄພ ກະລຸນາປ້ອນ OTP ໃຫ້ຖືກຕ້ອງ',
+            locale == 'en' ? 'Close' : 'ປິດ', 'Phetsarath');
       } else {
         errorDialog(
             context,
-            'ແຈ້ງເຕືອນ',
+            locale == 'en' ? 'Warning' :'ແຈ້ງເຕືອນ',
             'Connect Token login: ${data.code} ${data.detail}',
-            'ປິດ',
+            locale == 'en' ? 'Close' : 'ປິດ',
             'Phetsarath');
       }
       return null;
@@ -38,14 +42,14 @@ Future<ConnectRefreshTokenModel?> connectTokenLogin(
       Navigator.pop(context);
       errorDialog(
           context,
-          'ແຈ້ງເຕືອນ',
+          locale == 'en' ? 'Warning' : 'ແຈ້ງເຕືອນ',
           'Connect Token login: ${response.statusCode} ${response.body}',
-          'ປິດ',
+          locale == 'en' ? 'Close' : 'ປິດ',
           'Phetsarath');
       return null;
     }
   } catch (e) {
-    return await connectTokenLoginExceptionOne(payload, context);
+    return await connectTokenLogin(payload, context, locale, retry);
   }
 }
 

@@ -179,7 +179,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                           await pref.setBool(showDialogBioLogin, showDialogBio);
                         }
                       }
-                      await confirmOTPToken(context, widget.clientID, widget.secret, widget.scope, widget.phoneNumber,
+                      await confirmOTPToken(context, locale!, widget.clientID, widget.secret, widget.scope, widget.phoneNumber,
                           otp.text, widget.route);
                     }
                   },
@@ -203,7 +203,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                       onPressed: () async {
                         if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
                             widget.phoneNumber != '2077710008') {
-                          await requestOTPLogin(context, widget.phoneNumber, widget.clientID, widget.secret,
+                          await requestOTPLogin(context, locale!, widget.phoneNumber, widget.clientID, widget.secret,
                               widget.scope, widget.route, true, widget.fromApp);
                         }
                       },
