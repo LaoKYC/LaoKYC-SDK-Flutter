@@ -152,7 +152,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       showDialog(
           context: context,
           builder: (_) {
-            return DialogLoading(title: 'ກຳລັງໂຫຼດ');
+            return DialogLoading(title: widget.locale == 'en' ? 'Loading' : 'ກຳລັງໂຫຼດ');
           });
       if (result != null) {
         _processAuthTokenResponse(result);
@@ -236,7 +236,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   Future setLocale() async {
     await PreferenceInfo().setLocaleLanguage(widget.locale!.languageCode);
-    print(widget.locale!.languageCode);
   }
 
   @override
@@ -261,19 +260,17 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     Size size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      checkLang();
-    });
+    checkLang();
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white60,
+        backgroundColor: Colors.teal,
         padding: EdgeInsets.symmetric(vertical: size.height / 68, horizontal: size.width / 10),
         shadowColor: Colors.teal,
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0),
         ),
-        primary: Colors.teal,
       ),
       child: Row(
         children: [
@@ -308,7 +305,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       onPressed: () async {
         if (widget.fromApp == 'G-OFFICE') {
           if (widget.gDomain!.isEmpty) {
-            errorDialog(context, 'ແຈ້ງເຕືອນ', 'ກະລຸນາປ້ອນໂດເມນ\nກະຊວງ ຫຼື ບໍລິສັດທີ່ທ່ານສັງກັດ', 'ປິດ', fontText);
+            errorDialog(
+                context,
+                errorTexthead,
+                widget.locale == 'en'
+                    ? 'Please enter the domain\nministry or your organization'
+                    : 'ກະລຸນາປ້ອນໂດເມນ\nກະຊວງ ຫຼື ບໍລິສັດທີ່ທ່ານສັງກັດ',
+                widget.locale == 'en' ? 'Close' : 'ປິດ',
+                fontText);
           } else {
             if (widget.gDomain == 'sbg') {
               await PreferenceInfo().setDomain('sbg.eoffice.la');
@@ -324,8 +328,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                     i = getDomain.content!.length;
                   } else {
                     if (i == getDomain.content!.length - 1) {
-                      errorDialog(context, 'ແຈ້ງເຕືອນ', 'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
-                          'ປິດ', fontText);
+                      errorDialog(
+                          context,
+                          errorTexthead,
+                          widget.locale == 'en'
+                              ? 'Could not find the domain\nfor example: mtc, mofa...'
+                              : 'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+                          widget.locale == 'en' ? 'Close' : 'ປິດ',
+                          fontText);
                     }
                   }
                 }
@@ -469,7 +479,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                   );
                                 }));
                               } else {
-                                errorDialog(context, "Warning", "Your phone number was wrong", errorbtn, fontText);
+                                errorDialog(
+                                    context,
+                                    errorTexthead,
+                                    widget.locale == 'en'
+                                        ? 'Your phone number was wrong'
+                                        : "ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ",
+                                    errorbtn,
+                                    fontText);
                               }
                             } else if (CheckValid().checkValidPhonenumber(tfDialogLoginPhoneNumber.text) == false) {
                               errorDialog(context, errorTexthead, errorText, errorbtn, fontText);

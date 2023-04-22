@@ -36,9 +36,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getLocale();
-    });
+    getLocale();
     return Scaffold(
       appBar: AppBar(
         title: Text(
