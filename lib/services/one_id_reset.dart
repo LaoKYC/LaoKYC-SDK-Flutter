@@ -7,7 +7,11 @@ import '../model/one_id_reset_model.dart';
 import '../widgets/error_dialog.dart';
 
 Future<OneIDResetOTP?> oneIDReset(
-    BuildContext context, String phoneNumber, String accessToken) async {
+    BuildContext context, String locale, String phoneNumber, String accessToken, int n) async {
+  int retry = n + 1;
+  if(retry > 3){
+    return null;
+  }
   String url = APIPath.ONE_ID_RESET+phoneNumber;
   try {
     var response = await http.get(Uri.parse(url), headers: {
@@ -21,23 +25,23 @@ Future<OneIDResetOTP?> oneIDReset(
       BadRequestModel data = badRequestModelFromJson(response.body);
       errorDialog(
           context,
-          'ແຈ້ງເຕືອນ',
+          locale == 'en' ? 'Warning' : 'ແຈ້ງເຕືອນ',
           'OneID reset\n${data.code} ${data.detail}',
-          'ປິດ',
+          locale == 'en' ? 'Close' : 'ປິດ',
           'Phetsarath');
       return null;
     } else {
       Navigator.pop(context);
       errorDialog(
           context,
-          'ແຈ້ງເຕືອນ',
+          locale == 'en' ? 'Warning' : 'ແຈ້ງເຕືອນ',
           'OneID Reset\n${response.statusCode} ${response.body}',
-          'ປິດ',
+          locale == 'en' ? 'Close' : 'ປິດ',
           'Phetsarath');
       return null;
     }
   } catch (e) {
-    return await oneIDResetExceptionOne(context, phoneNumber, accessToken);
+    return await oneIDReset(context, locale, phoneNumber, accessToken, retry);
   }
 }
 

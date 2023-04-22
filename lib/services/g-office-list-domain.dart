@@ -38,3 +38,52 @@ Future<ListDomainModel?> listDomain(BuildContext context, Locale locale, int n) 
     return await listDomain(context, locale, retry);
   }
 }
+
+
+Future<ListDomainModel?> listDomainExceptionOne(BuildContext context) async {
+  String url = APIPath.listDomain;
+  try {
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      await PreferenceInfo().setListDomainData(response.body);
+      Navigator.pop(context);
+      return ListDomainModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      errorDialog(
+          context,
+          'ຂໍອະໄພ',
+          'List domain: ${response.statusCode} ${response.body}',
+          'ປິດ',
+          'Phetsarath');
+      return null;
+    }
+  } catch (e) {
+    return await listDomainExceptionTow(context);
+  }
+}
+
+Future<ListDomainModel?> listDomainExceptionTow(BuildContext context) async {
+  String url = APIPath.listDomain;
+  try {
+    var response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      await PreferenceInfo().setListDomainData(response.body);
+      Navigator.pop(context);
+      return ListDomainModel.fromJson(json.decode(response.body));
+    } else {
+      Navigator.pop(context);
+      errorDialog(
+          context,
+          'ຂໍອະໄພ',
+          'List domain: ${response.statusCode} ${response.body}',
+          'ປິດ',
+          'Phetsarath');
+      return null;
+    }
+  } catch (e) {
+    Navigator.pop(context);
+    throw (e);
+  }
+}

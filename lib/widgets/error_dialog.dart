@@ -57,7 +57,7 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                               : size.width / 42),
                 ),
                 SizedBox(
-                  height: size.height / 49.33,
+                  height: size.height / 40.33,
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -69,7 +69,7 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                           ? size.height / 20
                           : size.height / 20,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.blueGrey),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
                       onPressed: () {
                         Navigator.pop(context);
                       },
