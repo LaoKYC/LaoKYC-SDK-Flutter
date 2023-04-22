@@ -236,6 +236,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   Future setLocale() async {
     await PreferenceInfo().setLocaleLanguage(widget.locale!.languageCode);
+    print(widget.locale!.languageCode);
   }
 
   @override
@@ -260,7 +261,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     Size size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-    checkLang();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkLang();
+    });
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white60,

@@ -35,14 +35,10 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getLocale();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getLocale();
+    });
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -72,7 +68,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 height: 30,
               ),
               Text(
-                'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
+                locale == 'en' ? 'Enter the latest laoKYC OTP' : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
                 style: TextStyle(fontSize: 15, color: Colors.blueGrey),
               ),
               // SizedBox(
@@ -106,7 +102,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 obscureText: true,
                 controller: otp,
                 maxLength: 6,
-                hintText: 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
+                hintText: locale == 'en' ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
               ),
               SizedBox(
                 height: 20,
@@ -132,7 +128,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                               context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
                         });
                       } else {
-                        errorDialog(context, 'Warning', 'You enter wrong number', 'Close', 'Phetsarath');
+                        errorDialog(context, locale == 'en' ? 'ແຈ້ງເຕືອນ' : 'Warning', locale == 'en' ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ' : 'You enter wrong number', locale == 'en' ? 'ປິດ' : 'Close', 'Phetsarath');
                       }
                     } else {
                       if (widget.fromApp == 'G-OFFICE') {
@@ -201,7 +197,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                         }
                       },
                       child: Text(
-                        'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
+                        locale == 'en' ? 'Request new OTP' : 'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
                         style: TextStyle(color: Colors.white),
                       ))
                 ],
