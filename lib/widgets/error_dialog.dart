@@ -16,8 +16,8 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText, S
       builder: (_) {
         return Dialog(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: size.height / 55.33),
-            constraints: BoxConstraints(maxWidth: 150.w),
+            padding: EdgeInsets.symmetric(horizontal: size.width / 25, vertical: size.height / 55.33),
+            constraints: BoxConstraints(maxWidth: 200.w),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
             child: ListView(
