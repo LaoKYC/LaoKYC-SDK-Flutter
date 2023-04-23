@@ -271,36 +271,35 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           borderRadius: BorderRadius.circular(5.0),
         ),
       ),
-      child: Center(
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Image(
-                image: AssetImage('assets/logo.png', package: 'laokyc_button'),
-                width: isLandscape == false ? size.width / 10 : size.width / 20,
-                height: isLandscape == false ? size.width / 16 : size.width / 25,
-              ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Image(
+              image: AssetImage('assets/logo.png', package: 'laokyc_button'),
+              width: isLandscape == false ? size.width / 10 : size.width / 20,
+              height: isLandscape == false ? size.width / 16 : size.width / 25,
             ),
-            SizedBox(width: 10.w),
-            Text(
-              loginbtn,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: isLandscape == false
-                    ? screenWidth < 600
-                        ? 14.sp
-                        : 9.sp
-                    : screenWidth < 600
-                        ? 12.sp
-                        : 7.sp,
-                fontFamily: fontText,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFffffff),
-              ),
+          ),
+          SizedBox(width: 10.w),
+          Text(
+            loginbtn,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: isLandscape == false
+                  ? screenWidth < 600
+                      ? 14.sp
+                      : 9.sp
+                  : screenWidth < 600
+                      ? 12.sp
+                      : 7.sp,
+              fontFamily: fontText,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFFffffff),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       onPressed: () async {
         if (widget.fromApp == 'G-OFFICE') {
