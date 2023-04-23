@@ -282,22 +282,21 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                 height: isLandscape == false ? size.width / 16 : size.width / 25,
               ),
             ),
-            Expanded(
-              child: Text(
-                loginbtn,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: isLandscape == false
-                      ? screenWidth < 600
-                          ? 14.sp
-                          : 9.sp
-                      : screenWidth < 600
-                          ? 12.sp
-                          : 8.sp,
-                  fontFamily: fontText,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFffffff),
-                ),
+            SizedBox(width: 10.w),
+            Text(
+              loginbtn,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: isLandscape == false
+                    ? screenWidth < 600
+                        ? 14.sp
+                        : 9.sp
+                    : screenWidth < 600
+                        ? 12.sp
+                        : 7.sp,
+                fontFamily: fontText,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFffffff),
               ),
             ),
           ],
