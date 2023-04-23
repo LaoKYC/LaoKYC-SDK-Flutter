@@ -88,7 +88,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   Future<void> _requestOTP(String urlPath, String phonenumber, BuildContext context) async {
     // Clear cache Image circle
-    imageCache!.clear();
+    imageCache.clear();
     final Dio dio = Dio();
 
     try {
@@ -237,7 +237,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   }
 
   Future setLocale() async {
-    await PreferenceInfo().setLocaleLanguage(widget.locale!.languageCode);
+    await PreferenceInfo().setLocaleLanguage(widget.locale.languageCode);
   }
 
   @override
