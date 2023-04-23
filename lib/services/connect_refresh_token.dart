@@ -28,7 +28,7 @@ Future<ConnectRefreshTokenModel?> connectTokenLogin(
       BadRequestModel data = badRequestModelFromJson(response.body);
       if (data.code == 'REQUEST_TOKEN_ERROR' &&
           data.message == 'invalid_grant') {
-        errorDialog(context, locale == const Locale('en') ? 'Warning' : 'ແຈ້ງເຕືອນ', locale == const Locale('en') ? 'Sorry, Please Enter correct OTP' : 'ຂໍອະໄພ ກະລຸນາປ້ອນ OTP ໃຫ້ຖືກຕ້ອງ',
+        errorDialog(context, locale == const Locale('en') ? 'Warning' : 'ແຈ້ງເຕືອນ', locale == const Locale('en') ? 'Sorry, Please enter correct OTP' : 'ຂໍອະໄພ ກະລຸນາປ້ອນ OTP ໃຫ້ຖືກຕ້ອງ',
             locale == const Locale('en') ? 'Close' : 'ປິດ', 'Phetsarath');
       } else {
         errorDialog(

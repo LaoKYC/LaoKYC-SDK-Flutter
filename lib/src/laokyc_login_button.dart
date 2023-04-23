@@ -21,11 +21,10 @@ class LaoKYCButton extends StatefulWidget {
   String clientSecret;
   List<String> scope;
   var route;
-  String lang;
   String? fromApp;
   String? gDomain;
   String? gOfficeScopes;
-  Locale? locale;
+  Locale locale;
   // String? displayType; // Display Type : MOBILE / TABLET
 
   LaoKYCButton(
@@ -34,11 +33,10 @@ class LaoKYCButton extends StatefulWidget {
       required this.redirectUrl,
       required this.scope,
       required this.route,
-      required this.lang,
       this.fromApp,
       this.gDomain,
       this.gOfficeScopes,
-      this.locale});
+      required this.locale});
 
   //: this.scope = scope ?? [];
 
@@ -318,7 +316,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               await PreferenceInfo().setDomain('sbg.eoffice.la');
               buildDialogPhoneNumber(context);
             } else {
-              ListDomainModel? getDomain = await listDomain(context, widget.locale!, 0);
+              ListDomainModel? getDomain = await listDomain(context, widget.locale, 0);
               if (getDomain != null) {
                 for (var i = 0; i < getDomain.content!.length; i++) {
                   List<String> splitText = getDomain.content![i].domain!.split('.');
