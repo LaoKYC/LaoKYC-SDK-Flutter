@@ -199,7 +199,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 children: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.orangeAccent,
+                        backgroundColor: Colors.orangeAccent,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       ),
                       onPressed: () async {

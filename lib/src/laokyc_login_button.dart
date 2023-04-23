@@ -464,6 +464,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                   phoneNumber: tfDialogLoginPhoneNumber.text,
                                   route: widget.route,
                                   fromApp: widget.fromApp,
+                                  locale: widget.locale,
                                 );
                               }));
                             } else if (tfDialogLoginPhoneNumber.text.startsWith('10')) {
@@ -476,6 +477,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                     phoneNumber: tfDialogLoginPhoneNumber.text,
                                     route: widget.route,
                                     fromApp: widget.fromApp,
+                                    locale: widget.locale,
                                   );
                                 }));
                               } else {
@@ -502,6 +504,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                                     phoneNumber: tfDialogLoginPhoneNumber.text,
                                     route: widget.route,
                                     fromApp: widget.fromApp,
+                                    locale: widget.locale,
                                   );
                                 }));
                                 // _signInWithAutoCodeExchange(

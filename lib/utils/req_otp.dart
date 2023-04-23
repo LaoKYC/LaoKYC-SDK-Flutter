@@ -49,6 +49,7 @@ Future<void> requestOTPLogin(
             phoneNumber: phoneNumber,
             route: route,
             fromApp: fromApp,
+            locale: locale,
           );
         }));
       }
