@@ -288,11 +288,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               style: TextStyle(
                 fontSize: isLandscape == false
                     ? screenWidth < 600
-                        ? size.width / 21.17
-                        : size.width / 38
+                        ? 14.sp
+                        : 8.sp
                     : screenWidth < 600
-                        ? size.width / 21.17
-                        : size.width / 40,
+                        ? 12.sp
+                        : 6.sp,
                 fontFamily: fontText,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFffffff),
@@ -362,8 +362,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               child: Container(
                 padding: EdgeInsets.only(left: size.width / 18, right: size.width / 18),
                 constraints: BoxConstraints(maxWidth: 200.w),
-                decoration:
-                BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
                 child: ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -418,8 +418,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                         autText,
                         style: TextStyle(
                             fontFamily: fontText,
-                            fontSize: screenWidth < 600 ? size.width / 24 : size.width / 36,
-                            fontWeight: FontWeight.w600,
+                            fontSize: isLandscape == false
+                                ? screenWidth < 600
+                                    ? 14.sp
+                                    : 8.sp
+                                : screenWidth < 600
+                                    ? 12.sp
+                                    : 6.sp,
+                            fontWeight: FontWeight.w700,
                             color: Colors.grey[800]),
                       ),
                     ),
@@ -428,13 +434,14 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                     ),
                     TextField(
                       style: TextStyle(
-                          fontSize: isLandscape == false
-                              ? screenWidth < 600
-                                  ? size.width / 25.71
-                                  : size.width / 39
-                              : screenWidth < 600
-                                  ? size.width / 25.71
-                                  : size.width / 39),
+                        fontSize: isLandscape == false
+                            ? screenWidth < 600
+                                ? 14.sp
+                                : 8.sp
+                            : screenWidth < 600
+                                ? 12.sp
+                                : 6.sp,
+                      ),
                       maxLength: 10,
                       textAlign: TextAlign.center,
                       controller: tfDialogLoginPhoneNumber,
@@ -526,9 +533,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                           child: Text(
                             autbtn,
                             style: TextStyle(
-                                color: Color(0xFFffffff),
-                                fontFamily: fontText,
-                                fontSize: screenWidth < 600 ? size.width / 25.71 : size.width / 39),
+                              color: Color(0xFFffffff),
+                              fontFamily: fontText,
+                              fontSize: isLandscape == false
+                                  ? screenWidth < 600
+                                      ? 14.sp
+                                      : 8.sp
+                                  : screenWidth < 600
+                                      ? 12.sp
+                                      : 6.sp,
+                            ),
                           )),
                     ),
                     SizedBox(

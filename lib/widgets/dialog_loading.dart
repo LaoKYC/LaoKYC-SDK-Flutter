@@ -8,13 +8,14 @@ class DialogLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
+    var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
     return WillPopScope(
       onWillPop: () async => false,
       child: Dialog(
         child: Container(
           constraints: BoxConstraints(maxWidth: 150.w),
-          decoration:
-          BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
           child: ListView(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -30,8 +31,14 @@ class DialogLoading extends StatelessWidget {
                 title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize:
-                        screenWidth < 600 ? size.width / 25.71 : size.width / 30),
+                  fontSize: isLandscape == false
+                      ? screenWidth < 600
+                          ? 14.sp
+                          : 8.sp
+                      : screenWidth < 600
+                          ? 12.sp
+                          : 6.sp,
+                ),
               ),
               SizedBox(
                 height: size.height * 0.05,

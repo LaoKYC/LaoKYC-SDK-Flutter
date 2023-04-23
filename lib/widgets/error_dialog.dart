@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void errorDialog(BuildContext context, String errorTexthead, String errorText,
-    String errorbtn, String fontText) {
+void errorDialog(BuildContext context, String errorTexthead, String errorText, String errorbtn, String fontText) {
   Size size = MediaQuery.of(context).size;
 
   // String getDeviceType() {
@@ -17,11 +16,10 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
       builder: (_) {
         return Dialog(
           child: Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: size.width / 24, vertical: size.height / 55.33),
+            padding: EdgeInsets.symmetric(vertical: size.height / 55.33),
             constraints: BoxConstraints(maxWidth: 150.w),
-            decoration:
-            BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
             child: ListView(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -30,8 +28,7 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                   'assets/warning-sign.png',
                   package: 'laokyc_button',
                   width: screenWidth < 600 ? size.width / 7.2 : size.width / 12,
-                  height:
-                      screenWidth < 600 ? size.width / 7.2 : size.width / 12,
+                  height: screenWidth < 600 ? size.width / 7.2 : size.width / 12,
                 ),
                 SizedBox(
                   height: size.height / 29.6,
@@ -40,10 +37,15 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                   errorTexthead,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: screenWidth < 600
-                          ? size.width / 25
-                          : size.width / 36),
+                    fontWeight: FontWeight.w700,
+                    fontSize: isLandscape == false
+                        ? screenWidth < 600
+                            ? 14.sp
+                            : 8.sp
+                        : screenWidth < 600
+                            ? 12.sp
+                            : 6.sp,
+                  ),
                 ),
                 SizedBox(
                   height: size.height / 40.33,
@@ -52,13 +54,14 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                   errorText,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: isLandscape == false
-                          ? screenWidth < 600
-                              ? size.width / 25.71
-                              : size.width / 39
-                          : screenWidth < 600
-                              ? size.width / 25.71
-                              : size.width / 42),
+                    fontSize: isLandscape == false
+                        ? screenWidth < 600
+                            ? 14.sp
+                            : 8.sp
+                        : screenWidth < 600
+                            ? 12.sp
+                            : 6.sp,
+                  ),
                 ),
                 SizedBox(
                   height: size.height / 29.6,
@@ -80,13 +83,14 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                       child: Text(
                         errorbtn,
                         style: TextStyle(
-                            fontSize: isLandscape == false
-                                ? screenWidth < 600
-                                    ? size.width / 25.71
-                                    : size.width / 35
-                                : screenWidth < 600
-                                    ? size.width / 25.71
-                                    : size.width / 30),
+                          fontSize: isLandscape == false
+                              ? screenWidth < 600
+                                  ? 14.sp
+                                  : 8.sp
+                              : screenWidth < 600
+                                  ? 12.sp
+                                  : 6.sp,
+                        ),
                       )),
                 )
               ],
