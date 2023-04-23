@@ -33,7 +33,7 @@ Future<void> confirmOTPToken(
     "password": password
   });
   ConnectRefreshTokenModel? connectTokenData =
-      await connectTokenLogin(payload, context, 0);
+      await connectTokenLogin(payload, context, locale, 0);
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
     Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
