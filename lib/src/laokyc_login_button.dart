@@ -292,10 +292,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
             style: TextStyle(
               fontSize: isLandscape == false
                   ? screenWidth < 600
-                      ? 14.sp
+                      ? 16.sp
                       : 9.sp
                   : screenWidth < 600
-                      ? 12.sp
+                      ? 14.sp
                       : 7.sp,
               fontFamily: fontText,
               fontWeight: FontWeight.bold,
@@ -323,9 +323,9 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               /// New method check domain from hub
               HubDomainModel? hubDomainModel = await hubDomain(context, widget.locale, widget.gDomain, 0);
               if (hubDomainModel != null) {
-                String? domain = hubDomainModel.apiEndpoint;
-                final endIndex = domain!.indexOf("/", 0);
-                await PreferenceInfo().setDomain(domain.substring(0, endIndex));
+                String? apiEndpoint = hubDomainModel.apiEndpoint;
+                String domain = apiEndpoint!.replaceAll('-api', '');
+                await PreferenceInfo().setDomain(domain.substring(8));
                 buildDialogPhoneNumber(context);
               } else {
                 errorDialog(

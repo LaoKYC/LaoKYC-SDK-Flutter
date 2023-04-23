@@ -30,12 +30,12 @@ Future<HubDomainModel?> hubDomain(BuildContext context, Locale? locale, String? 
       return HubDomainModel.fromJson(json.decode(response.body));
     }else{
       Navigator.pop(context);
-      errorDialog(
-          context,
-          locale == const Locale('en') ? 'Sorry' : 'ຂໍອະໄພ',
-          'List domain: ${response.statusCode} ${response.body}',
-          locale == const Locale('en') ? 'Close' : 'ປິດ',
-          'Phetsarath');
+      // errorDialog(
+      //     context,
+      //     locale == const Locale('en') ? 'Sorry' : 'ຂໍອະໄພ',
+      //     'List domain: ${response.statusCode} ${response.body}',
+      //     locale == const Locale('en') ? 'Close' : 'ປິດ',
+      //     'Phetsarath');
       return null;
     }
 
