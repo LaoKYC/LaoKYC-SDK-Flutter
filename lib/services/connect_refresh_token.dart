@@ -2,17 +2,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:laokyc_button/constant/api_path.dart';
+import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
 import '../model/bad_request_model.dart';
 import '../model/connect_refresh_token_model.dart';
 
 Future<ConnectRefreshTokenModel?> connectTokenLogin(
-    String payload, BuildContext context, String locale, int n) async {
+    String payload, BuildContext context, int n) async {
   int retry = n + 1;
   if(retry > 3){
     return null;
   }
   String url = APIPath.CONNECT_TOKEN_LOGIN;
+  String? locale = await PreferenceInfo().getLocaleLanguage();
   try {
     var response = await http.post(Uri.parse(url), body: payload, headers: {
       'Content-type': 'application/json',
@@ -49,7 +51,7 @@ Future<ConnectRefreshTokenModel?> connectTokenLogin(
       return null;
     }
   } catch (e) {
-    return await connectTokenLogin(payload, context, locale, retry);
+    return await connectTokenLogin(payload, context, retry);
   }
 }
 

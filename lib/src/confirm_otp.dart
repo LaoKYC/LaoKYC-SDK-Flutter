@@ -14,6 +14,7 @@ class ConfirmOTP extends StatefulWidget {
   String scope;
   var route;
   String? fromApp;
+  Locale? locale;
 
   ConfirmOTP(
       {required this.secret,
@@ -21,7 +22,8 @@ class ConfirmOTP extends StatefulWidget {
       required this.scope,
       required this.phoneNumber,
       required this.route,
-      required this.fromApp});
+      required this.fromApp,
+      this.locale});
 
   @override
   State<ConfirmOTP> createState() => _ConfirmOTPState();
@@ -29,10 +31,10 @@ class ConfirmOTP extends StatefulWidget {
 
 class _ConfirmOTPState extends State<ConfirmOTP> {
   TextEditingController otp = TextEditingController();
-  String? locale;
-  Future getLocale() async {
-    locale = await PreferenceInfo().getLocaleLanguage();
-  }
+  // String? locale;
+  // Future getLocale() async {
+  //   locale = await PreferenceInfo().getLocaleLanguage();
+  // }
 
   @override
   void initState() {
@@ -41,7 +43,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
     PreferenceInfo().getLocaleLanguage().then((value) {
       if (value != null) {
         setState(() {
-          locale = value;
+          // locale = value;
         });
       }
     });
@@ -49,7 +51,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
 
   @override
   Widget build(BuildContext context) {
-    getLocale();
+    // getLocale();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -79,7 +81,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 height: 30,
               ),
               Text(
-                locale == 'en' ? 'Enter the latest laoKYC OTP' : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
+                widget.locale == const Locale('en') ? 'Enter the latest laoKYC OTP' : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
                 style: TextStyle(fontSize: 15, color: Colors.blueGrey),
               ),
               // SizedBox(
@@ -113,7 +115,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 obscureText: true,
                 controller: otp,
                 maxLength: 6,
-                hintText: locale == 'en' ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
+                hintText: widget.locale == const Locale('en') ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
               ),
               SizedBox(
                 height: 20,
@@ -122,7 +124,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style:
-                      ElevatedButton.styleFrom(primary: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
+                      ElevatedButton.styleFrom(backgroundColor: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
                   onPressed: () async {
                     if ((widget.phoneNumber.startsWith('10') && widget.phoneNumber.length == 8) ||
                         widget.phoneNumber == '2077710008') {
@@ -139,7 +141,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                               context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
                         });
                       } else {
-                        errorDialog(context, locale == 'en' ? 'ແຈ້ງເຕືອນ' : 'Warning', locale == 'en' ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ' : 'You enter wrong number', locale == 'en' ? 'ປິດ' : 'Close', 'Phetsarath');
+                        errorDialog(context, widget.locale == const Locale('en') ? 'ແຈ້ງເຕືອນ' : 'Warning', widget.locale == const Locale('en') ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ' : 'You enter wrong number', widget.locale == const Locale('en') ? 'ປິດ' : 'Close', 'Phetsarath');
                       }
                     } else {
                       if (widget.fromApp == 'G-OFFICE') {
@@ -179,12 +181,12 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                           await pref.setBool(showDialogBioLogin, showDialogBio);
                         }
                       }
-                      await confirmOTPToken(context, locale!, widget.clientID, widget.secret, widget.scope, widget.phoneNumber,
+                      await confirmOTPToken(context, widget.locale, widget.clientID, widget.secret, widget.scope, widget.phoneNumber,
                           otp.text, widget.route);
                     }
                   },
                   child: Text(
-                    locale == 'en' ? 'Next' : 'ຖັດໄປ',
+                    widget.locale == const Locale('en') ? 'Next' : 'ຖັດໄປ',
                     style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
@@ -203,12 +205,12 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                       onPressed: () async {
                         if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
                             widget.phoneNumber != '2077710008') {
-                          await requestOTPLogin(context, locale!, widget.phoneNumber, widget.clientID, widget.secret,
+                          await requestOTPLogin(context, widget.locale, widget.phoneNumber, widget.clientID, widget.secret,
                               widget.scope, widget.route, true, widget.fromApp);
                         }
                       },
                       child: Text(
-                        locale == 'en' ? 'Request new OTP' : 'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
+                        widget.locale == const Locale('en') ? 'Request new OTP' : 'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
                         style: TextStyle(color: Colors.white),
                       ))
                 ],

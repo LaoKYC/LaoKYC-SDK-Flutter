@@ -2,17 +2,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:laokyc_button/constant/api_path.dart';
+import 'package:laokyc_button/utils/prefUserInfo.dart';
 import '../model/bad_request_model.dart';
 import '../model/one_id_reset_model.dart';
 import '../widgets/error_dialog.dart';
 
 Future<OneIDResetOTP?> oneIDReset(
-    BuildContext context, String locale, String phoneNumber, String accessToken, int n) async {
+    BuildContext context, String phoneNumber, String accessToken, int n) async {
   int retry = n + 1;
   if(retry > 3){
     return null;
   }
   String url = APIPath.ONE_ID_RESET+phoneNumber;
+  String? locale = await PreferenceInfo().getLocaleLanguage();
   try {
     var response = await http.get(Uri.parse(url), headers: {
       'accept': 'text/plain',
@@ -41,7 +43,7 @@ Future<OneIDResetOTP?> oneIDReset(
       return null;
     }
   } catch (e) {
-    return await oneIDReset(context, locale, phoneNumber, accessToken, retry);
+    return await oneIDReset(context, phoneNumber, accessToken, retry);
   }
 }
 

@@ -42,7 +42,7 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                           : size.width / 36),
                 ),
                 SizedBox(
-                  height: size.height / 29.6,
+                  height: size.height / 40.33,
                 ),
                 Text(
                   errorText,
@@ -57,7 +57,7 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                               : size.width / 42),
                 ),
                 SizedBox(
-                  height: size.height / 40.33,
+                  height: size.height / 29.6,
                 ),
                 SizedBox(
                   width: double.infinity,
