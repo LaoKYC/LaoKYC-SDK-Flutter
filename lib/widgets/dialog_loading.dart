@@ -31,7 +31,7 @@ class DialogLoading extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize:
-                        screenWidth < 600 ? size.width / 25.71 : size.width / 36),
+                        screenWidth < 600 ? size.width / 25.71 : size.width / 30),
               ),
               SizedBox(
                 height: size.height * 0.05,

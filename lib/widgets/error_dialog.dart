@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void errorDialog(BuildContext context, String errorTexthead, String errorText,
     String errorbtn, String fontText) {
@@ -15,9 +16,12 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
       context: context,
       builder: (_) {
         return Dialog(
-          child: Padding(
+          child: Container(
             padding: EdgeInsets.symmetric(
                 horizontal: size.width / 24, vertical: size.height / 55.33),
+            constraints: BoxConstraints(maxWidth: 150.w),
+            decoration:
+            BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
             child: ListView(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -79,10 +83,10 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText,
                             fontSize: isLandscape == false
                                 ? screenWidth < 600
                                     ? size.width / 25.71
-                                    : size.width / 39
+                                    : size.width / 35
                                 : screenWidth < 600
                                     ? size.width / 25.71
-                                    : size.width / 35),
+                                    : size.width / 30),
                       )),
                 )
               ],

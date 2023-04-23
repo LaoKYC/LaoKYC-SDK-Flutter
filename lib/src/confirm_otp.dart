@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laokyc_button/utils/confirm_otp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/prefUserInfo.dart';
@@ -52,6 +53,9 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
   @override
   Widget build(BuildContext context) {
     // getLocale();
+    var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    Size size = MediaQuery.of(context).size;
+    double width = size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -81,8 +85,18 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 height: 30,
               ),
               Text(
-                widget.locale == const Locale('en') ? 'Enter the latest laoKYC OTP' : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
-                style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                widget.locale == const Locale('en')
+                    ? 'Enter the latest laoKYC OTP'
+                    : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
+                style: TextStyle(
+                    fontSize: isLandscape == false
+                        ? width < 600
+                            ? 14.sp
+                            : 8.sp
+                        : width < 600
+                            ? 12.sp
+                            : 6.sp,
+                    color: Colors.blueGrey),
               ),
               // SizedBox(
               //   height: 15,
@@ -115,7 +129,8 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 obscureText: true,
                 controller: otp,
                 maxLength: 6,
-                hintText: widget.locale == const Locale('en') ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
+                hintText:
+                    widget.locale == const Locale('en') ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
               ),
               SizedBox(
                 height: 20,
@@ -123,8 +138,8 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
                   onPressed: () async {
                     if ((widget.phoneNumber.startsWith('10') && widget.phoneNumber.length == 8) ||
                         widget.phoneNumber == '2077710008') {
@@ -141,7 +156,14 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                               context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
                         });
                       } else {
-                        errorDialog(context, widget.locale == const Locale('en') ? 'ແຈ້ງເຕືອນ' : 'Warning', widget.locale == const Locale('en') ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ' : 'You enter wrong number', widget.locale == const Locale('en') ? 'ປິດ' : 'Close', 'Phetsarath');
+                        errorDialog(
+                            context,
+                            widget.locale == const Locale('en') ? 'ແຈ້ງເຕືອນ' : 'Warning',
+                            widget.locale == const Locale('en')
+                                ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ'
+                                : 'You enter wrong number',
+                            widget.locale == const Locale('en') ? 'ປິດ' : 'Close',
+                            'Phetsarath');
                       }
                     } else {
                       if (widget.fromApp == 'G-OFFICE') {
@@ -181,13 +203,21 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                           await pref.setBool(showDialogBioLogin, showDialogBio);
                         }
                       }
-                      await confirmOTPToken(context, widget.locale, widget.clientID, widget.secret, widget.scope, widget.phoneNumber,
-                          otp.text, widget.route);
+                      await confirmOTPToken(context, widget.locale, widget.clientID, widget.secret, widget.scope,
+                          widget.phoneNumber, otp.text, widget.route);
                     }
                   },
                   child: Text(
                     widget.locale == const Locale('en') ? 'Next' : 'ຖັດໄປ',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: isLandscape == false
+                            ? width < 600
+                                ? 14.sp
+                                : 8.sp
+                            : width < 600
+                                ? 12.sp
+                                : 6.sp,
+                        color: Colors.white),
                   ),
                 ),
               ),
@@ -205,13 +235,21 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                       onPressed: () async {
                         if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
                             widget.phoneNumber != '2077710008') {
-                          await requestOTPLogin(context, widget.locale, widget.phoneNumber, widget.clientID, widget.secret,
-                              widget.scope, widget.route, true, widget.fromApp);
+                          await requestOTPLogin(context, widget.locale, widget.phoneNumber, widget.clientID,
+                              widget.secret, widget.scope, widget.route, true, widget.fromApp);
                         }
                       },
                       child: Text(
                         widget.locale == const Locale('en') ? 'Request new OTP' : 'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            fontSize: isLandscape == false
+                                ? width < 600
+                                    ? 14.sp
+                                    : 8.sp
+                                : width < 600
+                                    ? 12.sp
+                                    : 6.sp,
+                            color: Colors.white),
                       ))
                 ],
               )

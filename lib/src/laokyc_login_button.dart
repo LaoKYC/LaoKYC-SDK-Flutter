@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laokyc_button/model/list_domain_model.dart';
 import 'package:laokyc_button/services/g-office-list-domain.dart';
 import 'package:laokyc_button/src/confirm_otp.dart';
@@ -358,8 +359,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
+              child: Container(
                 padding: EdgeInsets.only(left: size.width / 18, right: size.width / 18),
+                constraints: BoxConstraints(maxWidth: 200.w),
+                decoration:
+                BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
                 child: ListView(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
