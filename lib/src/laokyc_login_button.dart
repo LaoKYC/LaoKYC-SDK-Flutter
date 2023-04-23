@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laokyc_button/model/list_domain_model.dart';
 import 'package:laokyc_button/services/g-office-list-domain.dart';
+import 'package:laokyc_button/services/g-office_hub_domain.dart';
 import 'package:laokyc_button/src/confirm_otp.dart';
 import 'package:laokyc_button/utils/CheckValid.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
@@ -15,6 +16,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:dio/dio.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
 import 'package:platform_device_id/platform_device_id.dart';
+
+import '../model/hub_domain_model.dart';
 
 class LaoKYCButton extends StatefulWidget {
   String clientId;
@@ -317,28 +320,47 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
               await PreferenceInfo().setDomain('sbg.eoffice.la');
               buildDialogPhoneNumber(context);
             } else {
-              ListDomainModel? getDomain = await listDomain(context, widget.locale, 0);
-              if (getDomain != null) {
-                for (var i = 0; i < getDomain.content!.length; i++) {
-                  List<String> splitText = getDomain.content![i].domain!.split('.');
-                  if (widget.gDomain == splitText[0]) {
-                    await PreferenceInfo().setDomain(getDomain.content![i].domain!);
-                    buildDialogPhoneNumber(context);
-                    i = getDomain.content!.length;
-                  } else {
-                    if (i == getDomain.content!.length - 1) {
-                      errorDialog(
-                          context,
-                          errorTexthead,
-                          widget.locale == const Locale('en')
-                              ? 'Could not find the domain\nfor example: mtc, mofa...'
-                              : 'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
-                          widget.locale == const Locale('en') ? 'Close' : 'ປິດ',
-                          fontText);
-                    }
-                  }
-                }
+              /// New method check domain from hub
+              HubDomainModel? hubDomainModel = await hubDomain(context, widget.locale, widget.gDomain, 0);
+              if (hubDomainModel != null) {
+                String? domain = hubDomainModel.apiEndpoint;
+                final endIndex = domain!.indexOf("/", 0);
+                await PreferenceInfo().setDomain(domain.substring(0, endIndex));
+                buildDialogPhoneNumber(context);
+              } else {
+                errorDialog(
+                    context,
+                    errorTexthead,
+                    widget.locale == const Locale('en')
+                        ? 'Could not find the domain\nfor example: mtc, mofa...'
+                        : 'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+                    widget.locale == const Locale('en') ? 'Close' : 'ປິດ',
+                    fontText);
               }
+
+              /// Old method check domain from list domain
+              // ListDomainModel? getDomain = await listDomain(context, widget.locale, 0);
+              // if (getDomain != null) {
+              //   for (var i = 0; i < getDomain.content!.length; i++) {
+              //     List<String> splitText = getDomain.content![i].domain!.split('.');
+              //     if (widget.gDomain == splitText[0]) {
+              //       await PreferenceInfo().setDomain(getDomain.content![i].domain!);
+              //       buildDialogPhoneNumber(context);
+              //       i = getDomain.content!.length;
+              //     } else {
+              //       if (i == getDomain.content!.length - 1) {
+              //         errorDialog(
+              //             context,
+              //             errorTexthead,
+              //             widget.locale == const Locale('en')
+              //                 ? 'Could not find the domain\nfor example: mtc, mofa...'
+              //                 : 'ຂໍອະໄພບໍ່ພົບໂດເມນນີ້ໃນລະບົບ\nຕົວຢ່າງໂດເມນ: mtc, mofa...',
+              //             widget.locale == const Locale('en') ? 'Close' : 'ປິດ',
+              //             fontText);
+              //       }
+              //     }
+              //   }
+              // }
             }
           }
         } else {
@@ -533,17 +555,16 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
                           child: Text(
                             autbtn,
                             style: TextStyle(
-                              color: Color(0xFFffffff),
-                              fontFamily: fontText,
-                              fontSize: isLandscape == false
-                                  ? screenWidth < 600
-                                      ? 14.sp
-                                      : 8.sp
-                                  : screenWidth < 600
-                                      ? 12.sp
-                                      : 6.sp,
-                              fontWeight: FontWeight.w700
-                            ),
+                                color: Color(0xFFffffff),
+                                fontFamily: fontText,
+                                fontSize: isLandscape == false
+                                    ? screenWidth < 600
+                                        ? 14.sp
+                                        : 8.sp
+                                    : screenWidth < 600
+                                        ? 12.sp
+                                        : 6.sp,
+                                fontWeight: FontWeight.w700),
                           )),
                     ),
                     SizedBox(
