@@ -32,6 +32,7 @@ class ConfirmOTP extends StatefulWidget {
 
 class _ConfirmOTPState extends State<ConfirmOTP> {
   TextEditingController otp = TextEditingController();
+  bool _isChecked = false;
   // String? locale;
   // Future getLocale() async {
   //   locale = await PreferenceInfo().getLocaleLanguage();
@@ -48,6 +49,29 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
         });
       }
     });
+
+    PreferenceInfo().getPassword().then((value) {
+      if (value != null) {
+        String number = value.substring(0, 8);
+        if (number == widget.phoneNumber) {
+          otp.text = value.substring(8);
+          PreferenceInfo().getIsChecked().then((value) {
+            if (value == true) {
+              _isChecked = value!;
+            }
+          });
+        }
+      }
+    });
+  }
+
+  Future<void> setPrefRememberPass() async {
+    await PreferenceInfo().setPassword(widget.phoneNumber + otp.text);
+    if (_isChecked == true) {
+      await PreferenceInfo().setIsChecked(true);
+    } else {
+      await PreferenceInfo().setIsChecked(false);
+    }
   }
 
   @override
@@ -132,6 +156,29 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 hintText:
                     widget.locale == const Locale('en') ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
               ),
+              Row(
+                children: [
+                  Checkbox(
+                      value: _isChecked,
+                      onChanged: (value) async {
+                        setState(() {
+                          _isChecked = value!;
+                        });
+                      }),
+                  Text(
+                    widget.locale == const Locale('en') ? 'Remember me' : 'ຈື່ລະຫັດຜ່ານ',
+                    style: TextStyle(
+                      fontSize: isLandscape == false
+                          ? width < 600
+                              ? 14.sp
+                              : 8.sp
+                          : width < 600
+                              ? 12.sp
+                              : 6.sp,
+                    ),
+                  )
+                ],
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -155,6 +202,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                           Navigator.pushAndRemoveUntil(
                               context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
                         });
+                        setPrefRememberPass();
                       } else {
                         errorDialog(
                             context,
@@ -202,6 +250,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                         if (showDialogBio != null) {
                           await pref.setBool(showDialogBioLogin, showDialogBio);
                         }
+                        setPrefRememberPass();
                       }
                       await confirmOTPToken(context, widget.locale, widget.clientID, widget.secret, widget.scope,
                           widget.phoneNumber, otp.text, widget.route);

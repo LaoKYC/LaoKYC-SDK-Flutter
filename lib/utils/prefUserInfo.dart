@@ -20,6 +20,10 @@ class PreferenceInfo {
 
   static const localeLanguage = 'localeLanguage';
 
+  static const password = 'password';
+
+  static const isChecked = 'isChecked';
+
   Future<void> init() async {}
 
   Future<void> setConnectTokenResponse(String response) async {
@@ -59,6 +63,16 @@ class PreferenceInfo {
   Future<void> setListDomainData(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(list_domain_data, value);
+  }
+
+  Future<void> setIsChecked (bool value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool(isChecked, value);
+  }
+
+  Future<void> setPassword(String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(password, value);
   }
 
   Future<List<String>> getUserInfo() async {
@@ -103,6 +117,16 @@ class PreferenceInfo {
   Future<String?> getLocaleLanguage() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(localeLanguage);
+  }
+
+  Future<bool?> getIsChecked () async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(isChecked);
+  }
+
+  Future<String?> getPassword () async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(password);
   }
 
 }
