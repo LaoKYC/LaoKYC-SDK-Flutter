@@ -52,9 +52,9 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
 
     PreferenceInfo().getPassword().then((value) {
       if (value != null) {
-        String number = value.substring(0, 8);
+        String number = value.substring(0, 10);
         if (number == widget.phoneNumber) {
-          otp.text = value.substring(8);
+          otp.text = value.substring(10);
           PreferenceInfo().getIsChecked().then((value) {
             if (value == true) {
               _isChecked = value!;
@@ -66,10 +66,11 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
   }
 
   Future<void> setPrefRememberPass() async {
-    await PreferenceInfo().setPassword(widget.phoneNumber + otp.text);
     if (_isChecked == true) {
+      await PreferenceInfo().setPassword(widget.phoneNumber + otp.text);
       await PreferenceInfo().setIsChecked(true);
     } else {
+      await PreferenceInfo().setPassword('');
       await PreferenceInfo().setIsChecked(false);
     }
   }
@@ -180,7 +181,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               SizedBox(
                 width: double.infinity,
