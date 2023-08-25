@@ -12,6 +12,7 @@ import '../widgets/dialog_loading.dart';
 /// ສຳລັບ ConfirmOTP
 Future<void> confirmOTPToken(
     BuildContext context,
+    Locale? locale,
     String clientID,
     String secret,
     String scope,
@@ -21,7 +22,7 @@ Future<void> confirmOTPToken(
   showDialog(
       context: context,
       builder: (_) {
-        return DialogLoading(title: 'ກຳລັງໂຫຼດ');
+        return DialogLoading(title: locale == const Locale('en') ? 'Loading' : 'ກຳລັງໂຫຼດ');
       });
   String payload = jsonEncode({
     "clientID": clientID,
@@ -32,7 +33,7 @@ Future<void> confirmOTPToken(
     "password": password
   });
   ConnectRefreshTokenModel? connectTokenData =
-      await connectTokenLogin(payload, context);
+      await connectTokenLogin(payload, context, locale, 0);
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
     Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
@@ -55,9 +56,9 @@ Future<void> confirmOTPToken(
       Navigator.pop(context);
       errorDialog(
           context,
-          'ຂໍອະໄພ',
-          'ເບີຂອງທ່ານບໍ່ທັນມີໃນລະບົບ LaoKYC\nກະລຸນາລົງທະບຽນກ່ອນ',
-          'ປິດ',
+          locale == const Locale('en') ? 'Sorry' : 'ຂໍອະໄພ',
+          locale == const Locale('en') ? 'The number does not exist in LaoKYC\nPlease register your phone number' : 'ເບີຂອງທ່ານບໍ່ທັນມີໃນລະບົບ LaoKYC\nກະລຸນາລົງທະບຽນກ່ອນ',
+          locale == const Locale('en') ? 'Close' : 'ປິດ',
           'Phetsarath OT');
     }
   }

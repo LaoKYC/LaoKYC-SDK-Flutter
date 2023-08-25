@@ -1,4 +1,4 @@
-## 0.7.9
+## 0.8.2
 * TODO: add ownerID
 
 

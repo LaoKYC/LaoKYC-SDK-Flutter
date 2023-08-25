@@ -25,7 +25,7 @@ to registry with your application.
 Add the following code to your **pubspec.yaml** :
 
         dependencies:
-            laokyc_button: ^0.7.9
+            laokyc_button: ^0.8.2
             
 <p align="center">
   <img src="https://github.com/LaoKYC/LaoKYC-SDK-Flutter/raw/main/assets/ScreenShotDemo.png">
@@ -46,7 +46,7 @@ Import the package
                 clientSecret = 'Your clientSecret',
                 redirectUrl = 'Your redirectUrl',
                 route = Your page after client login success
-                lang = 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English)
+                locale = const Locale('en') or const Locale('lo'), //Choose between Locale('en') or Locale('lo') for language to show Login dialog Locale('lo') for Lao, Locale('en') for English
                 scope = 'This will be provide by LaoKYC',
         );
     
@@ -112,7 +112,7 @@ in tag manifest
                           redirectUrl: 'Your redirectUrl',
                           scope: 'This will be provide by LaoKYC',
                           route: Your page after client login success,
-                          lang: 'LA' or 'EN', //Choose between  LA or EN for language to show Login dialog LA(Laos), EN(English),
+                          locale = const Locale('en') or const Locale('lo'), //Choose between Locale('en') or Locale('lo') for language to show Login dialog Locale('lo') for Lao and Locale('en') for English
                         )));
                   }
                 }
