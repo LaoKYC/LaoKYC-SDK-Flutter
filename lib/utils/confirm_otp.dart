@@ -10,15 +10,8 @@ import '../services/connect_refresh_token.dart';
 import '../widgets/dialog_loading.dart';
 
 /// ສຳລັບ ConfirmOTP
-Future<void> confirmOTPToken(
-    BuildContext context,
-    Locale? locale,
-    String clientID,
-    String secret,
-    String scope,
-    String username,
-    String password,
-    var route) async {
+Future<void> confirmOTPToken(BuildContext context, Locale? locale, String clientID, String secret, String scope,
+    String username, String password, var route) async {
   showDialog(
       context: context,
       builder: (_) {
@@ -32,18 +25,19 @@ Future<void> confirmOTPToken(
     "username": username,
     "password": password
   });
-  ConnectRefreshTokenModel? connectTokenData =
-      await connectTokenLogin(payload, context, locale, 0);
+  ConnectRefreshTokenModel? connectTokenData = await connectTokenLogin(payload, context, locale, 0);
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
     Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-    String ownerID = decodedToken["sub"];
-    await PreferenceInfo().setOwnerID(ownerID).then((value) {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => route), (route) => false);
-    });
-
     // String account = decodedToken["account"];
+    String firstName = decodedToken["name"] ?? '';
+    String familyName = decodedToken["family_name"] ?? '';
+    String preferredUserName = decodedToken["preferred_username"] ?? '';
+    String ownerID = decodedToken["sub"] ?? '';
+    await PreferenceInfo().setOwnerID(ownerID);
+    await PreferenceInfo().saveUserInfo(firstName, familyName, preferredUserName, accessToken).then((value) {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => route), (route) => false);
+    });
 
     /// ຖ້າມີເບີຢູ່ໃນລະບົບ
     // if (account == 'exist') {
