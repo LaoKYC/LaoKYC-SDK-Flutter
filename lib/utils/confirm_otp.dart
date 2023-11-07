@@ -37,29 +37,35 @@ Future<void> confirmOTPToken(
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
     Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
-    String account = decodedToken["account"];
+    String ownerID = decodedToken["sub"];
+    await PreferenceInfo().setOwnerID(ownerID).then((value) {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => route), (route) => false);
+    });
+
+    // String account = decodedToken["account"];
 
     /// ຖ້າມີເບີຢູ່ໃນລະບົບ
-    if (account == 'exist') {
-      String firstName = decodedToken["name"];
-      String familyName = decodedToken["family_name"];
-      String preferredUserName = decodedToken["preferred_username"];
-      String ownerID = decodedToken["sub"];
-      await PreferenceInfo().setOwnerID(ownerID);
-      await PreferenceInfo()
-          .saveUserInfo(firstName, familyName, preferredUserName, accessToken)
-          .then((value) {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => route), (route) => false);
-      });
-    } else {
-      Navigator.pop(context);
-      errorDialog(
-          context,
-          locale == const Locale('en') ? 'Sorry' : 'ຂໍອະໄພ',
-          locale == const Locale('en') ? 'The number does not exist in LaoKYC\nPlease register your phone number' : 'ເບີຂອງທ່ານບໍ່ທັນມີໃນລະບົບ LaoKYC\nກະລຸນາລົງທະບຽນກ່ອນ',
-          locale == const Locale('en') ? 'Close' : 'ປິດ',
-          'Phetsarath OT');
-    }
+    // if (account == 'exist') {
+    //   String firstName = decodedToken["name"];
+    //   String familyName = decodedToken["family_name"];
+    //   String preferredUserName = decodedToken["preferred_username"];
+    //   String ownerID = decodedToken["sub"];
+    //   await PreferenceInfo().setOwnerID(ownerID);
+    //   await PreferenceInfo()
+    //       .saveUserInfo(firstName, familyName, preferredUserName, accessToken)
+    //       .then((value) {
+    //     Navigator.pushAndRemoveUntil(context,
+    //         MaterialPageRoute(builder: (context) => route), (route) => false);
+    //   });
+    // } else {
+    //   Navigator.pop(context);
+    //   errorDialog(
+    //       context,
+    //       locale == const Locale('en') ? 'Sorry' : 'ຂໍອະໄພ',
+    //       locale == const Locale('en') ? 'The number does not exist in LaoKYC\nPlease register your phone number' : 'ເບີຂອງທ່ານບໍ່ທັນມີໃນລະບົບ LaoKYC\nກະລຸນາລົງທະບຽນກ່ອນ',
+    //       locale == const Locale('en') ? 'Close' : 'ປິດ',
+    //       'Phetsarath OT');
+    // }
   }
 }

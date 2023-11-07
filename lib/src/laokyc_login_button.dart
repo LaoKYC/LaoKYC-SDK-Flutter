@@ -188,16 +188,19 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
         //    (_refreshTokenTextController.text = response.refreshToken!);
         _accessTokenExpirationTextController.text = response.accessTokenExpirationDateTime!.toIso8601String();
         Map<String, dynamic> decodedToken = JwtDecoder.decode(_idToken); // <======= id Token JWT
-        _first_name = decodedToken["name"];
-        _family_name = decodedToken["family_name"];
-        _preferred_username = decodedToken["preferred_username"]; // 205xxxxxxx
-        _phone = decodedToken["phone"]; // +856205xxxxxx
         _sub = decodedToken["sub"];
-        PreferenceInfo().setOwnerID(_sub);
-        PreferenceInfo().saveUserInfo(_first_name, _family_name, _preferred_username, _accessToken).then((value) {
+        PreferenceInfo().setOwnerID(_sub).then((value) {
           Navigator.pushAndRemoveUntil(
               context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
         });
+        // _first_name = decodedToken["name"];
+        // _family_name = decodedToken["family_name"];
+        // _preferred_username = decodedToken["preferred_username"]; // 205xxxxxxx
+        // _phone = decodedToken["phone"]; // +856205xxxxxx
+        // PreferenceInfo().saveUserInfo(_first_name, _family_name, _preferred_username, _accessToken).then((value) {
+        //   Navigator.pushAndRemoveUntil(
+        //       context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
+        // });
       } on Exception catch (_) {}
 
       // Navigator.push(
