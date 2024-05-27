@@ -51,7 +51,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
     });
 
     PreferenceInfo().getPassword().then((value) {
-      if (value != null) {
+      if (value != null || value!.isNotEmpty) {
         String number = value.substring(0, 10);
         if (number == widget.phoneNumber) {
           otp.text = value.substring(10);
