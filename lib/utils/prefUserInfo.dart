@@ -24,6 +24,8 @@ class PreferenceInfo {
 
   static const isChecked = 'isChecked';
 
+  static const loginPayload = 'loginPayload';
+
   Future<void> init() async {}
 
   Future<void> setConnectTokenResponse(String response) async {
@@ -36,8 +38,7 @@ class PreferenceInfo {
     return preferences.getString(connectTokenResponse);
   }
 
-  Future<void> saveUserInfo(String firstName, String familyName,
-      String phonenumber, String accessToken) async {
+  Future<void> saveUserInfo(String firstName, String familyName, String phonenumber, String accessToken) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(first_name, firstName);
     preferences.setString(family_name, familyName);
@@ -65,7 +66,7 @@ class PreferenceInfo {
     preferences.setString(list_domain_data, value);
   }
 
-  Future<void> setIsChecked (bool value) async {
+  Future<void> setIsChecked(bool value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setBool(isChecked, value);
   }
@@ -73,6 +74,11 @@ class PreferenceInfo {
   Future<void> setPassword(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString(password, value);
+  }
+
+  Future<void> setLoginPayload(String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(loginPayload, value);
   }
 
   Future<List<String>> getUserInfo() async {
@@ -119,14 +125,18 @@ class PreferenceInfo {
     return preferences.getString(localeLanguage);
   }
 
-  Future<bool?> getIsChecked () async {
+  Future<bool?> getIsChecked() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(isChecked);
   }
 
-  Future<String?> getPassword () async {
+  Future<String?> getPassword() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(password);
   }
 
+  Future<String?> getLoginPayload() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(loginPayload);
+  }
 }
