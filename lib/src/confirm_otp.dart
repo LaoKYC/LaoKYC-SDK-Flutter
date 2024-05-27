@@ -51,7 +51,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
     });
 
     PreferenceInfo().getPassword().then((value) {
-      if (value!.isNotEmpty) {
+      if (value != null || value!.isNotEmpty) {
         String number = value.substring(0, 10);
         if (number == widget.phoneNumber) {
           otp.text = value.substring(10);
@@ -106,22 +106,19 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                 width: 100,
                 height: 100,
               ),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 30),
               Text(
-                widget.locale == const Locale('en')
-                    ? 'Enter the latest laoKYC OTP'
-                    : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
+                widget.locale == const Locale('en') ? 'Enter the latest laoKYC OTP' : 'ໃຫ້ປ້ອນລະຫັດຜ່ານ OTP ລ່າສຸດຂອງແອັບ LaoKYC',
                 style: TextStyle(
-                    fontSize: isLandscape == false
-                        ? width < 600
-                            ? 14.sp
-                            : 8.sp
-                        : width < 600
-                            ? 12.sp
-                            : 6.sp,
-                    color: Colors.blueGrey),
+                  fontSize: isLandscape == false
+                      ? width < 600
+                          ? 14.sp
+                          : 8.sp
+                      : width < 600
+                          ? 12.sp
+                          : 6.sp,
+                  color: Colors.blueGrey,
+                ),
               ),
               // SizedBox(
               //   height: 15,
@@ -147,15 +144,12 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
               //     ),
               //   ],
               // ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               GOfficeNumberTextField(
                 obscureText: true,
                 controller: otp,
                 maxLength: 6,
-                hintText:
-                    widget.locale == const Locale('en') ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
+                hintText: widget.locale == const Locale('en') ? 'Enter your 6 digits OTP' : 'ກະລຸນາປ້ອນລະຫັດ OTP 6 ໂຕເລກ',
               ),
               Row(
                 children: [
@@ -180,14 +174,11 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                   )
                 ],
               ),
-              SizedBox(
-                height: 5,
-              ),
+              SizedBox(height: 5),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
+                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
                   onPressed: () async {
                     if ((widget.phoneNumber.startsWith('10') && widget.phoneNumber.length == 8) ||
                         widget.phoneNumber == '2077710008') {
@@ -197,9 +188,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                         String preferredUserName = '2077710008';
                         String sub = '';
                         String accessToken = '';
-                        await PreferenceInfo()
-                            .saveUserInfo(firstName, familyName, preferredUserName, accessToken)
-                            .then((value) {
+                        await PreferenceInfo().saveUserInfo(firstName, familyName, preferredUserName, accessToken).then((value) {
                           Navigator.pushAndRemoveUntil(
                               context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
                         });
@@ -208,9 +197,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                         errorDialog(
                             context,
                             widget.locale == const Locale('en') ? 'ແຈ້ງເຕືອນ' : 'Warning',
-                            widget.locale == const Locale('en')
-                                ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ'
-                                : 'You enter wrong number',
+                            widget.locale == const Locale('en') ? 'ຂໍອະໄພ ເບີໂທຂອງທ່ານບໍ່ຖືກຕ້ອງ' : 'You enter wrong number',
                             widget.locale == const Locale('en') ? 'ປິດ' : 'Close',
                             'Phetsarath');
                       }
@@ -260,6 +247,37 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                   child: Text(
                     widget.locale == const Locale('en') ? 'Next' : 'ຖັດໄປ',
                     style: TextStyle(
+                      fontSize: isLandscape == false
+                          ? width < 600
+                              ? 14.sp
+                              : 8.sp
+                          : width < 600
+                              ? 12.sp
+                              : 6.sp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orangeAccent,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    ),
+                    onPressed: () async {
+                      if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
+                          widget.phoneNumber != '2077710008') {
+                        await requestOTPLogin(context, widget.locale, widget.phoneNumber, widget.clientID, widget.secret,
+                            widget.scope, widget.route, true, widget.fromApp);
+                      }
+                    },
+                    child: Text(
+                      widget.locale == const Locale('en') ? 'Request new OTP' : 'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
+                      style: TextStyle(
                         fontSize: isLandscape == false
                             ? width < 600
                                 ? 14.sp
@@ -267,40 +285,10 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                             : width < 600
                                 ? 12.sp
                                 : 6.sp,
-                        color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orangeAccent,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        color: Colors.white,
                       ),
-                      onPressed: () async {
-                        if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
-                            widget.phoneNumber != '2077710008') {
-                          await requestOTPLogin(context, widget.locale, widget.phoneNumber, widget.clientID,
-                              widget.secret, widget.scope, widget.route, true, widget.fromApp);
-                        }
-                      },
-                      child: Text(
-                        widget.locale == const Locale('en') ? 'Request new OTP' : 'ຂໍລະຫັດຜ່ານອີກຄັ້ງ',
-                        style: TextStyle(
-                            fontSize: isLandscape == false
-                                ? width < 600
-                                    ? 14.sp
-                                    : 8.sp
-                                : width < 600
-                                    ? 12.sp
-                                    : 6.sp,
-                            color: Colors.white),
-                      ))
+                    ),
+                  )
                 ],
               )
             ],
