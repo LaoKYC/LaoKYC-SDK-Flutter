@@ -2,20 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DialogLoading extends StatelessWidget {
-  String title;
+  final String title;
   DialogLoading({required this.title});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-    return WillPopScope(
-      onWillPop: () async => false,
+    
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {},
       child: Dialog(
         child: Container(
           constraints: BoxConstraints(maxWidth: 150.w),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.r),
+              topRight: Radius.circular(10.r),
+            ),
+          ),
           child: ListView(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),

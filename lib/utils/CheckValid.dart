@@ -1,4 +1,3 @@
-import 'dart:async';
 
 class CheckValid {
   checkValidPhonenumber(String phonenumber) {

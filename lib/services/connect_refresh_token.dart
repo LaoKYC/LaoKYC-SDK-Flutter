@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:laokyc_button/constant/api_path.dart';
@@ -11,11 +10,8 @@ Future<ConnectRefreshTokenModel?> connectTokenLogin(
   String payload,
   BuildContext context,
   Locale? locale,
-  int n,
+  int tryCatch,
 ) async {
-  int retry = n + 1;
-  if (retry == 3) return null;
-
   String url = APIPath.CONNECT_TOKEN_LOGIN;
   try {
     var response = await http.post(
@@ -60,6 +56,23 @@ Future<ConnectRefreshTokenModel?> connectTokenLogin(
       return null;
     }
   } catch (e) {
-    return await connectTokenLogin(payload, context, locale, retry);
+    if (tryCatch < 3) {
+      return await connectTokenLogin(
+        payload,
+        context,
+        locale,
+        tryCatch + 1,
+      );
+    } else {
+      Navigator.pop(context);
+      errorDialog(
+        context,
+        locale == const Locale('en') ? 'Warning' : 'ແຈ້ງເຕືອນ',
+        'Connect Token login: error',
+        locale == const Locale('en') ? 'Close' : 'ປິດ',
+        'Phetsarath',
+      );
+      return null;
+    }
   }
 }

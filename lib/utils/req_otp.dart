@@ -41,11 +41,16 @@ Future<void> requestOTPLogin(
     payload,
     context,
     locale,
-    0,
+    1,
   );
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
-    OneIDResetOTP? oneIDResetOTP = await oneIDReset(context, phoneNumber, accessToken, 0);
+    OneIDResetOTP? oneIDResetOTP = await oneIDReset(
+      context,
+      phoneNumber,
+      accessToken,
+      1,
+    );
     if (oneIDResetOTP != null) {
       if (isFromConfirm) {
         Navigator.pop(context);

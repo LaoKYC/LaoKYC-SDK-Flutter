@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void errorDialog(BuildContext context, String errorTexthead, String errorText, String errorbtn, String fontText) {
+void errorDialog(
+  BuildContext context,
+  String errorTexthead,
+  String errorText,
+  String errorbtn,
+  String fontText,
+) {
   Size size = MediaQuery.of(context).size;
 
   // String getDeviceType() {
@@ -19,7 +25,11 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText, S
             padding: EdgeInsets.symmetric(horizontal: size.width / 25, vertical: size.height / 55.33),
             constraints: BoxConstraints(maxWidth: 200.w),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.r), topRight: Radius.circular(10.r))),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10.r),
+                topRight: Radius.circular(10.r),
+              ),
+            ),
             child: ListView(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -76,7 +86,9 @@ void errorDialog(BuildContext context, String errorTexthead, String errorText, S
                           ? size.height / 20
                           : size.height / 20,
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueGrey,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },

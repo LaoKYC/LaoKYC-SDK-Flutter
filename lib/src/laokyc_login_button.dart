@@ -17,15 +17,15 @@ import 'package:platform_device_id/platform_device_id.dart';
 import '../model/hub_domain_model.dart';
 
 class LaoKYCButton extends StatefulWidget {
-  String clientId;
-  String redirectUrl;
-  String clientSecret;
-  List<String> scope;
-  var route;
-  String? fromApp;
-  String? gDomain;
-  String? gOfficeScopes;
-  Locale locale;
+  final String clientId;
+  final String redirectUrl;
+  final String clientSecret;
+  final List<String> scope;
+  final route;
+  final String? fromApp;
+  final String? gDomain;
+  final String? gOfficeScopes;
+  final Locale locale;
   // String? displayType; // Display Type : MOBILE / TABLET
 
   LaoKYCButton(
@@ -68,11 +68,11 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   late String _first_name;
   late String _family_name;
   late String _preferred_username;
-  late String _phone;
+  // late String _phone;
   late String _sub;
   String _refreshToken = "";
   // late String _DisplayType;
-  bool _isBusy = false;
+  // bool _isBusy = false;
   // final TextEditingController _authorizationCodeTextController = TextEditingController();
   final TextEditingController _accessTokenTextController = TextEditingController();
 
@@ -143,7 +143,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     bool preferEphemeralSession = false,
   }) async {
     try {
-      _setBusyState();
+      // _setBusyState();
 
       final AuthorizationTokenResponse? result = await _appAuth.authorizeAndExchangeCode(
         AuthorizationTokenRequest(
@@ -174,21 +174,21 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       }
     } catch (e) {
       print('Error: $e');
-      _clearBusyState();
+      // _clearBusyState();
     }
   }
 
-  void _clearBusyState() {
-    setState(() {
-      _isBusy = false;
-    });
-  }
+  // void _clearBusyState() {
+  //   setState(() {
+  //     _isBusy = false;
+  //   });
+  // }
 
-  void _setBusyState() {
-    setState(() {
-      _isBusy = true;
-    });
-  }
+  // void _setBusyState() {
+  //   setState(() {
+  //     _isBusy = true;
+  //   });
+  // }
 
   Future<void> _processAuthTokenResponse(AuthorizationTokenResponse response) async {
     try {
@@ -201,7 +201,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
       _first_name = decodedToken["name"] ?? '';
       _family_name = decodedToken["family_name"] ?? '';
       _preferred_username = decodedToken["preferred_username"] ?? ''; // 205xxxxxxx
-      _phone = decodedToken["phone"] ?? ''; // +856205xxxxxx
+      // _phone = decodedToken["phone"] ?? ''; // +856205xxxxxx
       _sub = decodedToken["sub"] ?? '';
 
       await Future.wait([
@@ -252,10 +252,10 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
     }
   }
 
-  String getDeviceType() {
-    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-    return data.size.shortestSide < 600 ? 'phone' : 'tablet';
-  }
+  // String getDeviceType() {
+  //   final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+  //   return data.size.shortestSide < 600 ? 'phone' : 'tablet';
+  // }
 
   Future setLocale() async {
     await PreferenceInfo().setLocaleLanguage(widget.locale.languageCode);
@@ -338,15 +338,32 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           } else {
             if (widget.gDomain == 'sbg') {
               await PreferenceInfo().setDomain('sbg.eoffice.la');
-              buildDialogPhoneNumber(context);
+              showDialogPhoneNumber(context);
             } else {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return DialogLoading(
+                      title: widget.locale == const Locale('en') ? 'Checking domain' : 'ກຳລັງກວດສອບໂດເມນ',
+                    );
+                  });
+
               /// New method check domain from hub
-              HubDomainModel? hubDomainModel = await hubDomain(context, widget.locale, widget.gDomain, 0);
+              HubDomainModel? hubDomainModel = await hubDomain(
+                context,
+                widget.gDomain,
+                1,
+              );
               if (hubDomainModel != null) {
                 String? apiEndpoint = hubDomainModel.apiEndpoint;
                 String domain = apiEndpoint!.replaceAll('-api', '');
                 await PreferenceInfo().setDomain(domain.substring(8));
-                buildDialogPhoneNumber(context);
+
+                ///ປິດ loading dialog
+                Navigator.pop(context);
+
+                ///
+                showDialogPhoneNumber(context);
               } else {
                 errorDialog(
                     context,
@@ -384,13 +401,13 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
             }
           }
         } else {
-          buildDialogPhoneNumber(context);
+          showDialogPhoneNumber(context);
         }
       },
     );
   }
 
-  Future<dynamic> buildDialogPhoneNumber(BuildContext context) {
+  Future<dynamic> showDialogPhoneNumber(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
