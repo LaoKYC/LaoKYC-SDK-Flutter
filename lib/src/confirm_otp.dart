@@ -9,13 +9,13 @@ import '../widgets/error_dialog.dart';
 import '../widgets/goffice_number_textfield.dart';
 
 class ConfirmOTP extends StatefulWidget {
-  String phoneNumber;
-  String clientID;
-  String secret;
-  String scope;
-  var route;
-  String? fromApp;
-  Locale? locale;
+  final String phoneNumber;
+  final String clientID;
+  final String secret;
+  final String scope;
+  final route;
+  final String? fromApp;
+  final Locale? locale;
 
   ConfirmOTP(
       {required this.secret,
@@ -40,7 +40,6 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     PreferenceInfo().getLocaleLanguage().then((value) {
       if (value != null) {
@@ -51,15 +50,41 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
     });
 
     PreferenceInfo().getPassword().then((value) {
-      if (value != null || value!.isNotEmpty) {
-        String number = value.substring(0, 10);
-        if (number == widget.phoneNumber) {
-          otp.text = value.substring(10);
-          PreferenceInfo().getIsChecked().then((value) {
-            if (value == true) {
-              _isChecked = value!;
+      if (value != null && value.isNotEmpty) {
+        ///phonenumber_otp
+        ///2077835858_123456
+        if (value.contains("_")) {
+          String number = value.split("_")[0];
+          if (number == widget.phoneNumber) {
+            setState(() {
+              otp.text = value.split("_")[1];
+            });
+            PreferenceInfo().getIsChecked().then((value) {
+              if (value == true && mounted) {
+                setState(() {
+                  _isChecked = value!;
+                });
+              }
+            });
+          }
+        } else {
+          ///phonenumber+ otp
+          ///2077835858123456
+          if (value.length == 16) {
+            String number = value.substring(0, 10);
+            if (number == widget.phoneNumber) {
+              setState(() {
+                otp.text = value.substring(10);
+              });
+              PreferenceInfo().getIsChecked().then((value) {
+                if (value == true) {
+                  setState(() {
+                    _isChecked = value!;
+                  });
+                }
+              });
             }
-          });
+          }
         }
       }
     });
@@ -67,7 +92,7 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
 
   Future<void> setPrefRememberPass() async {
     if (_isChecked == true) {
-      await PreferenceInfo().setPassword(widget.phoneNumber + otp.text);
+      await PreferenceInfo().setPassword("${widget.phoneNumber}_${otp.text}");
       await PreferenceInfo().setIsChecked(true);
     } else {
       await PreferenceInfo().setPassword('');
@@ -178,19 +203,31 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF1CCAB7), padding: EdgeInsets.symmetric(vertical: 8)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF1CCAB7),
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                  ),
                   onPressed: () async {
-                    if ((widget.phoneNumber.startsWith('10') && widget.phoneNumber.length == 8) ||
-                        widget.phoneNumber == '2077710008') {
+                    if ((widget.phoneNumber.startsWith('10') && widget.phoneNumber.length == 8) || widget.phoneNumber == '2077710008') {
                       if (otp.text == '123456') {
                         String firstName = 'ອະໂນລົດ';
                         String familyName = 'ພັນວົງສາ';
                         String preferredUserName = '2077710008';
-                        String sub = '';
+                        // String sub = '';
                         String accessToken = '';
-                        await PreferenceInfo().saveUserInfo(firstName, familyName, preferredUserName, accessToken).then((value) {
+                        await PreferenceInfo()
+                            .saveUserInfo(
+                          firstName,
+                          familyName,
+                          preferredUserName,
+                          accessToken,
+                        )
+                            .then((value) {
                           Navigator.pushAndRemoveUntil(
-                              context, MaterialPageRoute(builder: (context) => widget.route), (route) => false);
+                            context,
+                            MaterialPageRoute(builder: (context) => widget.route),
+                            (route) => false,
+                          );
                         });
                         setPrefRememberPass();
                       } else {
@@ -203,17 +240,17 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                       }
                     } else {
                       if (widget.fromApp == 'G-OFFICE') {
-                        const String owner_id = 'owner_id';
-                        const first_name = 'name';
-                        const family_name = 'family_name';
+                        // const String owner_id = 'owner_id';
+                        // const first_name = 'name';
+                        // const family_name = 'family_name';
                         const String isAllowBiometrics = 'isAllowBiometrics';
                         const String showDialogBioLogin = 'showDialogBioLogin';
                         SharedPreferences pref = await SharedPreferences.getInstance();
                         String? phoneNumberPref = await PreferenceInfo().getPhoneNumber();
                         String? domainPref = await PreferenceInfo().getDomain();
-                        String? ownerID = await pref.getString(owner_id);
-                        String? firstName = await pref.getString(first_name);
-                        String? familyName = await pref.getString(family_name);
+                        // String? ownerID = await pref.getString(owner_id);
+                        // String? firstName = await pref.getString(first_name);
+                        // String? familyName = await pref.getString(family_name);
                         bool? isAllowBio = await pref.getBool(isAllowBiometrics);
                         bool? showDialogBio = await pref.getBool(showDialogBioLogin);
                         await pref.clear();
@@ -240,8 +277,17 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                         }
                         setPrefRememberPass();
                       }
-                      await confirmOTPToken(context, widget.locale, widget.clientID, widget.secret, widget.scope,
-                          widget.phoneNumber, otp.text, widget.route);
+
+                      await confirmOTPToken(
+                        context,
+                        widget.locale,
+                        widget.clientID,
+                        widget.secret,
+                        widget.scope,
+                        widget.phoneNumber,
+                        otp.text,
+                        widget.route,
+                      );
                     }
                   },
                   child: Text(
@@ -266,13 +312,23 @@ class _ConfirmOTPState extends State<ConfirmOTP> {
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orangeAccent,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                     ),
                     onPressed: () async {
-                      if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) ||
-                          widget.phoneNumber != '2077710008') {
-                        await requestOTPLogin(context, widget.locale, widget.phoneNumber, widget.clientID, widget.secret,
-                            widget.scope, widget.route, true, widget.fromApp);
+                      if ((!widget.phoneNumber.startsWith('10') && widget.phoneNumber.length != 8) || widget.phoneNumber != '2077710008') {
+                        await requestOTPLogin(
+                          context,
+                          widget.locale,
+                          widget.phoneNumber,
+                          widget.clientID,
+                          widget.secret,
+                          widget.scope,
+                          widget.route,
+                          true,
+                          widget.fromApp,
+                        );
                       }
                     },
                     child: Text(

@@ -9,19 +9,24 @@ import '../services/one_id_reset.dart';
 import '../widgets/dialog_loading.dart';
 
 Future<void> requestOTPLogin(
-    BuildContext context,
-    Locale? locale,
-    String phoneNumber,
-    String clientID,
-    String secret,
-    String scope,
-    var route,
-    bool isFromConfirm, String? fromApp) async {
+  BuildContext context,
+  Locale? locale,
+  String phoneNumber,
+  String clientID,
+  String secret,
+  String scope,
+  var route,
+  bool isFromConfirm,
+  String? fromApp,
+) async {
   showDialog(
       context: context,
       builder: (_) {
-        return DialogLoading(title: locale == const Locale('en') ? 'Loading' : 'ກຳລັງໂຫຼດ');
+        return DialogLoading(
+          title: locale == const Locale('en') ? 'Loading' : 'ກຳລັງໂຫຼດ',
+        );
       });
+
   String grantTypeCredentials = ConstData.grantTypeCredentials;
   String payload = jsonEncode({
     "clientID": clientID,
@@ -29,14 +34,18 @@ Future<void> requestOTPLogin(
     "grantType": grantTypeCredentials,
     "scope": scope,
     "username": '',
-    "password": ''
+    "password": '',
   });
-  ConnectRefreshTokenModel? connectTokenData =
-      await connectTokenLogin(payload, context, locale, 0);
+
+  ConnectRefreshTokenModel? connectTokenData = await connectTokenLogin(
+    payload,
+    context,
+    locale,
+    0,
+  );
   if (connectTokenData != null) {
     String accessToken = connectTokenData.accessToken!;
-    OneIDResetOTP? oneIDResetOTP =
-        await oneIDReset(context, phoneNumber, accessToken, 0);
+    OneIDResetOTP? oneIDResetOTP = await oneIDReset(context, phoneNumber, accessToken, 0);
     if (oneIDResetOTP != null) {
       if (isFromConfirm) {
         Navigator.pop(context);

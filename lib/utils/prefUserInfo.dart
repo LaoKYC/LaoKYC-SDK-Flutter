@@ -25,6 +25,8 @@ class PreferenceInfo {
   static const isChecked = 'isChecked';
 
   static const loginPayload = 'loginPayload';
+  
+  static const refresh_token = 'refresh_token';
 
   Future<void> init() async {}
 
@@ -38,47 +40,55 @@ class PreferenceInfo {
     return preferences.getString(connectTokenResponse);
   }
 
-  Future<void> saveUserInfo(String firstName, String familyName, String phonenumber, String accessToken) async {
+  Future<void> saveUserInfo(
+    String firstName,
+    String familyName,
+    String phonenumber,
+    String accessToken,
+  ) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(first_name, firstName);
-    preferences.setString(family_name, familyName);
-    preferences.setString(preferred_username, phonenumber);
-    preferences.setString(access_Token, accessToken);
+
+    await Future.wait([
+      preferences.setString(first_name, firstName),
+      preferences.setString(family_name, familyName),
+      preferences.setString(preferred_username, phonenumber),
+      preferences.setString(access_Token, accessToken),
+    ]);
   }
 
   Future<void> setDomain(String domain) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(main_domain, domain);
+    await preferences.setString(main_domain, domain);
   }
 
   Future<void> setOwnerID(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(owner_id, value);
+    await preferences.setString(owner_id, value);
   }
 
   Future<void> setPhoneNumber(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(preferred_username, value);
+    await preferences.setString(preferred_username, value);
   }
 
   Future<void> setListDomainData(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(list_domain_data, value);
+    await preferences.setString(list_domain_data, value);
   }
 
   Future<void> setIsChecked(bool value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setBool(isChecked, value);
+    await preferences.setBool(isChecked, value);
   }
 
   Future<void> setPassword(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(password, value);
+    await preferences.setString(password, value);
   }
 
   Future<void> setLoginPayload(String value) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setString(loginPayload, value);
+    await preferences.setString(loginPayload, value);
   }
 
   Future<List<String>> getUserInfo() async {
@@ -138,5 +148,15 @@ class PreferenceInfo {
   Future<String?> getLoginPayload() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(loginPayload);
+  }
+
+  Future<void> setRefreshToken(String value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(refresh_token, value);
+  }
+
+  Future<String?> getRefreshToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(refresh_token);
   }
 }
