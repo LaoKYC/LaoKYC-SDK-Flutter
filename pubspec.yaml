@@ -1,6 +1,6 @@
 name: laokyc_button
 description: LaoKYC Button is libary for thirparty developer .
-version: 0.8.6
+version: 0.8.7
 homepage: https://github.com/LaoKYC/LaoKYC-SDK-Flutter.git
 
 environment:
