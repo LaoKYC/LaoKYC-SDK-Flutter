@@ -1,10 +1,10 @@
 name: laokyc_button
 description: LaoKYC Button is libary for thirparty developer .
-version: 0.8.7
+version: 0.8.8
 homepage: https://github.com/LaoKYC/LaoKYC-SDK-Flutter.git
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.12.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   shared_preferences: ^2.0.9
   webview_flutter: ^2.3.1
-  http: ^0.13.4
+  http: ^1.2.2
   platform_device_id: ^1.0.1
   dio: ^4.0.4
   async: ^2.8.1
