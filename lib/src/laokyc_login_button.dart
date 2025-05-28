@@ -12,7 +12,7 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:dio/dio.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
-import 'package:platform_device_id/platform_device_id.dart';
+import 'package:platform_device_id_plus/platform_device_id.dart';
 
 import '../model/hub_domain_model.dart';
 
@@ -139,9 +139,8 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
   Future<void> _signInWithAutoCodeExchange(
     String phonenumber,
-    String platform, {
-    bool preferEphemeralSession = false,
-  }) async {
+    String platform,
+  ) async {
     try {
       // _setBusyState();
 
@@ -154,7 +153,6 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
           promptValues: ['login'],
           scopes: widget.scope,
           serviceConfiguration: _serviceConfiguration,
-          preferEphemeralSession: preferEphemeralSession,
         ),
       );
       showDialog(

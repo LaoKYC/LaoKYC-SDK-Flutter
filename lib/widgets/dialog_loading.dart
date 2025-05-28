@@ -10,10 +10,10 @@ class DialogLoading extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     var isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
-    
+
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {},
+      onPopInvokedWithResult: (didPop, result) {},
       child: Dialog(
         child: Container(
           constraints: BoxConstraints(maxWidth: 150.w),

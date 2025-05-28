@@ -25,7 +25,7 @@ to registry with your application.
 Add the following code to your **pubspec.yaml** :
 
         dependencies:
-            laokyc_button: ^0.8.8
+            laokyc_button: ^0.8.9
             
 <p align="center">
   <img src="https://github.com/LaoKYC/LaoKYC-SDK-Flutter/raw/main/assets/ScreenShotDemo.png">
