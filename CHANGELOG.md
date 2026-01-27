@@ -1,3 +1,6 @@
+## 0.9.0
+* Update package dependencies
+
 ## 0.8.9
 * Update package dependencies
 

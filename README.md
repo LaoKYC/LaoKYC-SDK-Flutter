@@ -25,7 +25,7 @@ to registry with your application.
 Add the following code to your **pubspec.yaml** :
 
         dependencies:
-            laokyc_button: ^0.8.9
+            laokyc_button: ^0.9.0
             
 <p align="center">
   <img src="https://github.com/LaoKYC/LaoKYC-SDK-Flutter/raw/main/assets/ScreenShotDemo.png">
@@ -94,7 +94,7 @@ in tag manifest
     - Add the following code to your **pubspec.yaml** :
  
                 dependencies:
-                    shared_preferences: ^2.0.6
+                    shared_preferences: ^2.5.3
                     
     - Add the following code to your **LoginPage.dart** :
                 

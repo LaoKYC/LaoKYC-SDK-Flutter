@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laokyc_button/services/g-office_hub_domain.dart';
 import 'package:laokyc_button/src/confirm_otp.dart';
 import 'package:laokyc_button/utils/CheckValid.dart';
+import 'package:laokyc_button/utils/get_device_info.dart';
 import 'package:laokyc_button/utils/prefUserInfo.dart';
 import 'package:laokyc_button/widgets/dialog_loading.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:dio/dio.dart';
 import 'package:laokyc_button/widgets/error_dialog.dart';
-import 'package:platform_device_id_plus/platform_device_id.dart';
 
 import '../model/hub_domain_model.dart';
 
@@ -57,7 +57,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
   late String autbtn;
   late String fontText;
   // late Timer _timer;
-  late String deviceId;
+  String deviceId = "";
   final tfDialogLoginPhoneNumber = TextEditingController();
   final FlutterAppAuth _appAuth = FlutterAppAuth();
   // late String _clientId;
@@ -96,7 +96,7 @@ class _LaoKYCButtonState extends State<LaoKYCButton> {
 
     try {
       try {
-        deviceId = (await PlatformDeviceId.getDeviceId)!;
+        deviceId = await getDeviceID();
       } on PlatformException {
         deviceId = 'Failed to get deviceId.';
       }
